@@ -1,3 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Swathi and Mukundan’s virtual Navaratri golu. Shower flowers, wave the aarti and sign the visitor book.">
+<meta property="og:title" content="Swathi and Mukundan’s Golu">
+<meta property="og:description" content="Visit our virtual Navaratri golu 2026. Shower flowers, wave the aarti and take thamboolam.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://geeekyguy.github.io/golu-2026/">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
 <title>Swathi and Mukundan’s Golu</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -953,7 +966,10 @@ $("#vform").addEventListener("submit",async ev=>{
     try{ const uid = user ? await user.id() : null; await db.collection("visitors").add(uid?{...entry,by:uid}:entry); saved=true; }
     catch(e){ vs.textContent = e && e.code==="quota_exceeded" ? "The visitor book is full. Ask the hosts to make room." : "Your entry could not be saved to the shared book. It is shown here for you only."; }
   }
-  if(!saved){ visitors=[entry,...visitors]; renderBook(); if(!db) vs.textContent="Signed on this device. The shared book opens when the page is viewed on claude.ai."; }
+  if(!saved){
+    visitors=[entry,...visitors]; renderBook();
+    if(!db){ try{ localStorage.setItem("golu-visits", JSON.stringify(visitors.slice(0,50))); }catch(e){} vs.textContent="Thank you for visiting! Your wishes are saved."; }
+  }
   else vs.textContent="Signed. The hosts will see your entry.";
   $("#thamboolamText").textContent = `Thank you for coming, ${from}. Betel leaves, areca nut, turmeric, kumkum and a coconut, with a small gift.`;
   $("#thamboolam").classList.add("show");
@@ -1309,6 +1325,7 @@ plate.addEventListener("keydown",ev=>{ if(ev.key==="Enter"||ev.key===" "){ ev.pr
 
 /* boot */
 try{ const saved=JSON.parse(localStorage.getItem("golu-local")||"null"); if(saved) applyLayout(saved); }catch(e){}
+try{ const v=JSON.parse(localStorage.getItem("golu-visits")||"[]"); if(Array.isArray(v)){ visitors=v.filter(x=>x&&typeof x.from==="string"); renderBook(); } }catch(e){}
 render(); renderNights(); drawKolam(); syncLamps(); drawThoranam();
 window.addEventListener("resize",()=>{ clearTimeout(window.__t); window.__t=setTimeout(()=>{ drawThoranam(); resizeFx(); if(!plate.hidden && !aarti.auto && !aarti.drag) parkPlate(); },120); });
 requestAnimationFrame(resizeFx);
@@ -1317,3 +1334,7 @@ new MutationObserver(drawKolam).observe(document.documentElement,{attributes:tru
 connect();
 })();
 </script>
+
+</body>
+
+</html>
