@@ -1,5 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>Virtual Golu</title>
+<title>Swathi and Mukundan’s Golu</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Mukta:wght@400;500;700&family=Noto+Serif+Tamil:wght@500;700&display=swap">
@@ -266,7 +265,7 @@ footer{margin-top:56px;text-align:center;font-size:14px;color:var(--ink-soft)}
 
   <header class="hero">
     <div class="ta" lang="ta">நவராத்திரி கொலு</div>
-    <h1 id="hostTitle">Welcome to <span>our Golu</span></h1>
+    <h1 id="hostTitle">Welcome to <span>Swathi and Mukundan’s Golu</span></h1>
     <p id="hostNote">Come in, see the steps, light a lamp and sign the visitor book. Every guest goes home with thamboolam.</p>
     <div class="tonight"><span class="chip" id="tonightChip">Navaratri 2026</span><span id="tonightText"></span></div>
     <div id="hostEdit" hidden>
@@ -693,7 +692,7 @@ const DEFAULTS = {
 const clone = x => JSON.parse(JSON.stringify(x));
 
 /* ---------- state ---------- */
-let state = { n:5, tiers:clone(DEFAULTS[5]), host:"", note:"" };
+let state = { n:5, tiers:clone(DEFAULTS[5]), host:"Swathi and Mukundan", note:"" };
 let picking = null;   // doll id from the box
 let sel = null;       // {t,i}
 let lampsLit = [false,false];
@@ -742,7 +741,7 @@ function render(){
   document.querySelectorAll("#stepSeg button").forEach(b=>b.setAttribute("aria-pressed", String(+b.dataset.n===state.n)));
   document.querySelectorAll(".pick").forEach(p=>p.setAttribute("aria-pressed", String(p.dataset.id===picking)));
   $("#hostTitle").innerHTML = "";
-  const h=$("#hostTitle"); h.append("Welcome to "); const sp=document.createElement("span"); sp.textContent = state.host? state.host+"’s Golu" : "our Golu"; h.append(sp);
+  const h=$("#hostTitle"); h.append("Welcome to "); const sp=document.createElement("span"); sp.textContent = state.host? state.host+"’s Golu" : "Swathi and Mukundan’s Golu"; h.append(sp);
   $("#hostNote").textContent = state.note || "Come in, see the steps, light a lamp and sign the visitor book. Every guest goes home with thamboolam.";
   $("#saveBtn").hidden = !canSave;
   $("#saveBtn").disabled = !dirty;
@@ -976,7 +975,7 @@ function applyLayout(d){
   const n=[3,5,7,9].includes(d.n)?d.n:5;
   const tiers=d.tiers.slice(0,n).map(r=>Array.isArray(r)?r.filter(id=>DOLL[id]):[]);
   while(tiers.length<n) tiers.push([]);
-  state={n,tiers,host:String(d.host||"").slice(0,60),note:String(d.note||"").slice(0,160)};
+  state={n,tiers,host:String(d.host||"Swathi and Mukundan").slice(0,60),note:String(d.note||"").slice(0,160)};
 }
 
 async function connect(){
@@ -1318,5 +1317,3 @@ new MutationObserver(drawKolam).observe(document.documentElement,{attributes:tru
 connect();
 })();
 </script>
-
-</body></html>
