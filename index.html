@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Swathi and Mukundan’s virtual Navaratri golu. Shower flowers, wave the aarti and take thamboolam.">
-<meta property="og:title" content="Swathi and Mukundan’s Golu">
-<meta property="og:description" content="Visit our virtual Navaratri golu 2026. Shower flowers, wave the aarti and take thamboolam.">
+<meta name="description" content="Swathi and Shobhana’s virtual Navaratri golu. Shower flowers, wave the aarti and take thamboolam.">
+<meta property="og:title" content="Swathi and Shobhana’s Golu">
+<meta property="og:description" content="Visit our virtual Navaratri golu 2026. Shower flowers, wave the aarti, take thamboolam, and find temples to visit across Tamil Nadu.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://geeekyguy.github.io/golu-2026/">
+<title>Swathi and Shobhana’s Golu</title>
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
-<title>Swathi and Mukundan’s Golu</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Mukta:wght@400;500;700&family=Noto+Serif+Tamil:wght@500;700&display=swap">
@@ -32,6 +32,7 @@
   --card:#fbf1dc;
   --line:#d9bf8f;
   --focus:#1f5fa8;
+  --kumkum-ink:#a3172b;    /* kumkum for text, lifted in dark mode */
   --f-display:"Yatra One", "Georgia", serif;
   --f-body:"Mukta", "Segoe UI", system-ui, sans-serif;
   --f-tamil:"Noto Serif Tamil", "Latha", serif;
@@ -40,14 +41,14 @@
   :root:not([data-theme="light"]){
     --wall:#1f1210; --wall-2:#2b1914; --ink:#f6e4c8; --ink-soft:#c9ab8c;
     --kumkum:#9b1a2c; --kumkum-deep:#5a0c18; --zari:#e0b23a; --manjal:#f0c548;
-    --leaf:#5c9a45; --floor:#6b2817; --chalk:#f7ecd8; --card:#2a1813; --line:#4d3226; --focus:#7fb2ff;
+    --leaf:#5c9a45; --floor:#6b2817; --chalk:#f7ecd8; --card:#2a1813; --line:#4d3226; --focus:#7fb2ff; --kumkum-ink:#f19a8e;
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --wall:#1f1210; --wall-2:#2b1914; --ink:#f6e4c8; --ink-soft:#c9ab8c;
   --kumkum:#9b1a2c; --kumkum-deep:#5a0c18; --zari:#e0b23a; --manjal:#f0c548;
-  --leaf:#5c9a45; --floor:#6b2817; --chalk:#f7ecd8; --card:#2a1813; --line:#4d3226; --focus:#7fb2ff;
+  --leaf:#5c9a45; --floor:#6b2817; --chalk:#f7ecd8; --card:#2a1813; --line:#4d3226; --focus:#7fb2ff; --kumkum-ink:#f19a8e;
   color-scheme:dark;
 }
 *{box-sizing:border-box}
@@ -70,10 +71,10 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
 
 /* header */
 header.hero{display:grid;gap:4px;text-align:center;padding-block:4px 12px}
-.hero .ta{font-size:17px;color:var(--kumkum)}
+.hero .ta{font-size:17px;color:var(--kumkum-ink)}
 .hero h1{font-size:clamp(28px,4.6vw,46px);color:var(--ink)}
 @media (max-height:820px){ .hero > p{display:none} }
-.hero h1 span{color:var(--kumkum)}
+.hero h1 span{color:var(--kumkum-ink)}
 .hero p{margin:0 auto;max-width:60ch;color:var(--ink-soft)}
 .hero .tonight{display:inline-flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:6px}
 .chip{display:inline-block;border-radius:999px;padding:2px 12px;font-size:14px;font-weight:700;background:var(--manjal);color:#3a1d12}
@@ -94,7 +95,7 @@ header.hero{display:grid;gap:4px;text-align:center;padding-block:4px 12px}
 
 /* doll size follows width AND screen height, so steps + kolam + action bar fit one screen */
 .golu{display:flex;flex-direction:column;align-items:center;--n:5;--vw:6.2vw;--max:58px;
-  --doll:clamp(20px, min(var(--vw), calc((100vh - 400px - var(--n) * 22px) / (var(--n) * 1.62))), var(--max))}
+  --doll:clamp(20px, min(var(--vw), calc((100vh - 430px - var(--n) * 22px) / (var(--n) * 1.62))), var(--max))}
 .golu[data-n="3"]{--n:3;--vw:8.5vw;--max:70px}
 .golu[data-n="7"]{--n:7;--vw:5vw;--max:48px}
 .golu[data-n="9"]{--n:9;--vw:4.2vw;--max:40px}
@@ -151,7 +152,7 @@ header.hero{display:grid;gap:4px;text-align:center;padding-block:4px 12px}
 /* order note */
 .order{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:4px 24px;margin-top:22px;font-size:15px}
 .order div{display:flex;gap:10px;align-items:baseline;border-top:1px solid var(--line);padding-top:6px}
-.order b{font-family:var(--f-display);font-weight:400;color:var(--kumkum);min-width:4.5em;font-variant-numeric:tabular-nums}
+.order b{font-family:var(--f-display);font-weight:400;color:var(--kumkum-ink);min-width:4.5em;font-variant-numeric:tabular-nums}
 
 /* nights */
 section.block{margin-top:56px}
@@ -162,10 +163,10 @@ section.block{margin-top:56px}
 .trio{padding:16px;display:grid;gap:10px;align-content:start;min-width:0}
 .trio + .trio{border-left:1.5px solid var(--line)}
 .trio h3{font-size:24px}
-.trio .ta{color:var(--kumkum);font-size:15px}
+.trio .ta{color:var(--kumkum-ink);font-size:15px}
 .trio .about{font-size:15px;color:var(--ink-soft);margin:0}
 .night{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;padding:8px 10px;border-radius:10px}
-.night .n{font-family:var(--f-display);font-size:26px;line-height:1;color:var(--kumkum);grid-row:span 2;font-variant-numeric:tabular-nums;min-width:1.2em;text-align:center}
+.night .n{font-family:var(--f-display);font-size:26px;line-height:1;color:var(--kumkum-ink);grid-row:span 2;font-variant-numeric:tabular-nums;min-width:1.2em;text-align:center}
 .night .d{font-size:13px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
 .night .s{font-size:15px}
 .night.today{background:var(--manjal);color:#3a1d12}
@@ -186,7 +187,7 @@ section.block{margin-top:56px}
 .tham-items{display:none;margin:0;padding:0;list-style:none;flex-wrap:wrap;gap:6px}
 .tham.given .tham-items{display:flex}
 .tham-items li{background:var(--wall-2);border-radius:999px;padding:2px 12px;font-size:14px}
-.tham-thanks{display:none;font-family:var(--f-display);font-size:22px;color:var(--kumkum)}
+.tham-thanks{display:none;font-family:var(--f-display);font-size:22px;color:var(--kumkum-ink)}
 .tham.given .tham-thanks{display:block}
 @media (max-width:560px){ .tham{grid-template-columns:1fr;justify-items:center;text-align:center} .tham-body{justify-items:center} .tham-items{justify-content:center} }
 footer{margin-top:56px;text-align:center;font-size:14px;color:var(--ink-soft)}
@@ -205,7 +206,7 @@ footer{margin-top:56px;text-align:center;font-size:14px;color:var(--ink-soft)}
 .puja .btn{font-size:15px;padding:7px 16px}
 .puja .hint{flex-basis:100%;text-align:center;font-size:13px;color:var(--ink-soft)}
 .puja label{display:inline-flex;gap:6px;align-items:center;font-size:14px;color:var(--ink-soft)}
-.aarti-msg{flex-basis:100%;text-align:center;font-size:15px;color:var(--kumkum);font-weight:500}
+.aarti-msg{flex-basis:100%;text-align:center;font-size:15px;color:var(--kumkum-ink);font-weight:500}
 .aarti-msg:empty{display:none}
 .floor{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:8px;padding:8px;align-items:center;margin-inline:0}
 .kolam-wrap{position:relative;border-radius:10px;overflow:hidden;min-width:0}
@@ -263,7 +264,7 @@ footer{margin-top:56px;text-align:center;font-size:14px;color:var(--ink-soft)}
   .puja .hint{display:none}
   .lamp{width:30px}
 }
-.shelf-cat{font-family:var(--f-display);font-size:18px;color:var(--kumkum);margin:14px 0 6px}
+.shelf-cat{font-family:var(--f-display);font-size:18px;color:var(--kumkum-ink);margin:14px 0 6px}
 .shelf-cat:first-child{margin-top:0}
 
 @media (max-width:760px){
@@ -272,6 +273,91 @@ footer{margin-top:56px;text-align:center;font-size:14px;color:var(--ink-soft)}
   .visit{grid-template-columns:1fr}
   .step .tier-no{display:none}
 }
+
+/* hero: jump links to each part of the visit */
+.hero .ta{font-size:19px;letter-spacing:.02em}
+.jump{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:8px 0 0;padding:0;list-style:none}
+.jump a{display:inline-block;font-size:14px;font-weight:500;color:var(--ink);text-decoration:none;padding:3px 14px;border-radius:999px;border:1.5px solid var(--line);background:color-mix(in srgb,var(--card) 75%,transparent)}
+.jump a:hover{border-color:var(--kumkum);color:var(--kumkum-ink)}
+.jump a:focus-visible,.route button:focus-visible,.temple summary:focus-visible,.tfilter button:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+
+/* section headings carry a short zari rule */
+.block-head h2{position:relative;padding-bottom:12px}
+.block-head h2::after{content:"";position:absolute;left:0;bottom:0;width:64px;height:4px;border-radius:2px;
+  background:linear-gradient(90deg,var(--kumkum) 0 14px,transparent 14px 20px,var(--zari) 20px)}
+.block-head .ta{display:block;font-size:16px;color:var(--kumkum-ink);margin-bottom:2px}
+section.block{scroll-margin-top:16px}
+
+/* thamboolam: zari edge */
+.tham{border-top:5px solid var(--zari);box-shadow:0 8px 24px -12px color-mix(in srgb,var(--ink) 30%,transparent)}
+
+/* temples */
+.route-wrap{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:14px 16px 8px;margin-bottom:22px}
+.route-wrap h3{font-size:20px;margin-bottom:2px}
+.route-wrap p{margin:0 0 10px;color:var(--ink-soft);font-size:15px;max-width:60ch}
+.route{list-style:none;margin:0;padding:6px 0 10px;display:flex;overflow-x:auto;scrollbar-width:thin;scroll-snap-type:x proximity}
+.route li{flex:1 0 96px;position:relative;display:flex;justify-content:center;scroll-snap-align:start}
+.route li+li::before{content:"";position:absolute;top:17px;right:50%;width:100%;border-top:2px dotted color-mix(in srgb,var(--kumkum-ink) 60%,transparent);z-index:0}
+.route button{position:relative;z-index:1;display:grid;justify-items:center;gap:4px;background:none;border:none;padding:0 4px 2px;font-size:13.5px;line-height:1.2;color:var(--ink);border-radius:8px}
+.route .no{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--wall);border:2px solid var(--kumkum-ink);font-family:var(--f-display);font-size:16px;line-height:1;color:var(--kumkum-ink);transition:background .2s,color .2s}
+.route button:hover .no,.route button[aria-current="true"] .no{background:var(--kumkum);border-color:var(--kumkum);color:#fff6e6}
+
+.tfilter{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 6px}
+.tfilter button{border:1.5px solid var(--line);background:transparent;border-radius:999px;padding:4px 14px;font-size:14px;font-weight:500}
+.tfilter button:hover{border-color:var(--ink)}
+.tfilter button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--wall)}
+.tfilter .count{opacity:.65;font-variant-numeric:tabular-nums;margin-left:6px;font-size:13px}
+.t-count{font-size:14px;color:var(--ink-soft);min-height:1.4em;margin:0 0 14px}
+
+.temples{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:34px 22px}
+@media (max-width:900px){.temples{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.temples{grid-template-columns:1fr;gap:30px}}
+.temple{display:flex;flex-direction:column;gap:12px;min-width:0;scroll-margin:120px}
+.niche{position:relative;margin-top:22px;padding:5px;border-radius:50% 50% 14px 14px / 34% 34% 14px 14px;
+  background:linear-gradient(160deg,#f2cf5b,var(--zari) 45%,#9a6f0c);box-shadow:0 10px 22px -14px color-mix(in srgb,var(--ink) 55%,transparent)}
+.niche .art{border-radius:50% 50% 10px 10px / 33% 33% 10px 10px;overflow:hidden;line-height:0;box-shadow:inset 0 0 0 2px color-mix(in srgb,#5a3a0a 40%,transparent)}
+.niche .art svg{width:100%;height:auto;display:block}
+.finial{position:absolute;left:50%;top:-24px;width:18px;height:28px;transform:translateX(-50%)}
+.temple.flash .niche{animation:flash 1.6s ease-out}
+@keyframes flash{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--manjal) 0%,transparent)}25%{box-shadow:0 0 0 8px color-mix(in srgb,var(--manjal) 75%,transparent)}100%{box-shadow:0 0 0 18px color-mix(in srgb,var(--manjal) 0%,transparent)}}
+@media (prefers-reduced-motion:reduce){.temple.flash .niche{animation:none;outline:3px solid var(--manjal);outline-offset:3px}}
+.t-body{display:grid;gap:4px;min-width:0}
+.t-where{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:4px}
+.place-chip{font-size:13px;font-weight:700;background:var(--manjal);color:#3a1d12;border-radius:999px;padding:1px 11px}
+.whs{font-size:12.5px;font-weight:500;color:var(--leaf);border:1.5px solid color-mix(in srgb,var(--leaf) 55%,transparent);border-radius:999px;padding:0 9px}
+.temple h3{font-size:23px}
+.temple .tn{font-family:var(--f-tamil);color:var(--kumkum-ink);font-size:15px;line-height:1.4}
+.temple .deity{font-size:14.5px;color:var(--ink-soft);font-style:italic}
+.temple .desc{margin:4px 0 0;font-size:15.5px}
+.temple details{margin-top:8px;border-top:1px solid var(--line);padding-top:8px}
+.temple summary{cursor:pointer;font-weight:500;font-size:15px;color:var(--kumkum-ink);list-style:none;display:inline-flex;align-items:center;gap:8px;border-radius:6px}
+.temple summary::-webkit-details-marker{display:none}
+.temple summary::before{content:"";width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-45deg);transition:transform .2s}
+.temple details[open] summary::before{transform:rotate(45deg) translate(-2px,-2px)}
+.temple dl{display:grid;gap:2px;margin:10px 0 0;font-size:15px}
+.temple dt{font-weight:700;color:var(--ink-soft);font-size:13.5px;margin-top:6px}
+.temple dd{margin:0}
+.t-note{margin:26px 0 0;padding:10px 14px;border-left:4px solid var(--zari);background:color-mix(in srgb,var(--manjal) 14%,transparent);border-radius:0 10px 10px 0;font-size:15px;color:var(--ink-soft);max-width:70ch}
+
+.places-head{margin:44px 0 14px}
+.places-head h3{font-size:clamp(24px,3.2vw,30px)}
+.places-head p{margin:2px 0 0;color:var(--ink-soft);font-size:15px}
+.places{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.place{display:grid;grid-template-columns:56px minmax(0,1fr);gap:14px;align-items:start;padding:14px;background:var(--card);border:1.5px solid var(--line);border-radius:12px}
+.place svg{width:56px;height:56px;display:block}
+.place h4{font-family:var(--f-display);font-weight:400;font-size:19px;line-height:1.2;margin:0}
+.place .town{font-size:13px;color:var(--ink-soft);font-weight:500}
+.place p{margin:4px 0 0;font-size:15px}
+.place .nod{transform-box:fill-box;transform-origin:50% 100%}
+@media (prefers-reduced-motion:no-preference){ .place:hover .nod{animation:nodA .5s ease-in-out 3 alternate} }
+@keyframes nodA{from{transform:rotate(-9deg)}to{transform:rotate(9deg)}}
+
+/* footer */
+footer{display:grid;gap:4px;justify-items:center}
+footer .thoranam{width:calc(100% + 32px);margin-bottom:10px}
+footer p{margin:0}
+.foot-love{font-family:var(--f-display);font-size:22px;color:var(--kumkum-ink)}
+@media (max-width:560px){ .route li{flex-basis:84px} .temple h3{font-size:21px} .jump{flex-wrap:nowrap;gap:4px} .jump a{font-size:13px;padding:2px 10px} }
 </style>
 
 <div class="wrap">
@@ -279,9 +365,15 @@ footer{margin-top:56px;text-align:center;font-size:14px;color:var(--ink-soft)}
 
   <header class="hero">
     <div class="ta" lang="ta">நவராத்திரி கொலு</div>
-    <h1 id="hostTitle">Welcome to <span>Swathi and Mukundan’s Golu</span></h1>
+    <h1 id="hostTitle">Welcome to <span>Swathi and Shobhana’s Golu</span></h1>
     <p id="hostNote">Come in, see the steps, shower flowers, wave the aarti, and take thamboolam before you leave.</p>
     <div class="tonight"><span class="chip" id="tonightChip">Navaratri 2026</span><span id="tonightText"></span></div>
+    <nav aria-label="On this page"><ul class="jump">
+      <li><a href="#room">Golu</a></li>
+      <li><a href="#nights">Nine nights</a></li>
+      <li><a href="#temples">Temples</a></li>
+      <li><a href="#thamboolam">Thamboolam</a></li>
+    </ul></nav>
     <div id="hostEdit" hidden>
       <button class="edit-host" id="editHostBtn" type="button">Edit the welcome</button>
       <form class="host-form" id="hostForm" hidden>
@@ -292,7 +384,7 @@ footer{margin-top:56px;text-align:center;font-size:14px;color:var(--ink-soft)}
     </div>
   </header>
 
-  <section class="room" aria-label="The golu">
+  <section class="room" id="room" aria-label="The golu">
   <div class="topbar">
   <div class="controls">
     <div class="ctrl-group">
@@ -389,7 +481,7 @@ footer{margin-top:56px;text-align:center;font-size:14px;color:var(--ink-soft)}
 
   <section class="block" id="nights">
     <div class="block-head">
-      <h2>Nine nights</h2>
+      <div><span class="ta" lang="ta">நவராத்திரி</span><h2>Nine nights</h2></div>
       <p>Three nights each for Durga, Lakshmi and Saraswathi. The sundal list is one common rotation; every family has its own.</p>
     </div>
     <div class="nights" id="nightGrid"></div>
@@ -400,9 +492,33 @@ footer{margin-top:56px;text-align:center;font-size:14px;color:var(--ink-soft)}
     </div>
   </section>
 
+  <section class="block" id="temples">
+    <div class="block-head">
+      <div><span class="ta" lang="ta">தமிழ்நாட்டுக் கோவில்கள்</span><h2>Temples to visit in Tamil Nadu</h2></div>
+      <p>After the golu, a yatra. Nine of the state’s best-loved temples, and a few places worth the journey.</p>
+    </div>
+
+    <div class="route-wrap">
+      <h3>A north-to-south route</h3>
+      <p>One way to string all nine together. Tap a stop to see its temple.</p>
+      <ol class="route" id="route"></ol>
+    </div>
+
+    <div class="tfilter" id="templeFilter" role="group" aria-label="Show temples by deity"></div>
+    <p class="t-count" id="templeCount" role="status"></p>
+    <div class="temples" id="templeGrid"></div>
+    <p class="t-note">Most big temples close for a few hours in the afternoon and expect modest, traditional dress. Festival dates follow the Tamil calendar, so check timings with the temple before you travel.</p>
+
+    <div class="places-head">
+      <h3>Beyond the temples</h3>
+      <p>Hills, sea and a little shopping for next year’s golu.</p>
+    </div>
+    <div class="places" id="placeGrid"></div>
+  </section>
+
   <section class="block" id="thamboolam">
     <div class="block-head">
-      <h2>Thamboolam</h2>
+      <div><span class="ta" lang="ta">தாம்பூலம்</span><h2>Thamboolam</h2></div>
       <p>No guest leaves a golu empty-handed. Before you go, please take thamboolam from us.</p>
     </div>
     <div class="tham" id="tham">
@@ -426,7 +542,11 @@ footer{margin-top:56px;text-align:center;font-size:14px;color:var(--ink-soft)}
     </div>
   </section>
 
-  <footer><span class="ta" lang="ta">சுபம்</span> · Navaratri, 11 to 19 October 2026. Check your local panchangam for exact timings.</footer>
+  <footer>
+    <div class="thoranam" aria-hidden="true"><canvas></canvas></div>
+    <p class="foot-love">With love, <span id="footHost">Swathi and Shobhana</span></p>
+    <p><span class="ta" lang="ta">சுபம்</span>. Navaratri runs from 11 to 19 October 2026. Check your local panchangam for exact timings.</p>
+  </footer>
 </div>
 
 <script>
@@ -703,7 +823,8 @@ const DEFAULTS = {
 const clone = x => JSON.parse(JSON.stringify(x));
 
 /* ---------- state ---------- */
-let state = { n:5, tiers:clone(DEFAULTS[5]), host:"Swathi and Mukundan", note:"" };
+const DEFAULT_HOST = "Swathi and Shobhana";
+let state = { n:5, tiers:clone(DEFAULTS[5]), host:DEFAULT_HOST, note:"" };
 let picking = null;   // doll id from the box
 let sel = null;       // {t,i}
 let lampsLit = [false,false];
@@ -752,7 +873,8 @@ function render(){
   document.querySelectorAll("#stepSeg button").forEach(b=>b.setAttribute("aria-pressed", String(+b.dataset.n===state.n)));
   document.querySelectorAll(".pick").forEach(p=>p.setAttribute("aria-pressed", String(p.dataset.id===picking)));
   $("#hostTitle").innerHTML = "";
-  const h=$("#hostTitle"); h.append("Welcome to "); const sp=document.createElement("span"); sp.textContent = state.host? state.host+"’s Golu" : "Swathi and Mukundan’s Golu"; h.append(sp);
+  const h=$("#hostTitle"); h.append("Welcome to "); const sp=document.createElement("span"); sp.textContent = (state.host||DEFAULT_HOST)+"’s Golu"; h.append(sp);
+  $("#footHost").textContent = state.host||DEFAULT_HOST;
   $("#hostNote").textContent = state.note || "Come in, see the steps, shower flowers, wave the aarti, and take thamboolam before you leave.";
   $("#saveBtn").hidden = !canSave;
   $("#saveBtn").disabled = !dirty;
@@ -838,8 +960,9 @@ const toggleLamps=()=>{ const on=!lampsLit.every(Boolean); lampsLit=[on,on]; syn
 $("#lampBtn2").addEventListener("click",toggleLamps);
 
 /* thoranam: mango leaves on a string */
-function drawThoranam(){
-  const c=$("#thoranam"), dpr=Math.min(2,window.devicePixelRatio||1), w=c.clientWidth, h=c.clientHeight;
+function drawThoranam(){ document.querySelectorAll(".thoranam canvas").forEach(drawThoranamOn); }
+function drawThoranamOn(c){
+  const dpr=Math.min(2,window.devicePixelRatio||1), w=c.clientWidth, h=c.clientHeight;
   c.width=w*dpr; c.height=h*dpr; const g=c.getContext("2d"); g.scale(dpr,dpr);
   g.strokeStyle="#7a5a2a"; g.lineWidth=2; g.beginPath(); g.moveTo(0,8); g.lineTo(w,8); g.stroke();
   const step=22;
@@ -942,7 +1065,7 @@ $("#thamBtn").addEventListener("click",()=>{
   const items=["Vettalai (betel leaves)","Paaku (areca nut)","Manjal (turmeric)","Kumkumam","Coconut","A banana",sundal,"A small gift"];
   const ul=$("#thamItems"); ul.innerHTML="";
   items.forEach(t=>{ const li=document.createElement("li"); li.textContent=t; ul.append(li); });
-  $("#thamThanks").textContent = `Thank you for visiting! With love, ${state.host||"Swathi and Mukundan"}`;
+  $("#thamThanks").textContent = `Thank you for visiting! With love, ${state.host||DEFAULT_HOST}`;
   $("#tham").classList.add("given");
   $("#thamBtn").hidden=true;
   ring();
@@ -965,7 +1088,8 @@ function applyLayout(d){
   const n=[3,5,7,9].includes(d.n)?d.n:5;
   const tiers=d.tiers.slice(0,n).map(r=>Array.isArray(r)?r.filter(id=>DOLL[id]):[]);
   while(tiers.length<n) tiers.push([]);
-  state={n,tiers,host:String(d.host||"Swathi and Mukundan").slice(0,60),note:String(d.note||"").slice(0,160)};
+  const host=String(d.host||DEFAULT_HOST).replace(/Mukundan/gi,"Shobhana").slice(0,60);
+  state={n,tiers,host,note:String(d.note||"").slice(0,160)};
 }
 
 async function connect(){
@@ -1323,8 +1447,372 @@ const endDrag=()=>{ if(aarti.drag){ aarti.drag=false; if(aarti.rounds>=3) offer(
 plate.addEventListener("pointerup",endDrag); plate.addEventListener("pointercancel",endDrag);
 plate.addEventListener("keydown",ev=>{ if(ev.key==="Enter"||ev.key===" "){ ev.preventDefault(); startAarti(); }});
 
+/* ---------- temples of Tamil Nadu ---------- */
+const FIGS=["#f4efe6","#3d6bb3","#c0142b","#2f8a5b","#e8b931","#e05a7a","#7b2d8e"];
+const sky=(id,stops)=>`<defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1">${stops.map(([o,c])=>`<stop offset="${o}" stop-color="${c}"/>`).join("")}</linearGradient></defs><rect width="320" height="240" fill="url(#${id})"/>`;
+const glowDef=(id,c)=>`<defs><radialGradient id="${id}"><stop offset="0" stop-color="${c}" stop-opacity=".95"/><stop offset=".35" stop-color="${c}" stop-opacity=".45"/><stop offset="1" stop-color="${c}" stop-opacity="0"/></radialGradient></defs>`;
+const birds=(arr,c)=>arr.map(([x,y,s])=>`<path d="M${x-4*s} ${y} q${2*s} ${-2.4*s} ${4*s} 0 q${2*s} ${-2.4*s} ${4*s} 0" stroke="${c}" stroke-width="1.1" fill="none" stroke-linecap="round"/>`).join("");
+const f1=n=>n.toFixed(1);
+
+/* a gopuram: stone base with a doorway, painted tiers, barrel roof and kalasams */
+function gop(cx,by,w,h,o={}){
+  const tiers=o.tiers||7, baseH=h*0.18, topW=w*0.42, roofH=h*0.1, edge=o.edge||"#7a5a2a";
+  let s=`<rect x="${f1(cx-w/2)}" y="${f1(by-baseH)}" width="${f1(w)}" height="${f1(baseH)}" fill="${o.base||"#d8c49a"}" stroke="${edge}" stroke-width=".6"/>`;
+  s+=`<path d="M${f1(cx-w*.09)} ${by} L${f1(cx-w*.09)} ${f1(by-baseH*.68)} Q${cx} ${f1(by-baseH*.98)} ${f1(cx+w*.09)} ${f1(by-baseH*.68)} L${f1(cx+w*.09)} ${by} Z" fill="${o.door||"#2a160e"}"/>`;
+  const th=(h-baseH-roofH)/tiers;
+  for(let i=0;i<tiers;i++){
+    const y0=by-baseH-i*th, y1=y0-th, w0=w-(w-topW)*(i/tiers), w1=w-(w-topW)*((i+1)/tiers);
+    const col=o.cols?o.cols[i%o.cols.length]:(o.fill||"#e9dcc0");
+    s+=`<path d="M${f1(cx-w0/2)} ${f1(y0)} L${f1(cx-w1/2)} ${f1(y1)} L${f1(cx+w1/2)} ${f1(y1)} L${f1(cx+w0/2)} ${f1(y0)} Z" fill="${col}" stroke="${edge}" stroke-width=".5"/>`;
+    s+=`<path d="M${f1(cx-w1/2-1.5)} ${f1(y1)} L${f1(cx+w1/2+1.5)} ${f1(y1)}" stroke="${edge}" stroke-width="1.1"/>`;
+    if(o.figs){
+      const n=Math.max(2,Math.floor(w1/6.5));
+      for(let k=0;k<n;k++){ const fx=cx-w1/2+(k+.5)*(w1/n); s+=`<rect x="${f1(fx-1.25)}" y="${f1(y1+th*.24)}" width="2.5" height="${f1(th*.56)}" rx="1" fill="${o.figs[(i*3+k)%o.figs.length]}"/>`; }
+    }
+    s+=`<rect x="${f1(cx-1.7)}" y="${f1(y1+th*.22)}" width="3.4" height="${f1(th*.6)}" rx="1.2" fill="${o.niche||"rgba(40,20,10,.45)"}"/>`;
+  }
+  const ry=by-baseH-tiers*th;
+  s+=`<path d="M${f1(cx-topW/2-2)} ${f1(ry)} Q${f1(cx-topW/2)} ${f1(ry-roofH*1.45)} ${cx} ${f1(ry-roofH*1.25)} Q${f1(cx+topW/2)} ${f1(ry-roofH*1.45)} ${f1(cx+topW/2+2)} ${f1(ry)} Z" fill="${o.roof||o.fill||"#e2b04a"}" stroke="${edge}" stroke-width=".6"/>`;
+  const nk=o.kal||5;
+  for(let k=0;k<nk;k++){ const kx=cx-topW/2+(k+.5)*(topW/nk), ky=ry-roofH*1.28;
+    s+=`<path d="M${f1(kx)} ${f1(ky)} L${f1(kx)} ${f1(ky-4.5)}" stroke="${GOLD}" stroke-width="1.3"/><ellipse cx="${f1(kx)}" cy="${f1(ky-1.2)}" rx="1.6" ry="1.3" fill="${GOLD}"/><circle cx="${f1(kx)}" cy="${f1(ky-5)}" r="1.1" fill="${GOLD}"/>`; }
+  return s;
+}
+/* stepped granite tower ending in a small dome (Pallava / Chola style) */
+function stepTower(cx,base,w,h,tiers,c1,c2,edge){
+  let s="", th=(h*.82)/tiers, tw=w*.3;
+  for(let i=0;i<tiers;i++){ const ww=w-(w-tw)*(i/(tiers-1||1)), y=base-(i+1)*th;
+    s+=`<rect x="${f1(cx-ww/2)}" y="${f1(y)}" width="${f1(ww)}" height="${f1(th+.4)}" fill="${i%2?c2:c1}" stroke="${edge}" stroke-width=".5"/>`;
+    const n=Math.max(1,Math.round(ww/11)); for(let k=0;k<n;k++){ const x=cx-ww/2+(k+.5)*ww/n; s+=`<rect x="${f1(x-1.3)}" y="${f1(y+th*.25)}" width="2.6" height="${f1(th*.5)}" fill="${edge}" opacity=".5"/>`; } }
+  const top=base-tiers*th, dh=h*.18;
+  s+=`<path d="M${f1(cx-tw*.75)} ${f1(top)} Q${f1(cx-tw*.75)} ${f1(top-dh)} ${cx} ${f1(top-dh*1.05)} Q${f1(cx+tw*.75)} ${f1(top-dh)} ${f1(cx+tw*.75)} ${f1(top)} Z" fill="${c1}" stroke="${edge}" stroke-width=".6"/>`;
+  s+=`<path d="M${cx} ${f1(top-dh*1.05)} L${cx} ${f1(top-dh*1.05-6)}" stroke="${edge}" stroke-width="1.6"/><circle cx="${cx}" cy="${f1(top-dh*1.05-6.5)}" r="1.6" fill="${edge}"/>`;
+  return s;
+}
+function palm(x,y,s,c){
+  let p=`<path d="M${x} ${y} Q${f1(x-3*s)} ${f1(y-22*s)} ${f1(x+4*s)} ${f1(y-44*s)}" stroke="${c}" stroke-width="${f1(3*s)}" fill="none"/>`;
+  const tx=x+4*s, ty=y-44*s;
+  [[-160,18],[-125,20],[-90,15],[-55,20],[-20,18],[15,16],[165,16]].forEach(([d,l])=>{ const a=d*Math.PI/180, ex=tx+Math.cos(a)*l*s, ey=ty+Math.sin(a)*l*s*.7+(Math.abs(d)<40||Math.abs(d)>140?7*s:0);
+    p+=`<path d="M${f1(tx)} ${f1(ty)} Q${f1((tx+ex)/2)} ${f1(Math.min(ty,ey)-6*s)} ${f1(ex)} ${f1(ey)}" stroke="${c}" stroke-width="${f1(2.2*s)}" fill="none" stroke-linecap="round"/>`; });
+  return p;
+}
+const lotus=(x,y,s,c,c2)=>`<g transform="translate(${x} ${y}) scale(${s})"><path d="M0 0 Q-10 -4 -12 -12 Q-4 -10 0 0 Q4 -10 12 -12 Q10 -4 0 0Z" fill="${c}"/><path d="M0 0 Q-5 -8 0 -16 Q5 -8 0 0Z" fill="${c2}"/><path d="M-14 1 Q0 5 14 1" stroke="${c}" stroke-width="1.4" fill="none"/></g>`;
+const stripes=(x0,x1,y,h,a,b)=>{ let s=`<rect x="${x0}" y="${y}" width="${x1-x0}" height="${h}" fill="${a}"/>`; for(let x=x0;x<x1;x+=10) s+=`<rect x="${x}" y="${y}" width="5" height="${h}" fill="${b}"/>`; return s+`<rect x="${x0}" y="${y}" width="${x1-x0}" height="2" fill="${b}"/>`; };
+
+function sceneMadurai(){
+  let s=sky("sk-mdu",[[0,"#6fb6e0"],[.7,"#d3ebf3"],[1,"#fbf0d6"]]);
+  s+=birds([[40,40,1],[52,48,.8],[270,34,1],[282,42,.7]],"#3a4a5a");
+  s+=gop(58,186,50,112,{tiers:7,cols:["#d9655b","#e8b931","#4fa3a5","#c94f7c"],figs:FIGS,kal:3,base:"#e3cfa0"});
+  s+=gop(264,186,46,100,{tiers:6,cols:["#4fa3a5","#e8b931","#d9655b","#c94f7c"],figs:FIGS,kal:3,base:"#e3cfa0"});
+  s+=gop(160,196,92,186,{tiers:10,cols:["#d9655b","#e8b931","#4fa3a5","#c94f7c","#6b8fd4"],figs:FIGS,kal:7,base:"#e7d3a6"});
+  s+=stripes(0,114,180,16,"#f1e3c2","#b5462e")+stripes(206,320,180,16,"#f1e3c2","#b5462e");
+  s+=`<rect x="0" y="196" width="320" height="16" fill="#d9c29a"/><path d="M0 200 L320 200 M0 205 L320 205 M0 210 L320 210" stroke="#bfa676" stroke-width="1"/>`;
+  s+=`<rect x="0" y="212" width="320" height="28" fill="#3f86a3"/><path d="M20 222 h30 M90 230 h40 M200 224 h36 M250 232 h44" stroke="#8fc6db" stroke-width="1.4" stroke-linecap="round"/>`;
+  s+=`<rect x="152" y="218" width="16" height="8" fill="#e8b931" opacity=".35"/>`+lotus(160,226,1,"#e8b931","#ffd96a");
+  s+=`<g transform="translate(8 141) scale(.58)">${elephant()}</g>`;
+  return s;
+}
+function sceneThanjavur(){
+  let s=sky("sk-tnj",[[0,"#3b3570"],[.45,"#c8607a"],[.75,"#f0915a"],[1,"#f8cf86"]]);
+  s+=glowDef("gl-tnj","#ffd27a")+`<circle cx="262" cy="150" r="62" fill="url(#gl-tnj)"/><circle cx="262" cy="150" r="16" fill="#ffe9ad"/>`;
+  s+=birds([[70,62,1],[84,56,.8],[96,66,.7]],"#2a1a3a");
+  const cx=150, base=170, tiers=13, bw=108, tw=28, H=110, th=H/tiers;
+  s+=`<rect x="${cx-62}" y="${base}" width="124" height="34" fill="#b06d3c" stroke="#6e3c1c" stroke-width=".8"/>`;
+  for(let x=cx-56;x<=cx+56;x+=10) s+=`<path d="M${x} ${base+4} L${x} ${base+30}" stroke="#8a5028" stroke-width="1.6"/>`;
+  s+=`<path d="M${cx-8} ${base+34} L${cx-8} ${base+16} Q${cx} ${base+10} ${cx+8} ${base+16} L${cx+8} ${base+34} Z" fill="#3a1d12"/>`;
+  for(let i=0;i<tiers;i++){ const w=bw-(bw-tw)*(i/(tiers-1)), y=base-(i+1)*th;
+    s+=`<rect x="${f1(cx-w/2)}" y="${f1(y)}" width="${f1(w)}" height="${f1(th+.4)}" fill="${i%2?"#c98a4f":"#d8a062"}" stroke="#7a4420" stroke-width=".5"/>`;
+    const n=Math.max(1,Math.round(w/12)); for(let k=0;k<n;k++){ const x=cx-w/2+(k+.5)*w/n; s+=`<rect x="${f1(x-1.4)}" y="${f1(y+th*.22)}" width="2.8" height="${f1(th*.56)}" fill="#7a4420" opacity=".55"/>`; } }
+  const ty=base-H;
+  s+=`<rect x="${cx-12}" y="${ty-6}" width="24" height="6" fill="#b87a42"/><path d="M${cx-20} ${ty-6} Q${cx-20} ${ty-30} ${cx} ${ty-32} Q${cx+20} ${ty-30} ${cx+20} ${ty-6} Z" fill="#d8a062" stroke="#7a4420" stroke-width=".8"/>`;
+  s+=`<path d="M${cx} ${ty-32} L${cx} ${ty-46}" stroke="#e8b931" stroke-width="2"/><ellipse cx="${cx}" cy="${ty-36}" rx="3.4" ry="4" fill="#e8b931"/><circle cx="${cx}" cy="${ty-47}" r="1.6" fill="#e8b931"/>`;
+  s+=`<path d="M${cx+bw/2} ${base} L${cx+tw/2} ${ty}" stroke="#ffcf86" stroke-width="2" opacity=".55"/>`;
+  s+=`<rect x="20" y="176" width="62" height="7" fill="#a8663a"/><path d="M16 150 L86 150 L79 141 L23 141 Z" fill="#c98a4f" stroke="#7a4420" stroke-width=".6"/>`;
+  for(const x of [26,44,58,76]) s+=`<rect x="${x-2}" y="150" width="4" height="26" fill="#b87a42"/>`;
+  s+=`<g transform="translate(34 135) scale(.42)">${nandi()}</g>`;
+  s+=`<rect y="204" width="320" height="36" fill="#4d5226"/><path d="M${cx-10} 240 L${cx-6} 204 L${cx+6} 204 L${cx+10} 240 Z" fill="#c7a46e"/>`;
+  s+=palm(298,206,1.1,"#2b1c2e")+palm(280,208,.8,"#2b1c2e")+palm(8,208,.9,"#2b1c2e");
+  return s;
+}
+function sceneShore(){
+  let s=sky("sk-msk",[[0,"#5b78b0"],[.42,"#e3a08c"],[.62,"#fcd7a6"]]);
+  s+=glowDef("gl-msk","#ffe3a6")+`<circle cx="238" cy="148" r="54" fill="url(#gl-msk)"/><circle cx="238" cy="148" r="17" fill="#fff0c8"/>`;
+  s+=`<defs><linearGradient id="sea-msk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5a7fa3"/><stop offset="1" stop-color="#2e5a7e"/></linearGradient></defs><rect y="148" width="320" height="50" fill="url(#sea-msk)"/>`;
+  for(let i=0;i<7;i++){ const y=152+i*6, w=30-i*3; s+=`<rect x="${f1(238-w/2)}" y="${y}" width="${f1(w)}" height="1.6" rx=".8" fill="#ffe3a6" opacity="${f1(.9-i*.1)}"/>`; }
+  s+=`<path d="M10 166 q8 -3 16 0 M60 176 q10 -3 20 0 M120 160 q8 -3 16 0 M280 172 q10 -3 20 0" stroke="#cfe1ee" stroke-width="1.2" fill="none" opacity=".7"/>`;
+  s+=birds([[60,64,1],[74,58,.8]],"#3a3550");
+  s+=`<path d="M0 198 Q160 186 320 194 L320 240 L0 240 Z" fill="#e7c996"/><path d="M0 198 Q160 186 320 194" stroke="#fff6e6" stroke-width="2.4" fill="none" opacity=".85"/>`;
+  s+=`<rect x="84" y="184" width="148" height="10" fill="#8c7d72" stroke="#5d4f48" stroke-width=".6"/>`;
+  for(let x=90;x<=228;x+=12){ if(x>112&&x<210) continue; s+=`<ellipse cx="${x}" cy="182.5" rx="4" ry="2.6" fill="#a2928a" stroke="#5d4f48" stroke-width=".4"/><circle cx="${x-3.6}" cy="181" r="1.6" fill="#a2928a"/>`; }
+  s+=stepTower(196,184,40,74,5,"#a2928a","#94847c","#5d4f48");
+  s+=stepTower(138,184,58,112,7,"#a89890","#988a82","#5d4f48");
+  s+=`<rect x="128" y="168" width="20" height="16" fill="#3a2a24"/>`;
+  return s;
+}
+function sceneSrirangam(){
+  let s=sky("sk-srg",[[0,"#8ccbec"],[.6,"#d9eef5"],[1,"#fff4dc"]]);
+  s+=glowDef("gl-srg","#fff6c8")+`<circle cx="50" cy="50" r="34" fill="url(#gl-srg)"/><circle cx="50" cy="50" r="10" fill="#fffbe6"/>`;
+  s+=birds([[250,40,1],[262,46,.8]],"#4a5a6a");
+  s+=gop(64,182,42,90,{tiers:6,fill:"#eadfca",roof:"#e6d7bb",edge:"#a8987c",kal:3,base:"#e8dcc4"});
+  s+=gop(256,182,42,84,{tiers:6,fill:"#eadfca",roof:"#e6d7bb",edge:"#a8987c",kal:3,base:"#e8dcc4"});
+  s+=`<path d="M216 160 L218 140 Q226 128 234 140 L236 160 Z" fill="#e2b04a" stroke="#9a6f0c" stroke-width=".6"/><path d="M226 129 L226 122" stroke="#e2b04a" stroke-width="1.6"/><circle cx="226" cy="121" r="1.6" fill="#e2b04a"/>`;
+  s+=gop(160,198,112,190,{tiers:12,fill:"#f7f0e3",roof:"#f1e6cf",edge:"#9c8a6a",figs:["#e8decd","#d6c7aa","#ecdcbc","#cdbb98"],kal:11,base:"#efe5d0"});
+  s+=`<rect x="0" y="182" width="104" height="16" fill="#eadcc0"/><rect x="216" y="182" width="104" height="16" fill="#eadcc0"/><path d="M0 182 L104 182 M216 182 L320 182" stroke="#b5462e" stroke-width="2"/>`;
+  s+=`<rect y="198" width="320" height="8" fill="#c9b48a"/><defs><linearGradient id="riv-srg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5aa6c8"/><stop offset="1" stop-color="#3a7fa2"/></linearGradient></defs><rect y="206" width="320" height="34" fill="url(#riv-srg)"/>`;
+  s+=`<path d="M14 216 h28 M70 226 h36 M150 214 h30 M180 232 h34 M286 220 h24" stroke="#a9d6e8" stroke-width="1.3" stroke-linecap="round"/>`;
+  s+=`<ellipse cx="240" cy="224" rx="18" ry="5.5" fill="#5a3a1e"/><ellipse cx="240" cy="222" rx="18" ry="4" fill="#7a5530"/><path d="M226 222 Q240 226 254 222" stroke="#4a2e16" stroke-width=".8" fill="none"/>`;
+  s+=`<g transform="translate(240 222)"><path d="M-2 0 L-2 -10 L2 -10 L2 0Z" fill="#f4efe6"/><circle cy="-13.5" r="3.2" fill="${SKIN_D}"/><path d="M2 -8 L14 4" stroke="#6b4420" stroke-width="1.4"/></g>`;
+  s+=palm(22,200,.9,"#2f5a2a")+palm(300,200,1,"#2f5a2a");
+  return s;
+}
+function sceneRameswaram(){
+  const vx=160, vy=112, cY=t=>vy-14-(vy-18)*t, fY=t=>vy+14+(240-vy-18)*t, dX=t=>14+140*t;
+  let s=`<defs><radialGradient id="gl-rms" cx="50%" cy="47%" r="42%"><stop offset="0" stop-color="#ffe2a0" stop-opacity=".9"/><stop offset="1" stop-color="#ffe2a0" stop-opacity="0"/></radialGradient><linearGradient id="fl-rms" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8a6236"/><stop offset="1" stop-color="#dcb780"/></linearGradient></defs>`;
+  s+=`<rect width="320" height="240" fill="#3a2414"/>`;
+  s+=`<path d="M0 0 L320 0 L${vx+14} ${vy-14} L${vx-14} ${vy-14} Z" fill="#d8c39a"/>`;
+  s+=`<path d="M0 240 L320 240 L${vx+14} ${vy+14} L${vx-14} ${vy+14} Z" fill="url(#fl-rms)"/>`;
+  s+=`<path d="M0 0 L${vx-14} ${vy-14} L${vx-14} ${vy+14} L0 240 Z" fill="#6b4424"/><path d="M320 0 L${vx+14} ${vy-14} L${vx+14} ${vy+14} L320 240 Z" fill="#5e3b1f"/>`;
+  for(const x of [40,100,220,280]) s+=`<path d="M${vx} ${vy+14} L${x} 240" stroke="#b08c58" stroke-width=".7" opacity=".6"/>`;
+  s+=`<rect x="${vx-14}" y="${vy-14}" width="28" height="28" fill="#ffd27a"/><path d="M${vx-5} ${vy+14} L${vx-5} ${vy+2} Q${vx} ${vy-3} ${vx+5} ${vy+2} L${vx+5} ${vy+14} Z" fill="#7a4a1a"/><circle cx="${vx}" cy="${vy+6}" r="1.4" fill="#fff3c4"/>`;
+  s+=`<rect width="320" height="240" fill="url(#gl-rms)"/>`;
+  const med=["#2f6fb0","#c0392b","#e8b931","#2f8a5b"];
+  for(let k=10;k>=0;k--){
+    const t=Math.pow(.77,k), tm=Math.pow(.77,k+.5), w=3+24*t, c=cY(t), f=fY(t), d=dX(t);
+    if(k<10) s+=`<ellipse cx="${vx}" cy="${f1(cY(tm)+2*tm)}" rx="${f1(13*tm)}" ry="${f1(4.2*tm)}" fill="${med[k%4]}"/><ellipse cx="${vx}" cy="${f1(cY(tm)+2*tm)}" rx="${f1(7*tm)}" ry="${f1(2.2*tm)}" fill="#f4e6c4"/>`;
+    s+=`<rect x="${f1(vx-d)}" y="${f1(c)}" width="${f1(2*d)}" height="${f1(Math.max(1,4*t))}" fill="#a8844f"/>`;
+    for(const side of [-1,1]){
+      const x=vx+side*d-w/2, br=w*.5;
+      s+=`<path d="M${f1(x-br)} ${f1(c)} L${f1(x+w+br)} ${f1(c)} L${f1(x+w)} ${f1(c+w*.7)} L${f1(x)} ${f1(c+w*.7)} Z" fill="#c9a86a"/>`;
+      s+=`<rect x="${f1(x)}" y="${f1(c+w*.7)}" width="${f1(w)}" height="${f1(f-c-w*.7)}" fill="${side<0?"#e0c48c":"#cfb079"}"/>`;
+      s+=`<rect x="${f1(side<0?x+w*.62:x)}" y="${f1(c+w*.7)}" width="${f1(w*.38)}" height="${f1(f-c-w*.7)}" fill="#a8844f" opacity=".55"/>`;
+      for(const q of [.3,.55,.8]) s+=`<rect x="${f1(x-.5)}" y="${f1(c+(f-c)*q)}" width="${f1(w+1)}" height="${f1(Math.max(.6,1.6*t))}" fill="#8a6a3a"/>`;
+      if(t>.35) s+=`<path d="M${f1(x+w*.2)} ${f1(c+(f-c)*.42)} q${f1(w*.3)} ${f1(-w*.5)} ${f1(w*.6)} 0" stroke="#8a6a3a" stroke-width="${f1(t*1.2)}" fill="none"/>`;
+    }
+  }
+  return s;
+}
+function sceneTiruvannamalai(){
+  let s=sky("sk-tvm",[[0,"#0b1233"],[.7,"#25306a"],[1,"#3d3a78"]]);
+  for(let i=0;i<34;i++){ const x=(i*97+13)%320, y=(i*53+7)%118; s+=`<circle cx="${x}" cy="${y}" r="${f1(.5+(i%3)*.35)}" fill="#fff" opacity="${f1(.45+(i%4)*.14)}"/>`; }
+  s+=glowDef("gl-moon","#f4ecd0")+`<circle cx="54" cy="44" r="26" fill="url(#gl-moon)"/><circle cx="54" cy="44" r="10" fill="#f6efd6"/>`;
+  s+=glowDef("gl-deep","#ffb347")+`<circle cx="204" cy="64" r="84" fill="url(#gl-deep)" opacity=".75"/>`;
+  s+=`<path d="M-10 216 Q60 172 120 122 Q170 76 204 72 Q238 76 264 114 Q300 162 330 178 L330 240 L-10 240 Z" fill="#1b2146"/>`;
+  s+=`<path d="M-10 216 Q60 172 120 122 Q170 76 204 72 Q238 76 264 114 Q300 162 330 178" stroke="#ffb347" stroke-opacity=".35" stroke-width="1.6" fill="none"/>`;
+  s+=`<path d="M150 150 Q180 120 204 110 M230 140 Q250 150 270 170" stroke="#262e5a" stroke-width="3" fill="none" stroke-linecap="round"/>`;
+  s+=`<path d="M196 74 L212 74 L209 66 L199 66 Z" fill="#3a2a20"/><path d="M204 67 Q192 52 204 30 Q216 52 204 67 Z" fill="#ff9f1c"/><path d="M204 66 Q198 56 204 42 Q210 56 204 66 Z" fill="#ffe08a"/>`;
+  s+=gop(96,208,44,94,{tiers:7,fill:"#2e2848",roof:"#2e2848",edge:"#17122a",base:"#251f3c",niche:"#ffcf6a",kal:3,door:"#ffb347"});
+  s+=gop(236,208,54,116,{tiers:8,fill:"#2e2848",roof:"#2e2848",edge:"#17122a",base:"#251f3c",niche:"#ffcf6a",kal:5,door:"#ffb347"});
+  s+=gop(160,208,36,72,{tiers:6,fill:"#29233f",roof:"#29233f",edge:"#17122a",base:"#221c36",niche:"#ffcf6a",kal:3,door:"#ffb347"});
+  s+=`<rect y="204" width="320" height="10" fill="#241e3a"/>`;
+  for(let x=6;x<320;x+=11) s+=`<circle cx="${x}" cy="203" r="1.4" fill="#ffc55a"/>`;
+  s+=`<rect y="214" width="320" height="26" fill="#120d22"/>`;
+  return s;
+}
+function sceneChidambaram(){
+  let s=sky("sk-chd",[[0,"#3d2a66"],[.55,"#b9607e"],[1,"#f2a36e"]]);
+  s+=gop(282,206,60,172,{tiers:9,cols:["#b0685e","#c99a5a","#7f8fae"],figs:["#efe2cc","#c46a5a","#3d5a8a","#e8b931"],kal:5,base:"#c9a983",edge:"#5a3a3a"});
+  s+=gop(34,206,46,118,{tiers:7,cols:["#c99a5a","#7f8fae","#b0685e"],figs:["#efe2cc","#c46a5a","#3d5a8a"],kal:3,base:"#c9a983",edge:"#5a3a3a"});
+  s+=`<rect x="70" y="176" width="180" height="30" fill="#8d6a52"/><path d="M70 184 L250 184 M70 192 L250 192 M70 199 L250 199" stroke="#6e5040" stroke-width="1"/>`;
+  s+=`<rect x="80" y="138" width="160" height="38" fill="#2a1610"/>`;
+  s+=glowDef("gl-chd","#ffcf6a")+`<circle cx="160" cy="158" r="34" fill="url(#gl-chd)"/>`;
+  let ring=`<circle cx="160" cy="158" r="14" fill="none" stroke="#ffcf6a" stroke-width="1.8"/>`;
+  for(let i=0;i<14;i++){ const a=Math.PI*(1+i/13); ring+=`<path d="M${f1(160+Math.cos(a)*14)} ${f1(158+Math.sin(a)*14)} l${f1(Math.cos(a)*4)} ${f1(Math.sin(a)*4)}" stroke="#ffb347" stroke-width="1.6" stroke-linecap="round"/>`; }
+  s+=ring;
+  for(let x=82;x<=238;x+=19.5) s+=`<rect x="${f1(x-3)}" y="138" width="6" height="38" fill="#7a5640"/><rect x="${f1(x-4.5)}" y="138" width="9" height="3" fill="#5e4030"/>`;
+  s+=`<defs><linearGradient id="gd-chd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbe08a"/><stop offset="1" stop-color="#c8921d"/></linearGradient><clipPath id="cp-chd"><path d="M64 142 L86 104 Q160 84 234 104 L256 142 Z"/></clipPath></defs>`;
+  s+=`<path d="M64 142 L86 104 Q160 84 234 104 L256 142 Z" fill="url(#gd-chd)" stroke="#8a5a0c" stroke-width=".8"/>`;
+  let tiles=""; for(let x=70;x<256;x+=7) tiles+=`<path d="M${x} 80 L${x} 146" stroke="#b07a12" stroke-width=".6"/>`; for(let y=110;y<142;y+=6) tiles+=`<path d="M60 ${y} L260 ${y}" stroke="#b07a12" stroke-width=".6"/>`;
+  s+=`<g clip-path="url(#cp-chd)">${tiles}</g><path d="M64 142 L256 142" stroke="#8a5a0c" stroke-width="2"/>`;
+  for(let k=1;k<=9;k++){ const t=k/10, x=(1-t)*(1-t)*86+2*(1-t)*t*160+t*t*234, y=(1-t)*(1-t)*104+2*(1-t)*t*84+t*t*104;
+    s+=`<ellipse cx="${f1(x)}" cy="${f1(y-2.4)}" rx="2.6" ry="2.4" fill="#f6d36b" stroke="#8a5a0c" stroke-width=".4"/><path d="M${f1(x)} ${f1(y-4.6)} L${f1(x)} ${f1(y-9)}" stroke="#f6d36b" stroke-width="1.3"/><circle cx="${f1(x)}" cy="${f1(y-9.4)}" r="1" fill="#f6d36b"/>`; }
+  for(let x=86;x<=234;x+=12) s+=`<path d="M${x} 205 Q${x-2} 200 ${x} 196 Q${x+2} 200 ${x} 205 Z" fill="#ffb347"/><rect x="${x-2.4}" y="205" width="4.8" height="2" fill="#c9a12e"/>`;
+  s+=`<rect y="207" width="320" height="33" fill="#6b4c3e"/><path d="M0 220 L320 220" stroke="#5a3e32" stroke-width="1"/>`;
+  return s;
+}
+function sceneKanyakumari(){
+  let s=sky("sk-kk",[[0,"#f39a68"],[.38,"#fbc68a"],[.58,"#ffe8b8"]]);
+  s+=glowDef("gl-kk","#fff0c0")+`<circle cx="160" cy="138" r="64" fill="url(#gl-kk)"/><circle cx="160" cy="138" r="22" fill="#fff3cc"/>`;
+  s+=`<path d="M0 138 L132 138 L62 202 L0 202 Z" fill="#3f8f8a"/><path d="M132 138 L188 138 L252 202 L62 202 Z" fill="#2c5f93"/><path d="M188 138 L320 138 L320 202 L252 202 Z" fill="#4c8fbf"/>`;
+  for(let i=0;i<8;i++){ const y=141+i*6, w=36-i*3.4; s+=`<rect x="${f1(160-w/2)}" y="${y}" width="${f1(w)}" height="1.6" rx=".8" fill="#ffe9b0" opacity="${f1(.9-i*.09)}"/>`; }
+  s+=birds([[86,70,1],[98,64,.8],[232,58,.9]],"#6a3a2a");
+  s+=`<path d="M58 186 Q66 170 86 168 Q112 166 132 172 Q142 178 140 188 Z" fill="#3b2f2b"/>`;
+  s+=`<rect x="80" y="152" width="44" height="16" fill="#5a463e"/><path d="M78 152 L126 152 L122 146 L82 146 Z" fill="#4a3a34"/>`;
+  for(const x of [84,94,104,114]) s+=`<rect x="${x}" y="155" width="3" height="13" fill="#3b2f2b"/>`;
+  s+=`<path d="M92 146 L94 128 Q102 118 110 128 L112 146 Z" fill="#4a3a34"/><path d="M102 120 L102 112" stroke="#4a3a34" stroke-width="1.6"/>`;
+  s+=`<path d="M196 190 Q202 176 222 174 Q244 174 254 184 Q258 188 256 192 Z" fill="#3b2f2b"/>`;
+  s+=`<rect x="216" y="156" width="20" height="20" fill="#5a463e"/><rect x="213" y="154" width="26" height="3" fill="#4a3a34"/>`;
+  s+=`<path d="M219 154 L221 116 Q226 106 231 116 L233 154 Z" fill="#4a3a34"/><circle cx="226" cy="104" r="5.2" fill="#4a3a34"/><circle cx="226" cy="97.5" r="2.6" fill="#4a3a34"/><path d="M221 122 Q214 132 218 138 M231 122 Q238 130 234 136" stroke="#4a3a34" stroke-width="3" fill="none" stroke-linecap="round"/>`;
+  s+=`<path d="M0 214 Q160 200 320 210 L320 240 L0 240 Z" fill="#e9cf9d"/><path d="M0 214 Q160 200 320 210" stroke="#fff7e8" stroke-width="2.2" fill="none" opacity=".85"/>`;
+  s+=stripes(0,128,214,16,"#f6eedc","#b5462e");
+  s+=`<path d="M10 214 L64 188 L118 214 Z" fill="#8a3a22"/><path d="M64 188 L64 180" stroke="${GOLD}" stroke-width="1.8"/><circle cx="64" cy="179" r="1.8" fill="${GOLD}"/>`;
+  return s;
+}
+function scenePalani(){
+  let s=sky("sk-pln",[[0,"#9fd6ee"],[.65,"#e3f2ef"],[1,"#f6f3dc"]]);
+  s+=birds([[60,40,1],[72,34,.8]],"#4a5a6a");
+  s+=`<path d="M0 156 Q60 116 120 136 Q190 104 250 128 Q290 112 320 126 L320 200 L0 200 Z" fill="#a3c2d2"/><path d="M0 172 Q70 140 140 160 Q220 130 320 156 L320 200 L0 200 Z" fill="#88abbf"/>`;
+  s+=`<path d="M34 204 Q86 124 126 86 L198 82 Q236 124 290 204 Z" fill="#5d8c3c"/><path d="M198 82 Q236 124 290 204 L230 204 Q214 140 186 90 Z" fill="#4c7a30"/>`;
+  s+=`<path d="M156 204 L186 180 L144 156 L180 132 L150 108 L168 88" stroke="#f1e6c8" stroke-width="2" stroke-dasharray="2 2" fill="none"/>`;
+  s+=`<path d="M282 200 L196 84" stroke="#3a3a3a" stroke-width=".8"/><g transform="translate(240 141) rotate(-53)"><rect x="-5" y="-3" width="10" height="7" rx="1.5" fill="#c0392b"/></g><path d="M240 138 L240 141" stroke="#3a3a3a" stroke-width=".8"/>`;
+  s+=stripes(128,196,74,10,"#f6eedc","#b5462e");
+  s+=`<path d="M150 74 L154 56 Q162 42 170 56 L174 74 Z" fill="#e2b04a" stroke="#9a6f0c" stroke-width=".7"/><path d="M162 46 L162 38" stroke="#e2b04a" stroke-width="1.8"/><circle cx="162" cy="37" r="1.8" fill="#e2b04a"/>`;
+  s+=`<path d="M136 74 L138 64 L146 64 L148 74 Z M178 74 L180 66 L188 66 L190 74 Z" fill="#efe2c8" stroke="#9a7b3c" stroke-width=".5"/>`;
+  s+=`<rect y="200" width="320" height="40" fill="#8cc04a"/>`;
+  for(const y of [208,216,226]) s+=`<path d="M0 ${y} Q160 ${y-4} 320 ${y}" stroke="#74a83a" stroke-width="1.4" fill="none"/>`;
+  s+=`<g transform="translate(4 130) scale(.9)">${coconutTree()}</g><g transform="translate(270 142) scale(.78)">${coconutTree()}</g>`;
+  s+=`<g transform="translate(196 150) scale(.74)">${peacock()}</g>`;
+  return s;
+}
+
+const TEMPLES=[
+  {id:"mdu", name:"Meenakshi Amman Temple", ta:"மீனாட்சி அம்மன் கோவில்", town:"Madurai", tags:["devi","shiva"], scene:sceneMadurai,
+   alt:"Painted gopurams of the Meenakshi temple above the golden lotus tank, with a temple elephant",
+   deity:"Goddess Meenakshi, with Shiva as Sundareswarar",
+   desc:"Fourteen gopurams covered in thousands of painted figures rise over the old city. The tallest, the southern tower, is about 52 metres high.",
+   see:"The Porthamarai Kulam (golden lotus tank), and the Hall of a Thousand Pillars, which actually has 985.",
+   when:"Chithirai Thiruvizha in April–May, when the whole city celebrates the wedding of Meenakshi and Sundareswarar.",
+   know:"In Navaratri, Meenakshi is dressed in a different alankaram each night."},
+  {id:"tnj", name:"Brihadeeswarar Temple", ta:"தஞ்சை பெரிய கோவில்", town:"Thanjavur", tags:["shiva","unesco"], scene:sceneThanjavur,
+   alt:"The granite vimana of the Thanjavur big temple at sunset, with the Nandi mandapam in front",
+   deity:"Shiva as Peruvudaiyar",
+   desc:"Raja Raja Chola I completed it in 1010 CE. Its granite vimana rises about 66 metres, and worship has carried on here for a thousand years.",
+   see:"The great Nandi, carved from a single stone, and the vimana at sunset, when the granite turns gold.",
+   when:"October to March. Sathaya Vizha, Raja Raja’s birth-star festival, falls in the Tamil month of Aippasi (October–November).",
+   know:"Part of the Great Living Chola Temples, a UNESCO World Heritage Site."},
+  {id:"shore", name:"Shore Temple", ta:"கடற்கரைக் கோவில்", town:"Mamallapuram", tags:["shiva","vishnu","unesco"], scene:sceneShore,
+   alt:"The two granite towers of the Shore Temple at dawn, with the sun rising over the Bay of Bengal",
+   deity:"Shiva and Vishnu",
+   desc:"Built by the Pallava king Narasimhavarman II in the early 700s CE, its two granite towers have faced the Bay of Bengal for 1,300 years.",
+   see:"Arjuna’s Penance, the Pancha Rathas and Krishna’s Butter Ball, all a short walk away.",
+   when:"December–January, for the Mamallapuram Dance Festival, staged in front of the old rock carvings.",
+   know:"Part of the Group of Monuments at Mahabalipuram, a UNESCO World Heritage Site."},
+  {id:"srg", name:"Sri Ranganathaswamy Temple", ta:"ஸ்ரீரங்கநாதசுவாமி கோவில்", town:"Srirangam", tags:["vishnu"], scene:sceneSrirangam,
+   alt:"The white rajagopuram of Srirangam above the Kaveri river, with a coracle on the water",
+   deity:"Vishnu as Ranganatha, reclining on Adisesha",
+   desc:"A whole temple town on an island between the Kaveri and Kollidam rivers, inside seven concentric walls. The rajagopuram rises about 73 metres.",
+   see:"The Thousand Pillar Mandapam, and the Sesharayar Mandapam with its pillars carved as rearing horses.",
+   when:"Vaikunta Ekadasi in December–January, when the Paramapada Vasal, the gate to heaven, is opened.",
+   know:"The first of the 108 Divya Desams sung by the Alvars."},
+  {id:"rms", name:"Ramanathaswamy Temple", ta:"இராமநாதசுவாமி கோவில்", town:"Rameswaram", tags:["shiva"], scene:sceneRameswaram,
+   alt:"Looking down the long pillared corridor of the Rameswaram temple towards a lamp-lit shrine",
+   deity:"Shiva as Ramanatha",
+   desc:"On Pamban island, where Rama is said to have worshipped Shiva. Its pillared corridors are the longest of any temple in India.",
+   see:"Bathing at the 22 theerthams, the holy wells inside the temple, before darshan.",
+   when:"October to April, and Maha Shivaratri in February–March.",
+   know:"One of the twelve Jyotirlingas, and one of the four Char Dham."},
+  {id:"tvm", name:"Arunachaleswarar Temple", ta:"அண்ணாமலையார் கோவில்", town:"Tiruvannamalai", tags:["shiva"], scene:sceneTiruvannamalai,
+   alt:"The Karthigai Deepam burning on top of Arunachala hill at night, above the temple towers",
+   deity:"Shiva as Annamalaiyar",
+   desc:"At the foot of Arunachala, a hill worshipped as Shiva himself. One of the five Pancha Bhoota temples, for the element of fire.",
+   see:"Girivalam, the 14 km walk around the hill, done barefoot on full-moon nights.",
+   when:"Karthigai Deepam in November–December, when a great lamp is lit on the hilltop and seen for miles around.",
+   know:"Sri Ramana Maharshi’s ashram is at the foot of the hill."},
+  {id:"chid", name:"Thillai Nataraja Temple", ta:"தில்லை நடராஜர் கோவில்", town:"Chidambaram", tags:["shiva"], scene:sceneChidambaram,
+   alt:"The golden roof of the Chit Sabha at dusk, with nine kalasams and a ring of fire inside",
+   deity:"Shiva as Nataraja, the cosmic dancer",
+   desc:"Shiva dances beneath a roof of gold tiles topped with nine kalasams. Among the five element temples, this one stands for space.",
+   see:"The 108 karanas, the poses of classical dance, carved on the gopurams.",
+   when:"Natyanjali around Maha Shivaratri, when dancers come from across India, and Arudra Darisanam in December–January.",
+   know:"Govindaraja Perumal has a shrine in the same complex, so Shiva and Vishnu are worshipped side by side."},
+  {id:"kk", name:"Bhagavathy Amman Temple", ta:"பகவதி அம்மன் கோவில்", town:"Kanyakumari", tags:["devi"], scene:sceneKanyakumari,
+   alt:"Sunrise between the Vivekananda Rock Memorial and the Thiruvalluvar statue, over three seas of different colours",
+   deity:"Devi as Kanya Kumari, the young goddess",
+   desc:"At the southern tip of India, where three seas meet, the goddess stands as a young girl doing penance to marry Shiva.",
+   see:"Sunrise over the sea, then the ferry to the Vivekananda Rock Memorial and the 133-foot Thiruvalluvar statue.",
+   when:"October to March. Navaratri is one of the temple’s great festivals.",
+   know:"Legend says her diamond nose ring shone so bright that ships mistook it for a lighthouse, so the eastern door opens only on special days."},
+  {id:"palani", name:"Dhandayuthapani Swamy Temple", ta:"பழனி தண்டாயுதபாணி கோவில்", town:"Palani", tags:["murugan"], scene:scenePalani,
+   alt:"Palani hill with its golden-domed temple on top, steps and a rope car, and a peacock in the fields below",
+   deity:"Murugan as Dhandayuthapani",
+   desc:"Murugan’s hilltop temple, the third of his six abodes, the Arupadai Veedu. Climb the steps, or ride up by winch or rope car.",
+   see:"Palani panchamirtham, the fruit-and-jaggery prasadam.",
+   when:"Thai Poosam in January–February, when pilgrims walk here from far away carrying kavadi.",
+   know:"The idol is said to have been made by the siddhar Bogar from navapashanam, a blend of nine minerals."},
+];
+const ROUTE=["shore","tvm","chid","tnj","srg","palani","mdu","rms","kk"];
+const TFILTERS=[["all","All"],["shiva","Shiva"],["devi","Devi"],["vishnu","Vishnu"],["murugan","Murugan"],["unesco","World Heritage"]];
+
+const PLACE_ICON={
+  train:`<circle cx="28" cy="28" r="27" fill="#d6ebcf"/><path d="M2 34 Q18 22 30 28 Q42 34 54 24 L54 40 L2 40Z" fill="#7fb06a"/><path d="M8 38 q4 -2 8 0 M20 40 q4 -2 8 0 M34 36 q4 -2 8 0" stroke="#4e8a3f" stroke-width="1.6" fill="none"/><path d="M4 46 L52 30" stroke="#6b4420" stroke-width="1.6"/><g transform="rotate(-18 28 36)"><rect x="12" y="26" width="32" height="10" rx="2" fill="#2f5fa8"/><rect x="12" y="26" width="32" height="3.4" rx="1.5" fill="#f4e9cf"/><rect x="16" y="30" width="5" height="3.6" fill="#f4e9cf"/><rect x="25" y="30" width="5" height="3.6" fill="#f4e9cf"/><rect x="34" y="30" width="5" height="3.6" fill="#f4e9cf"/><circle cx="18" cy="37" r="1.8" fill="#333"/><circle cx="38" cy="37" r="1.8" fill="#333"/></g>`,
+  lake:`<circle cx="28" cy="28" r="27" fill="#d3e7f1"/><path d="M2 30 L12 16 L20 28 L30 12 L42 28 L50 18 L56 30 Z" fill="#4f7d5a"/><path d="M6 30 l4 -8 l4 8z M44 30 l4 -9 l4 9z" fill="#2f5a3a"/><path d="M28 30 L31 36 L38 36 L33 40 L35 47 L28 43 L21 47 L23 40 L18 36 L25 36 Z" fill="#3f8fb8"/><path d="M26 39 h6 l-1 2 h-4z" fill="#c0392b"/>`,
+  mansion:`<circle cx="28" cy="28" r="27" fill="#f5dcc6"/><path d="M8 22 L28 12 L48 22 Z" fill="#b5462e"/><rect x="10" y="22" width="36" height="22" fill="#f6eedc" stroke="#a87a4a" stroke-width=".8"/><rect x="10" y="22" width="36" height="3" fill="#e8b931"/>${[14,20,36,42].map(x=>`<rect x="${x-1.2}" y="25" width="2.4" height="19" fill="#7a4a22"/>`).join("")}<path d="M24 44 L24 33 Q28 28 32 33 L32 44 Z" fill="#5a3a1a"/><rect x="8" y="44" width="40" height="3" fill="#a87a4a"/>`,
+  bridge:`<circle cx="28" cy="28" r="27" fill="#cfe5f1"/><rect x="1" y="36" width="54" height="16" fill="#3f86a3"/><path d="M4 42 q4 -2 8 0 M30 46 q4 -2 8 0" stroke="#a9d6e8" stroke-width="1.2" fill="none"/><path d="M2 28 L54 28" stroke="#6b5a4a" stroke-width="3"/>${[8,18,28,38,48].map(x=>`<path d="M${x-5} 37 Q${x} 30 ${x+5} 37" stroke="#8a7a6a" stroke-width="2" fill="none"/><rect x="${x+4}" y="29" width="2" height="8" fill="#8a7a6a"/>`).join("")}<rect x="14" y="22" width="16" height="6" rx="1.4" fill="#c0392b"/><rect x="31" y="22" width="12" height="6" rx="1.4" fill="#e8b931"/>`,
+  beach:`<circle cx="28" cy="28" r="27" fill="#fbe5bf"/><rect x="1" y="16" width="54" height="16" fill="#5aa6c8"/><path d="M1 32 Q14 28 28 32 T55 32 L55 56 L1 56Z" fill="#ecd29e"/><path d="M1 32 Q14 28 28 32 T55 32" stroke="#fff" stroke-width="1.6" fill="none"/><path d="M20 26 L36 26 L28 48 Z" fill="#d9d2c4" stroke="#8a8274" stroke-width=".7"/><path d="M22 28 L34 28" stroke="#8a8274" stroke-width=".5"/>${[[24,24],[28,22],[32,24],[26,21],[30,20]].map(([x,y],i)=>`<circle cx="${x}" cy="${y}" r="2.2" fill="${i%2?"#c9a35a":"#e8c46a"}"/>`).join("")}`,
+  doll:`<circle cx="28" cy="28" r="27" fill="#f3d6e0"/><ellipse cx="28" cy="46" rx="13" ry="5" fill="#a3172b"/><path d="M15 46 Q15 30 28 28 Q41 30 41 46 Z" fill="#c0142b"/><path d="M17 40 Q28 44 39 40" stroke="#e8b931" stroke-width="2" fill="none"/><path d="M28 28 L28 24" stroke="#7a5a2a" stroke-width="1.2"/><g class="nod"><circle cx="28" cy="18" r="7" fill="#e2a676"/><circle cx="25.4" cy="17.6" r=".9" fill="#1b0f0a"/><circle cx="30.6" cy="17.6" r=".9" fill="#1b0f0a"/><circle cx="28" cy="14.6" r=".9" fill="#c0142b"/><path d="M25.6 21 Q28 22.6 30.4 21" stroke="#7a2a1a" stroke-width=".8" fill="none"/><path d="M21 15 Q22 8 28 8 Q34 8 35 15 Q32 11 28 11 Q24 11 21 15Z" fill="#e8b931"/></g>`,
+};
+const PLACES=[
+  {icon:"train", name:"Nilgiri Mountain Railway", town:"Mettupalayam to Ooty", text:"A little blue train climbs into the Nilgiris through tea estates and tunnels. Part of the Mountain Railways of India World Heritage Site."},
+  {icon:"lake", name:"Kodaikanal", town:"Palani Hills", text:"A hill town around a star-shaped lake. Take Coaker’s Walk on a clear morning to look down over the plains."},
+  {icon:"mansion", name:"Chettinad mansions", town:"Karaikudi", text:"Palatial homes with Burma-teak pillars and Athangudi tiles, and the peppery Chettinad cooking to match."},
+  {icon:"bridge", name:"Pamban and Dhanushkodi", town:"Rameswaram", text:"Cross to the island over the Pamban bridge, then ride to Dhanushkodi, a ghost town since the 1964 cyclone, where the road ends at the sea."},
+  {icon:"beach", name:"Marina Beach", town:"Chennai", text:"An evening on the sand with a paper cone of hot sundal, the same one you’ll have tasted at every golu."},
+  {icon:"doll", name:"Thanjavur dolls", town:"Thanjavur", text:"Bring home a thalaiyatti bommai, the nodding-head doll, for next year’s golu, or a gold-leaf Thanjavur painting."},
+];
+
+let templeFilter="all";
+const finialSVG=`<svg class="finial" viewBox="0 0 18 28" aria-hidden="true"><path d="M9 0 L9 7" stroke="#d4a017" stroke-width="2"/><circle cx="9" cy="2" r="2" fill="#e8b931"/><ellipse cx="9" cy="12" rx="5" ry="5.5" fill="#e8b931" stroke="#9a6f0c" stroke-width=".8"/><path d="M3 18 L15 18 L13 22 L5 22 Z" fill="#d4a017" stroke="#9a6f0c" stroke-width=".8"/><rect x="1" y="22" width="16" height="6" rx="1" fill="#e8b931" stroke="#9a6f0c" stroke-width=".8"/></svg>`;
+function renderTemples(){
+  const grid=$("#templeGrid"); grid.innerHTML="";
+  TEMPLES.forEach(t=>{
+    const a=document.createElement("article"); a.className="temple"; a.id="t-"+t.id; a.dataset.tags=t.tags.join(" ");
+    a.innerHTML=`<div class="niche">${finialSVG}<div class="art"><svg viewBox="0 0 320 240" role="img" aria-label="${t.alt}">${t.scene()}</svg></div></div>
+      <div class="t-body">
+        <div class="t-where"><span class="place-chip">${t.town}</span>${t.tags.includes("unesco")?`<span class="whs">UNESCO World Heritage</span>`:""}</div>
+        <h3>${t.name}</h3>
+        <div class="tn" lang="ta">${t.ta}</div>
+        <div class="deity">${t.deity}</div>
+        <p class="desc">${t.desc}</p>
+        <details><summary>More about this temple</summary>
+          <dl><dt>Don’t miss</dt><dd>${t.see}</dd><dt>When to go</dt><dd>${t.when}</dd><dt>Good to know</dt><dd>${t.know}</dd></dl>
+        </details>
+      </div>`;
+    grid.append(a);
+  });
+  const f=$("#templeFilter"); f.innerHTML="";
+  TFILTERS.forEach(([k,label])=>{
+    const n=k==="all"?TEMPLES.length:TEMPLES.filter(t=>t.tags.includes(k)).length;
+    const b=document.createElement("button"); b.type="button"; b.dataset.f=k;
+    b.innerHTML=`${label}<span class="count">${n}</span>`;
+    b.addEventListener("click",()=>setTempleFilter(k));
+    f.append(b);
+  });
+  const r=$("#route"); r.innerHTML="";
+  ROUTE.forEach((id,i)=>{
+    const t=TEMPLES.find(x=>x.id===id);
+    const li=document.createElement("li");
+    const b=document.createElement("button"); b.type="button"; b.dataset.go=id;
+    b.innerHTML=`<span class="no">${i+1}</span><span class="town"></span>`;
+    b.querySelector(".town").textContent=t.town;
+    b.setAttribute("aria-label",`Stop ${i+1}: ${t.town}, ${t.name}`);
+    b.addEventListener("click",()=>goTemple(id));
+    li.append(b); r.append(li);
+  });
+  const p=$("#placeGrid"); p.innerHTML="";
+  PLACES.forEach(pl=>{
+    const d=document.createElement("div"); d.className="place";
+    d.innerHTML=`<svg viewBox="0 0 56 56" aria-hidden="true">${PLACE_ICON[pl.icon]}</svg><div><h4></h4><div class="town"></div><p></p></div>`;
+    d.querySelector("h4").textContent=pl.name; d.querySelector(".town").textContent=pl.town; d.querySelector("p").textContent=pl.text;
+    p.append(d);
+  });
+  setTempleFilter("all");
+}
+function setTempleFilter(k){
+  templeFilter=k;
+  document.querySelectorAll("#templeFilter button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.f===k)));
+  let shown=0;
+  document.querySelectorAll("#templeGrid .temple").forEach(a=>{ const on=k==="all"||a.dataset.tags.split(" ").includes(k); a.hidden=!on; if(on) shown++; });
+  $("#templeCount").textContent = k==="all" ? "" : `Showing ${shown} of ${TEMPLES.length} temples.`;
+}
+function goTemple(id){
+  const card=$("#t-"+id); if(!card) return;
+  if(card.hidden) setTempleFilter("all");
+  document.querySelectorAll("#route button").forEach(b=>b.setAttribute("aria-current",String(b.dataset.go===id)));
+  card.scrollIntoView({behavior:reduceMotion?"auto":"smooth",block:"center"});
+  card.classList.remove("flash"); void card.offsetWidth; card.classList.add("flash");
+}
+
 /* boot */
-try{ const saved=JSON.parse(localStorage.getItem("golu-local")||"null"); if(saved) applyLayout(saved); }catch(e){}render(); renderNights(); drawKolam(); syncLamps(); drawThoranam();
+try{ const saved=JSON.parse(localStorage.getItem("golu-local")||"null"); if(saved) applyLayout(saved); }catch(e){}render(); renderNights(); renderTemples(); drawKolam(); syncLamps(); drawThoranam();
 window.addEventListener("resize",()=>{ clearTimeout(window.__t); window.__t=setTimeout(()=>{ drawThoranam(); resizeFx(); if(!plate.hidden && !aarti.auto && !aarti.drag) parkPlate(); },120); });
 requestAnimationFrame(resizeFx);
 const mq=window.matchMedia?.("(prefers-color-scheme: dark)"); mq?.addEventListener?.("change",drawKolam);
