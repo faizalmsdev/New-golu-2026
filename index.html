@@ -1,0 +1,1322 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Virtual Golu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Mukta:wght@400;500;700&family=Noto+Serif+Tamil:wght@500;700&display=swap">
+<style>
+/* Layout: a single room — thoranam across the top, the golu steps as the centrepiece flanked by lamps, kolam on the floor, then the nine nights and the visitor book below. */
+:root{
+  --wall:#f3e3c4;          /* lime-washed wall, warm */
+  --wall-2:#ead3a8;
+  --ink:#3a1d12;           /* deep tamarind brown */
+  --ink-soft:#6e4a37;
+  --kumkum:#a3172b;        /* step cloth, kumkum red */
+  --kumkum-deep:#6f0d1c;
+  --zari:#d4a017;          /* gold border */
+  --manjal:#e8b931;        /* turmeric */
+  --leaf:#3f7a2e;          /* mango leaf */
+  --floor:#9c3b22;         /* kaavi floor */
+  --chalk:#fbf4e6;
+  --card:#fbf1dc;
+  --line:#d9bf8f;
+  --focus:#1f5fa8;
+  --f-display:"Yatra One", "Georgia", serif;
+  --f-body:"Mukta", "Segoe UI", system-ui, sans-serif;
+  --f-tamil:"Noto Serif Tamil", "Latha", serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --wall:#1f1210; --wall-2:#2b1914; --ink:#f6e4c8; --ink-soft:#c9ab8c;
+    --kumkum:#9b1a2c; --kumkum-deep:#5a0c18; --zari:#e0b23a; --manjal:#f0c548;
+    --leaf:#5c9a45; --floor:#6b2817; --chalk:#f7ecd8; --card:#2a1813; --line:#4d3226; --focus:#7fb2ff;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --wall:#1f1210; --wall-2:#2b1914; --ink:#f6e4c8; --ink-soft:#c9ab8c;
+  --kumkum:#9b1a2c; --kumkum-deep:#5a0c18; --zari:#e0b23a; --manjal:#f0c548;
+  --leaf:#5c9a45; --floor:#6b2817; --chalk:#f7ecd8; --card:#2a1813; --line:#4d3226; --focus:#7fb2ff;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--wall);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.55;}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:16px;padding-block:0 48px}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;line-height:1.15;text-wrap:balance;margin:0}
+.ta{font-family:var(--f-tamil)}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,.doll:focus-visible,.step:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.btn{border:1.5px solid var(--ink);background:transparent;border-radius:999px;padding:6px 16px;font-weight:500;font-size:15px}
+.btn:hover{background:color-mix(in srgb,var(--ink) 8%,transparent)}
+.btn.solid{background:var(--kumkum);border-color:var(--kumkum);color:#fff6e6}
+.btn.solid:hover{background:var(--kumkum-deep)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.label{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);font-weight:700}
+
+/* thoranam */
+.thoranam{height:48px;position:relative;margin-inline:-16px;overflow:hidden}
+.thoranam canvas{width:100%;height:100%;display:block}
+
+/* header */
+header.hero{display:grid;gap:4px;text-align:center;padding-block:4px 12px}
+.hero .ta{font-size:17px;color:var(--kumkum)}
+.hero h1{font-size:clamp(28px,4.6vw,46px);color:var(--ink)}
+@media (max-height:820px){ .hero > p{display:none} }
+.hero h1 span{color:var(--kumkum)}
+.hero p{margin:0 auto;max-width:60ch;color:var(--ink-soft)}
+.hero .tonight{display:inline-flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:6px}
+.chip{display:inline-block;border-radius:999px;padding:2px 12px;font-size:14px;font-weight:700;background:var(--manjal);color:#3a1d12}
+.edit-host{font-size:14px;background:none;border:none;text-decoration:underline;color:var(--ink-soft);padding:0}
+.host-form{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.host-form input{font:inherit;padding:6px 10px;border:1.5px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);min-width:0;width:min(320px,100%)}
+
+/* stage */
+.stage{position:relative;display:grid;grid-template-columns:auto 1fr auto;align-items:end;gap:8px}
+.lamp{width:clamp(38px,7vw,74px);cursor:pointer;background:none;border:none;padding:0}
+.lamp svg{width:100%;height:auto;display:block;overflow:visible}
+.flame{transform-origin:50% 100%;opacity:0;transition:opacity .4s}
+.lit .flame{opacity:1;animation:flicker 1.6s ease-in-out infinite alternate}
+.glow{opacity:0;transition:opacity .6s}
+.lit .glow{opacity:.55}
+@keyframes flicker{0%{transform:scale(1,1) rotate(-2deg)}50%{transform:scale(.92,1.08) rotate(2deg)}100%{transform:scale(1.04,.95) rotate(-1deg)}}
+@media (prefers-reduced-motion:reduce){.lit .flame{animation:none}}
+
+/* doll size follows width AND screen height, so steps + kolam + action bar fit one screen */
+.golu{display:flex;flex-direction:column;align-items:center;--n:5;--vw:6.2vw;--max:58px;
+  --doll:clamp(20px, min(var(--vw), calc((100vh - 400px - var(--n) * 22px) / (var(--n) * 1.62))), var(--max))}
+.golu[data-n="3"]{--n:3;--vw:8.5vw;--max:70px}
+.golu[data-n="7"]{--n:7;--vw:5vw;--max:48px}
+.golu[data-n="9"]{--n:9;--vw:4.2vw;--max:40px}
+.step{position:relative;display:flex;flex-direction:column;align-items:stretch;cursor:default}
+.step .top{display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-end;gap:2px 4px;min-height:calc(var(--doll)*1.62);padding-inline:6px}
+.step .riser{height:clamp(14px,2.4vw,22px);background:
+  linear-gradient(var(--zari),var(--zari)) top/100% 2px no-repeat,
+  linear-gradient(var(--zari),var(--zari)) bottom 3px left 0/100% 1px no-repeat,
+  repeating-linear-gradient(90deg,transparent 0 10px,color-mix(in srgb,var(--zari) 55%,transparent) 10px 12px) bottom 6px left 0/100% 4px no-repeat,
+  linear-gradient(var(--kumkum),var(--kumkum-deep));
+  border-radius:2px;box-shadow:0 2px 0 var(--kumkum-deep)}
+.step .tier-no{position:absolute;left:-2px;bottom:2px;transform:translateX(-100%);font-size:12px;color:var(--ink-soft);font-variant-numeric:tabular-nums;padding-right:6px;white-space:nowrap}
+.golu.placing .step{cursor:copy}
+.golu.placing .step .top{outline:2px dashed color-mix(in srgb,var(--kumkum) 60%,transparent);outline-offset:-2px;border-radius:6px}
+.golu.placing .step:hover .top{background:color-mix(in srgb,var(--manjal) 22%,transparent)}
+.doll{width:var(--doll);background:none;border:none;padding:0;line-height:0;border-radius:6px;transition:transform .15s}
+.doll svg{width:100%;height:auto;display:block}
+.doll:hover{transform:translateY(-3px)}
+.doll.sel{outline:2px solid var(--focus);outline-offset:1px;transform:translateY(-4px)}
+.step-empty{font-size:12px;color:var(--ink-soft);align-self:center;opacity:.7}
+
+.floor{margin-top:0;background:var(--floor);border-radius:0 0 14px 14px;margin-inline:-4px;position:relative}
+.floor canvas{display:block;width:100%;height:auto;max-width:100%}
+.kolam-cap{position:absolute;right:10px;bottom:8px;display:flex;gap:6px}
+.kolam-cap .btn{border-color:var(--chalk);color:var(--chalk);font-size:13px;padding:3px 12px;background:color-mix(in srgb,#000 18%,transparent)}
+
+/* controls: pinned to the top while the golu is on screen */
+.topbar{position:sticky;top:env(safe-area-inset-top, 0px);z-index:20;background:var(--wall);margin-inline:-16px;padding:8px 16px;border-bottom:1px solid var(--line);margin-bottom:8px}
+.topbar .status:empty{display:none}
+.topbar .toolbar{margin:8px 0 0}
+.controls{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;justify-content:space-between}
+.controls .btn{font-size:14px;padding:5px 14px}
+.seg{display:inline-flex;border:1.5px solid var(--ink);border-radius:999px;overflow:hidden}
+.seg button{border:none;background:transparent;padding:5px 14px;font-weight:500;font-variant-numeric:tabular-nums}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--wall)}
+.ctrl-group{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.status{font-size:14px;color:var(--ink-soft);min-height:1.4em}
+
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:8px 12px;margin-bottom:12px}
+.toolbar strong{margin-right:6px}
+
+/* shelf */
+.shelf{margin-top:18px;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:14px 16px}
+.shelf-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 16px;align-items:baseline;margin-bottom:10px}
+.shelf-head h2{font-size:24px}
+.shelf-head p{margin:0;color:var(--ink-soft);font-size:15px}
+.shelf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px}
+.pick{display:flex;flex-direction:column;align-items:center;gap:4px;border:1.5px solid transparent;border-radius:10px;padding:8px 4px 6px;background:transparent;text-align:center}
+.pick svg{width:44px;height:auto}
+.pick span{font-size:13px;line-height:1.2}
+.pick:hover{border-color:var(--line)}
+.pick[aria-pressed="true"]{border-color:var(--kumkum);background:color-mix(in srgb,var(--kumkum) 9%,transparent)}
+
+/* order note */
+.order{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:4px 24px;margin-top:22px;font-size:15px}
+.order div{display:flex;gap:10px;align-items:baseline;border-top:1px solid var(--line);padding-top:6px}
+.order b{font-family:var(--f-display);font-weight:400;color:var(--kumkum);min-width:4.5em;font-variant-numeric:tabular-nums}
+
+/* nights */
+section.block{margin-top:56px}
+.block-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 16px;margin-bottom:16px}
+.block-head h2{font-size:clamp(28px,4vw,38px)}
+.block-head p{margin:0;color:var(--ink-soft);max-width:52ch}
+.nights{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1.5px solid var(--line);border-radius:14px;overflow:hidden}
+.trio{padding:16px;display:grid;gap:10px;align-content:start;min-width:0}
+.trio + .trio{border-left:1.5px solid var(--line)}
+.trio h3{font-size:24px}
+.trio .ta{color:var(--kumkum);font-size:15px}
+.trio .about{font-size:15px;color:var(--ink-soft);margin:0}
+.night{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;padding:8px 10px;border-radius:10px}
+.night .n{font-family:var(--f-display);font-size:26px;line-height:1;color:var(--kumkum);grid-row:span 2;font-variant-numeric:tabular-nums;min-width:1.2em;text-align:center}
+.night .d{font-size:13px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.night .s{font-size:15px}
+.night.today{background:var(--manjal);color:#3a1d12}
+.night.today .n{color:#7d0f1f}
+.night.today .d{color:#5a3a22}
+.night.past{opacity:.6}
+.vijaya{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px 18px;align-items:baseline;padding:12px 16px;border:1.5px dashed var(--line);border-radius:12px}
+.vijaya h3{font-size:22px}
+.vijaya p{margin:0;color:var(--ink-soft);font-size:15px;flex:1 1 300px;min-width:0}
+
+/* visitors */
+.visit{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:24px}
+.vform{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:10px;align-content:start}
+.vform label{font-size:14px;font-weight:500}
+.vform input,.vform textarea{font:inherit;width:100%;padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;background:var(--wall);color:var(--ink)}
+.vform textarea{min-height:76px;resize:vertical}
+.thamboolam{display:none;gap:12px;align-items:center;border-top:1px solid var(--line);padding-top:12px}
+.thamboolam.show{display:flex}
+.thamboolam svg{width:72px;flex:none}
+.thamboolam p{margin:0;font-size:15px}
+.book{display:grid;gap:0;align-content:start}
+.entry{padding:10px 0;border-bottom:1px solid var(--line);display:grid;gap:2px}
+.entry .who{font-weight:700}
+.entry .when{font-size:13px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.entry .msg{margin:0;overflow-wrap:anywhere}
+.empty{color:var(--ink-soft);font-size:15px;padding:12px 0}
+footer{margin-top:56px;text-align:center;font-size:14px;color:var(--ink-soft)}
+
+/* puja */
+.altar{position:relative}
+#fx{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:5}
+.aarti{position:absolute;left:50%;top:50%;width:clamp(70px,11vw,104px);z-index:6;touch-action:none;cursor:grab;transform:translate(-50%,-62%);background:none;border:none;padding:0;line-height:0}
+.aarti:active{cursor:grabbing}
+.aarti svg{width:100%;height:auto;overflow:visible;display:block}
+.aarti .fl{transform-origin:50% 100%;animation:flicker 1.1s ease-in-out infinite alternate}
+@media (prefers-reduced-motion:reduce){.aarti .fl{animation:none}}
+.puja{position:sticky;bottom:0;z-index:20;display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;justify-content:center;margin-top:10px;
+  padding:10px 12px calc(10px + env(safe-area-inset-bottom, 0px));border:1.5px solid var(--line);border-radius:14px 14px 0 0;background:var(--card);
+  box-shadow:0 -6px 18px color-mix(in srgb,var(--ink) 14%,transparent)}
+.puja .btn{font-size:15px;padding:7px 16px}
+.puja .hint{flex-basis:100%;text-align:center;font-size:13px;color:var(--ink-soft)}
+.puja label{display:inline-flex;gap:6px;align-items:center;font-size:14px;color:var(--ink-soft)}
+.aarti-msg{flex-basis:100%;text-align:center;font-size:15px;color:var(--kumkum);font-weight:500}
+.aarti-msg:empty{display:none}
+.floor{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:8px;padding:8px;align-items:center;margin-inline:0}
+.kolam-wrap{position:relative;border-radius:10px;overflow:hidden;min-width:0}
+.floor canvas{max-height:190px;object-fit:cover}
+.setup{position:relative;min-width:0;border-radius:10px;overflow:hidden;box-shadow:0 2px 0 color-mix(in srgb,#000 25%,transparent)}
+.setup svg{width:100%;height:auto;display:block}
+.setup-ctl{position:absolute;left:6px;top:6px;right:6px;display:flex;flex-wrap:wrap;gap:4px;align-items:center;z-index:2}
+.setup-ctl.bottom{top:auto;bottom:6px}
+.setup-name{font-family:var(--f-display);font-size:13px;color:#fff8ea;background:rgba(40,16,8,.6);border-radius:999px;padding:1px 10px}
+.sbtn{font-size:12px;line-height:1.3;padding:3px 10px;border-radius:999px;border:1px solid rgba(255,248,234,.75);background:rgba(30,12,6,.55);color:#fff8ea}
+.sbtn:hover{background:rgba(30,12,6,.8)}
+.sbtn[aria-pressed="true"]{background:#e8b931;border-color:#e8b931;color:#3a1d12}
+.park .dusk{opacity:0;transition:opacity 1s}
+.park.evening .dusk{opacity:.55}
+.park .pglow{opacity:0;transition:opacity 1s}
+.park.evening .pglow{opacity:1}
+.park .fairy{opacity:.35;transition:opacity 1s}
+.park.evening .fairy{opacity:1}
+.swing{transform-box:view-box;transform-origin:85px 48px}
+.seesaw{transform-box:view-box;transform-origin:110px 119px}
+.curtain{transform-box:view-box;transition:transform 1.3s cubic-bezier(.6,.05,.3,1)}
+.cl{transform-origin:30px 0}
+.cr{transform-origin:270px 0}
+.theatre.open .cl,.theatre.open .cr{transform:scaleX(.13)}
+.theatre .spot{opacity:0;transition:opacity .8s .6s}
+.theatre.open .spot{opacity:1}
+.sway{transform-box:view-box;transform-origin:150px 122px}
+@media (prefers-reduced-motion:no-preference){
+  .swing{animation:swingA 2.4s ease-in-out infinite alternate}
+  .seesaw{animation:seesawA 2s ease-in-out infinite alternate}
+  .bob{animation:bobA 2.2s ease-in-out infinite alternate}
+  .spray{animation:sprayA 1.2s ease-in-out infinite alternate}
+  .park.evening .fairy{animation:twinkle 1.4s ease-in-out infinite alternate}
+  .theatre.open .sway{animation:swayA 1.6s ease-in-out infinite alternate}
+  .theatre.open .bob2{animation:bobA 1.1s ease-in-out infinite alternate}
+}
+@keyframes swingA{from{transform:rotate(-20deg)}to{transform:rotate(20deg)}}
+@keyframes seesawA{from{transform:rotate(-9deg)}to{transform:rotate(9deg)}}
+@keyframes bobA{from{transform:translateY(-1.5px)}to{transform:translateY(1.5px)}}
+@keyframes sprayA{from{opacity:.5}to{opacity:1}}
+@keyframes twinkle{from{opacity:.45}to{opacity:1}}
+@keyframes swayA{0%{transform:rotate(-4deg) translateX(-6px)}100%{transform:rotate(4deg) translateX(6px)}}
+@media (max-width:760px){
+  .floor{grid-template-columns:1fr 1fr}
+  .kolam-wrap{grid-column:1/-1;order:-1}
+  .setup-ctl.bottom .sbtn{font-size:11px;padding:2px 7px}
+}
+@media (max-width:560px){
+  .puja{gap:6px}
+  .puja .btn{font-size:14px;padding:6px 12px}
+  .puja .hint{display:none}
+  .lamp{width:30px}
+}
+.shelf-cat{font-family:var(--f-display);font-size:18px;color:var(--kumkum);margin:14px 0 6px}
+.shelf-cat:first-child{margin-top:0}
+
+@media (max-width:760px){
+  .nights{grid-template-columns:1fr}
+  .trio + .trio{border-left:none;border-top:1.5px solid var(--line)}
+  .visit{grid-template-columns:1fr}
+  .step .tier-no{display:none}
+}
+</style>
+
+<div class="wrap">
+  <div class="thoranam" aria-hidden="true"><canvas id="thoranam"></canvas></div>
+
+  <header class="hero">
+    <div class="ta" lang="ta">நவராத்திரி கொலு</div>
+    <h1 id="hostTitle">Welcome to <span>our Golu</span></h1>
+    <p id="hostNote">Come in, see the steps, light a lamp and sign the visitor book. Every guest goes home with thamboolam.</p>
+    <div class="tonight"><span class="chip" id="tonightChip">Navaratri 2026</span><span id="tonightText"></span></div>
+    <div id="hostEdit" hidden>
+      <button class="edit-host" id="editHostBtn" type="button">Edit the welcome</button>
+      <form class="host-form" id="hostForm" hidden>
+        <input id="hostName" maxlength="60" placeholder="Family name, e.g. The Raman family" aria-label="Whose golu is this">
+        <input id="hostMsg" maxlength="160" placeholder="A line for your guests" aria-label="Welcome line">
+        <button class="btn solid" type="submit">Save</button>
+      </form>
+    </div>
+  </header>
+
+  <section class="room" aria-label="The golu">
+  <div class="topbar">
+  <div class="controls">
+    <div class="ctrl-group">
+      <span class="label" id="stepsLabel">Padi</span>
+      <div class="seg" role="group" aria-labelledby="stepsLabel" id="stepSeg">
+        <button type="button" data-n="3">3</button><button type="button" data-n="5">5</button><button type="button" data-n="7">7</button><button type="button" data-n="9">9</button>
+      </div>
+    </div>
+    <div class="ctrl-group">
+      <button class="btn" type="button" id="resetBtn">Arrange traditionally</button>
+      <button class="btn" type="button" id="clearBtn">Clear steps</button>
+      <button class="btn solid" type="button" id="saveBtn" hidden>Save for visitors</button>
+    </div>
+  </div>
+  <div class="status" id="status" role="status"></div>
+
+  <div class="toolbar" id="toolbar" hidden>
+    <strong id="selName"></strong>
+    <button class="btn" type="button" data-act="left">Move left</button>
+    <button class="btn" type="button" data-act="right">Move right</button>
+    <button class="btn" type="button" data-act="up">Up a step</button>
+    <button class="btn" type="button" data-act="down">Down a step</button>
+    <button class="btn" type="button" data-act="remove">Back in the box</button>
+    <button class="btn" type="button" data-act="done">Done</button>
+  </div>
+  </div>
+
+  <div class="altar" id="altar">
+  <div class="stage">
+    <button class="lamp" type="button" aria-label="Light or put out the left lamp" data-lamp="0"></button>
+    <div class="golu" id="golu" aria-label="Golu steps"></div>
+    <button class="lamp" type="button" aria-label="Light or put out the right lamp" data-lamp="1"></button>
+  </div>
+  <div class="floor">
+    <div class="setup park" id="park">
+      <div class="setup-ctl"><span class="setup-name">Poonga</span><button class="sbtn" type="button" id="eveningBtn" aria-pressed="false">Evening lights</button></div>
+    </div>
+    <div class="kolam-wrap">
+      <canvas id="kolam" width="600" height="300" aria-label="Kolam drawn on the floor in front of the golu" role="img"></canvas>
+      <div class="kolam-cap"><button class="btn" type="button" id="kolamBtn">New kolam</button></div>
+    </div>
+    <div class="setup theatre" id="theatre">
+      <div class="setup-ctl"><span class="setup-name">Kalai arangam</span><button class="sbtn" type="button" id="curtainBtn" aria-pressed="false">Open curtain</button></div>
+      <div class="setup-ctl bottom" role="group" aria-label="Choose the show">
+        <button class="sbtn" type="button" data-show="dance" aria-pressed="true">Dance</button>
+        <button class="sbtn" type="button" data-show="puppets" aria-pressed="false">Bommalattam</button>
+        <button class="sbtn" type="button" data-show="kutcheri" aria-pressed="false">Kutcheri</button>
+      </div>
+    </div>
+  </div>
+  <canvas id="fx" aria-hidden="true"></canvas>
+  <button class="aarti" id="aarti" type="button" hidden aria-label="Aarti plate. Drag it in circles in front of the golu.">
+    <svg viewBox="0 0 100 80" aria-hidden="true">
+      <defs><radialGradient id="ag"><stop offset="0" stop-color="#ffd76a" stop-opacity=".9"/><stop offset="1" stop-color="#ffd76a" stop-opacity="0"/></radialGradient></defs>
+      <circle cx="50" cy="34" r="30" fill="url(#ag)"/>
+      <ellipse cx="50" cy="62" rx="46" ry="14" fill="#b8892a"/>
+      <ellipse cx="50" cy="58" rx="46" ry="14" fill="#e2b543" stroke="#9a6f0c" stroke-width="1.2"/>
+      <ellipse cx="50" cy="58" rx="36" ry="10" fill="none" stroke="#c9a12e" stroke-width="1" stroke-dasharray="3 3"/>
+      <circle cx="22" cy="58" r="5" fill="#c0142b"/><circle cx="78" cy="58" r="5" fill="#f2c94c"/>
+      <circle cx="34" cy="66" r="3.4" fill="#f39c12"/><circle cx="66" cy="66" r="3.4" fill="#fffdf5" stroke="#d9cdb6" stroke-width=".6"/>
+      <path d="M40 60 L60 60 L56 50 L44 50 Z" fill="#d8b03a" stroke="#9a6f0c" stroke-width="1"/>
+      <rect x="45" y="46" width="10" height="5" rx="1.5" fill="#f6f1e6"/>
+      <g class="fl"><path d="M50 47 Q40 34 50 12 Q60 34 50 47 Z" fill="#ff9f1c"/><path d="M50 46 Q45 37 50 24 Q55 37 50 46 Z" fill="#ffe08a"/></g>
+    </svg>
+  </button>
+  </div>
+
+  <div class="puja" aria-label="Offerings">
+    <div class="aarti-msg" id="aartiMsg" role="status"></div>
+    <button class="btn solid" type="button" id="flowerBtn">Shower flowers</button>
+    <button class="btn solid" type="button" id="aartiBtn">Wave the aarti</button>
+    <button class="btn" type="button" id="lampBtn2">Light the lamps</button>
+    <button class="btn" type="button" id="bellBtn">Ring the bell</button>
+    <button class="btn" type="button" id="sweepBtn">Sweep up</button>
+    <label for="soundChk"><input type="checkbox" id="soundChk" checked> Sound</label>
+    <div class="hint">Tap the golu to throw flowers. Drag the aarti plate clockwise; the bell rings each round.</div>
+  </div>
+  </section>
+
+  <div class="shelf">
+    <div class="shelf-head">
+      <h2>The bommai box</h2>
+      <p id="shelfHint">Pick a doll, then tap a step to place it. Tap a doll on the steps to move it.</p>
+    </div>
+    <div id="shelf"></div>
+  </div>
+
+  <div class="order" aria-label="Traditional order of the steps">
+    <div><b>Top</b><span>Deities, with the marapachi couple keeping watch</span></div>
+    <div><b>Middle</b><span>Temples, saints, weddings and kings</span></div>
+    <div><b>Lower</b><span>Townsfolk: the Chettiar shop, vendors, families</span></div>
+    <div><b>Bottom</b><span>Animals and plants. The steps climb from the earthly to the divine.</span></div>
+  </div>
+
+  <section class="block" id="nights">
+    <div class="block-head">
+      <h2>Nine nights</h2>
+      <p>Three nights each for Durga, Lakshmi and Saraswathi. The sundal list is one common rotation; every family has its own.</p>
+    </div>
+    <div class="nights" id="nightGrid"></div>
+    <div class="vijaya">
+      <h3>Vijayadashami</h3>
+      <span class="chip">Tue 20 Oct</span>
+      <p>The tenth day. Children begin learning (vidyarambham), and one doll on each step is laid down to rest, so the golu can be packed away until next year.</p>
+    </div>
+  </section>
+
+  <section class="block" id="visitors">
+    <div class="block-head">
+      <h2>Visitor book</h2>
+      <p>Signing in is how you receive thamboolam: betel leaves, areca nut, turmeric, kumkum, a coconut and a small gift.</p>
+    </div>
+    <div class="visit">
+      <form class="vform" id="vform">
+        <label for="vname">Your name or family</label>
+        <input id="vname" maxlength="60" required placeholder="The Krishnan family">
+        <label for="vmsg">A wish or the song you sang</label>
+        <textarea id="vmsg" maxlength="280" placeholder="Sang a Dikshitar kriti. The kalyanam set is beautiful!"></textarea>
+        <button class="btn solid" type="submit" id="vsubmit">Sign and take thamboolam</button>
+        <div class="status" id="vstatus" role="status"></div>
+        <div class="thamboolam" id="thamboolam">
+          <svg viewBox="0 0 80 80" aria-hidden="true">
+            <path d="M10 34 Q40 22 70 34 L64 72 Q40 78 16 72 Z" fill="#e8b931" stroke="#a3172b" stroke-width="2"/>
+            <path d="M14 46 Q40 54 66 46" fill="none" stroke="#a3172b" stroke-width="3"/>
+            <path d="M24 30 Q30 8 44 14 Q36 22 34 32 Z" fill="#3f7a2e"/>
+            <path d="M40 30 Q52 6 62 18 Q52 22 48 32 Z" fill="#4e8f37"/>
+            <circle cx="40" cy="28" r="7" fill="#8b5a2b"/>
+            <circle cx="28" cy="62" r="3" fill="#a3172b"/><circle cx="52" cy="62" r="3" fill="#d4a017"/>
+          </svg>
+          <p><strong>Thamboolam for you.</strong> <span id="thamboolamText">Thank you for coming.</span></p>
+        </div>
+      </form>
+      <div class="book" id="book" aria-live="polite"><div class="empty">The visitor book is open. Be the first to sign it.</div></div>
+    </div>
+  </section>
+
+  <footer><span class="ta" lang="ta">சுபம்</span> · Navaratri, 11 to 19 October 2026. Check your local panchangam for exact timings.</footer>
+</div>
+
+<script>
+(() => {
+"use strict";
+
+/* ---------- doll drawing ---------- */
+const GOLD="#d4a017", SKIN="#e2a676", SKIN_D="#b9784a", HAIR="#2a1a14", WOOD="#c27b43";
+function face(cx,cy,r,skin){
+  return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${skin}"/>
+  <circle cx="${cx-r*.38}" cy="${cy-r*.05}" r="${r*.12}" fill="#1b0f0a"/><circle cx="${cx+r*.38}" cy="${cy-r*.05}" r="${r*.12}" fill="#1b0f0a"/>
+  <circle cx="${cx}" cy="${cy-r*.55}" r="${r*.13}" fill="#c0142b"/>
+  <path d="M${cx-r*.3} ${cy+r*.4} Q${cx} ${cy+r*.62} ${cx+r*.3} ${cy+r*.4}" stroke="#7a2a1a" stroke-width="${r*.12}" fill="none" stroke-linecap="round"/>`;
+}
+function figure(o){
+  const skin=o.skin||SKIN, g=o.garment, a=o.accent||GOLD, t=o.top||g;
+  let s="";
+  if(o.halo) s+=`<circle cx="30" cy="30" r="19" fill="${a}" opacity=".28"/><circle cx="30" cy="30" r="19" fill="none" stroke="${GOLD}" stroke-width="1.5"/>`;
+  if(o.monkey) s+=`<path d="M38 82 Q57 78 53 54 Q51 45 45 47" stroke="${skin}" stroke-width="2.6" fill="none" stroke-linecap="round"/>`;
+  if(o.arms>=4){
+    s+=`<path d="M23 46 L9 34 M37 46 L51 34" stroke="${skin}" stroke-width="3.2" stroke-linecap="round"/>`;
+    s+=`<circle cx="9" cy="33" r="2.4" fill="${skin}"/><circle cx="51" cy="33" r="2.4" fill="${skin}"/>`;
+  }
+  if(o.arms>=8){
+    s+=`<path d="M23 48 L6 46 M37 48 L54 46 M23 44 L13 24 M37 44 L47 24" stroke="${skin}" stroke-width="2.6" stroke-linecap="round"/>`;
+  }
+  // lower garment
+  if(o.veshti){
+    s+=`<path d="M21 58 L19 97 L41 97 L39 58 Z" fill="${g}"/><path d="M30 60 L30 97" stroke="${a}" stroke-width="1.6"/>`;
+    s+=`<rect x="19" y="93" width="22" height="3" fill="${a}"/>`;
+    if(o.tiger) s+=`<path d="M21 64 L26 66 M34 63 L39 66 M20.5 74 L25 76 M35 73 L39.5 75 M20 84 L25 86 M35 83 L40 85" stroke="#2a1a14" stroke-width="1.5" stroke-linecap="round"/>`;
+  } else {
+    s+=`<path d="M21 57 Q14 80 11 97 L49 97 Q46 80 39 57 Z" fill="${g}"/>`;
+    s+=`<path d="M11.5 92 L48.5 92" stroke="${a}" stroke-width="3"/><path d="M12 95.5 L48 95.5" stroke="${a}" stroke-width="1"/>`;
+    s+=`<path d="M24 58 Q22 78 18 96" stroke="${a}" stroke-width="1.4" fill="none" opacity=".8"/>`;
+    if(o.fan){ s+=`<path d="M24 62 L17 88 L43 88 L36 62 Z" fill="${a}"/>`; for(const x of [21,26,30,34,39]) s+=`<path d="M30 63 L${x} 88" stroke="${g}" stroke-width=".8"/>`; }
+  }
+  // torso
+  if(o.belly){
+    s+=`<ellipse cx="30" cy="52" rx="12" ry="11" fill="${skin}"/><path d="M19 47 Q30 52 41 47" stroke="${t}" stroke-width="3" fill="none"/>`;
+  } else {
+    s+=`<path d="M21 58 L22.5 43 Q30 38.5 37.5 43 L39 58 Z" fill="${t}"/>`;
+    if(!o.veshti) s+=`<path d="M22.5 43 L37 57" stroke="${a}" stroke-width="2.4"/>`;
+  }
+  // arms
+  if(o.pose==="dance") s+=`<path d="M23 44 Q15 43 9 47 M37 44 Q43 38 45 30" stroke="${skin}" stroke-width="3.2" fill="none" stroke-linecap="round"/><circle cx="8.5" cy="47.5" r="2.2" fill="${skin}"/><circle cx="45.5" cy="29" r="2.2" fill="${skin}"/><circle cx="45.5" cy="29" r="1" fill="#c0142b"/>`;
+  else if(o.prop==="flute") s+=`<path d="M23 44 Q24 50 30 47 Q34 45 37 41.5 M37 44 Q43 49 47.5 44.5" stroke="${skin}" stroke-width="3.2" fill="none" stroke-linecap="round"/>`;
+  else s+=`<path d="M23 44 Q18 52 25 56 M37 44 Q42 52 35 56" stroke="${skin}" stroke-width="3.4" fill="none" stroke-linecap="round"/>`;
+  s+=`<path d="M25 41.5 Q30 46 35 41.5" stroke="${GOLD}" stroke-width="1.6" fill="none"/>`;
+  // props
+  if(o.prop==="lotus") s+=`<g transform="translate(30 56)"><path d="M0 0 Q-6 -4 -5 -10 Q-1 -6 0 0 Q1 -6 5 -10 Q6 -4 0 0 Z" fill="#f18aa6"/><path d="M0 0 Q-2 -7 0 -12 Q2 -7 0 0Z" fill="#f6b3c4"/></g>`;
+  if(o.prop==="veena") s+=`<path d="M8 72 L52 44" stroke="#7a3f1d" stroke-width="2.6"/><circle cx="12" cy="70" r="6" fill="#8a4a22"/><circle cx="49" cy="46" r="3.5" fill="#8a4a22"/>`;
+  if(o.prop==="trident") s+=`<path d="M51 98 L51 22 M45 22 Q45 30 51 30 Q57 30 57 22 M51 22 L51 16" stroke="#9aa0a6" stroke-width="1.8" fill="none"/>`;
+  if(o.prop==="vel") s+=`<path d="M50 98 L50 26" stroke="#8a5a2b" stroke-width="1.8"/><path d="M50 9 Q56 18 50 27 Q44 18 50 9 Z" fill="${GOLD}" stroke="#9a6f0c" stroke-width=".6"/>`;
+  if(o.prop==="bow") s+=`<path d="M47 18 Q60 50 47 82" stroke="#7a3f1d" stroke-width="2.4" fill="none"/><path d="M47 18 L47 82" stroke="#e9e1d0" stroke-width=".7"/>`;
+  if(o.prop==="gada") s+=`<path d="M40 60 L49 30" stroke="#9a6f0c" stroke-width="2.4"/><circle cx="50.5" cy="25" r="6" fill="${GOLD}" stroke="#9a6f0c" stroke-width=".8"/><path d="M50.5 19 L50.5 16" stroke="${GOLD}" stroke-width="2"/>`;
+  if(o.prop==="parrot") s+=`<g transform="translate(14 42)"><path d="M0 4 L1.5 12" stroke="#1f7a35" stroke-width="1.6"/><ellipse cx="0" cy="0" rx="3.6" ry="5.2" fill="#2fa04a"/><circle cx="0" cy="-5.2" r="2.7" fill="#2fa04a"/><path d="M-2.3 -5.2 L-4.6 -4 L-2.3 -3.2 Z" fill="#e0412b"/></g>`;
+  if(o.prop==="chakra") s+=`<circle cx="9" cy="28" r="4" fill="none" stroke="${GOLD}" stroke-width="1.8"/><path d="M51 34 q-3 -6 0 -9 q3 3 0 9z" fill="#f4efe6" stroke="#9a8f7e" stroke-width=".6"/>`;
+  // head
+  if(o.elephant){
+    s+=`<ellipse cx="19" cy="31" rx="6" ry="8" fill="${skin}" stroke="${SKIN_D}" stroke-width=".8"/><ellipse cx="41" cy="31" rx="6" ry="8" fill="${skin}" stroke="${SKIN_D}" stroke-width=".8"/>`;
+    s+=`<circle cx="30" cy="31" r="9" fill="${skin}"/><path d="M30 34 Q30 46 25 47 Q22 47 23 44" stroke="${skin}" stroke-width="4.4" fill="none" stroke-linecap="round"/>`;
+    s+=`<circle cx="26.5" cy="30" r="1" fill="#1b0f0a"/><circle cx="33.5" cy="30" r="1" fill="#1b0f0a"/><path d="M27 25 L33 25" stroke="#f4efe6" stroke-width="1.4"/><circle cx="30" cy="26.5" r="1" fill="#c0142b"/>`;
+  } else if(o.monkey){
+    s+=`<circle cx="21.6" cy="32" r="2.6" fill="${skin}"/><circle cx="38.4" cy="32" r="2.6" fill="${skin}"/><circle cx="30" cy="32" r="8.2" fill="${skin}"/>
+    <ellipse cx="30" cy="35.6" rx="5.4" ry="4" fill="#f0c9a0"/><circle cx="27" cy="30.4" r="1" fill="#1b0f0a"/><circle cx="33" cy="30.4" r="1" fill="#1b0f0a"/>
+    <path d="M28 37 Q30 38.6 32 37" stroke="#7a2a1a" stroke-width=".9" fill="none"/><path d="M30 25 L30 28" stroke="#c0142b" stroke-width="1.4"/>`;
+  } else {
+    if(o.hair==="andal") s+=`<circle cx="21" cy="24" r="5.4" fill="${HAIR}"/><circle cx="18" cy="21" r="1.4" fill="#f6f1e6"/><circle cx="21" cy="19" r="1.4" fill="#f6f1e6"/><circle cx="24" cy="20.5" r="1.4" fill="#e05a7a"/>`;
+    if(o.hair!=="none") s+=`<circle cx="30" cy="31" r="8.6" fill="${HAIR}"/>`;
+    if(o.hair==="bun") s+=`<circle cx="30" cy="22" r="4.6" fill="${HAIR}"/><path d="M26 21 Q30 18 34 21" stroke="#f2f0ea" stroke-width="1.4" fill="none"/>`;
+    s+=face(30,32.5,7.6,skin);
+  }
+  if(o.crown==="kireedam") s+=`<path d="M22.5 27 L24 14 L30 5 L36 14 L37.5 27 Z" fill="${GOLD}" stroke="#9a6f0c" stroke-width=".8"/><circle cx="30" cy="20" r="2" fill="#c0142b"/><circle cx="30" cy="9.5" r="1.2" fill="#2f8a5b"/>`;
+  if(o.crown==="small") s+=`<path d="M23 27 L24.5 19 L27.5 22 L30 15 L32.5 22 L35.5 19 L37 27 Z" fill="${GOLD}"/>`;
+  if(o.crown==="turban") s+=`<path d="M21.5 28 Q22 18 30 18 Q38 18 38.5 28 Q30 24 21.5 28 Z" fill="${a}"/><circle cx="30" cy="22" r="1.4" fill="${GOLD}"/>`;
+  if(o.crown==="peacock") s+=`<path d="M33 24 Q36 12 40 9" stroke="#1e6e6a" stroke-width="2" fill="none"/><circle cx="40" cy="9" r="2.6" fill="#1e5aa8" stroke="#2f8a5b" stroke-width="1"/><path d="M23 26 Q30 21 37 26" stroke="${GOLD}" stroke-width="2.2" fill="none"/>`;
+  if(o.crown==="mangalyam") s+=`<path d="M22 28 Q30 23 38 28" stroke="${GOLD}" stroke-width="1.6" fill="none"/><circle cx="30" cy="25" r="1.3" fill="#c0142b"/><path d="M24 42 Q30 49 36 42" stroke="#e7c34a" stroke-width="1" fill="none"/>`;
+  // flute: one end at the lips, held out to his side by both hands
+  if(o.prop==="flute") s+=`<path d="M31.5 38.6 L56 45.5" stroke="#7a4a1d" stroke-width="2.1" stroke-linecap="round"/>
+    <circle cx="44" cy="42.2" r=".45" fill="#3a1d12"/><circle cx="51" cy="44.2" r=".45" fill="#3a1d12"/><path d="M54 44.9 L54 47.5" stroke="#a3172b" stroke-width=".8"/>
+    <circle cx="37" cy="40.8" r="2.1" fill="${skin}"/><circle cx="47.5" cy="43.7" r="2.1" fill="${skin}"/>`;
+  if(o.crown==="jata") s+=`<path d="M23.5 27 Q21 14 30 9 Q39 14 36.5 27 Z" fill="${HAIR}"/><path d="M34 12 a4.5 4.5 0 1 0 3.4 6.2 a3.4 3.4 0 1 1 -3.4 -6.2 Z" fill="#f4efe6"/><path d="M28 10 Q26 5 29 1" stroke="#6fb3e0" stroke-width="1.6" fill="none"/>`;
+  if(o.prop==="basket") s+=`<path d="M19 23 L41 23 L38 15 L22 15 Z" fill="#b8863b" stroke="#7a5a2a" stroke-width=".8"/><path d="M21 19 L39 19" stroke="#7a5a2a" stroke-width=".6"/><circle cx="25" cy="13.5" r="3" fill="#d24a2a"/><circle cx="30" cy="12.5" r="3.2" fill="#4e8f37"/><circle cx="35" cy="13.5" r="3" fill="#e8b931"/>`;
+  if(o.garland) s+=`<path d="M22 42 Q30 64 38 42" stroke="#f3f0e6" stroke-width="2.6" fill="none" stroke-dasharray="1.5 1.2"/><path d="M22 42 Q30 64 38 42" stroke="#e05a7a" stroke-width="1.2" fill="none" stroke-dasharray="1 3"/>`;
+  return s;
+}
+function marapachi(male){
+  const paint=male?"#1f4fa0":"#b3123a";
+  return `<path d="M22 97 L20 60 Q20 46 30 44 Q40 46 40 60 L38 97 Z" fill="${WOOD}" stroke="#8a4f22" stroke-width="1"/>
+  <path d="M21 66 L39 66 L38.6 92 L21.4 92 Z" fill="${paint}"/><path d="M21 70 L39 70 M21.3 88 L38.7 88" stroke="${GOLD}" stroke-width="1.4"/>
+  <circle cx="30" cy="33" r="9" fill="${WOOD}" stroke="#8a4f22" stroke-width="1"/>
+  ${male?`<path d="M21 30 Q30 18 39 30 Z" fill="${paint}"/>`:`<path d="M21.5 32 Q22 22 30 22 Q38 22 38.5 32 Q34 26 30 27 Q26 26 21.5 32Z" fill="#1d120c"/><circle cx="30" cy="20" r="3.4" fill="#1d120c"/>`}
+  <circle cx="26.5" cy="34" r="1.2" fill="#1b0f0a"/><circle cx="33.5" cy="34" r="1.2" fill="#1b0f0a"/><circle cx="30" cy="29.5" r="1.1" fill="#c0142b"/>
+  <path d="M27.5 38 Q30 39.6 32.5 38" stroke="#7a2a1a" stroke-width="1" fill="none"/>
+  <path d="M25 48 Q30 52 35 48" stroke="${GOLD}" stroke-width="1.6" fill="none"/>`;
+}
+function gopuram(){
+  let s=`<rect x="12" y="84" width="36" height="13" fill="#e9d9b0" stroke="#9a7b3c" stroke-width=".8"/><path d="M26 97 L26 88 Q30 84 34 88 L34 97 Z" fill="#3a1d12"/>`;
+  const tiers=[[14,46,70,84],[16,44,57,70],[18.5,41.5,45,57],[21,39,34,45],[23.5,36.5,24,34]];
+  const cols=["#e2b04a","#d65a3a","#3f8c8c","#e2b04a","#d65a3a"];
+  tiers.forEach(([l,r,t,b],i)=>{ s+=`<path d="M${l} ${b} L${l+2} ${t} L${r-2} ${t} L${r} ${b} Z" fill="${cols[i]}" stroke="#7a4a1a" stroke-width=".7"/>`;
+    for(let x=l+4;x<r-3;x+=4.2) s+=`<rect x="${x}" y="${t+2}" width="1.6" height="${b-t-4}" fill="#fff4d6" opacity=".55"/>`; });
+  s+=`<path d="M22 24 Q30 14 38 24 Z" fill="#e2b04a" stroke="#7a4a1a" stroke-width=".7"/><path d="M30 14 L30 7" stroke="${GOLD}" stroke-width="2"/><circle cx="30" cy="6" r="1.8" fill="${GOLD}"/>`;
+  return s;
+}
+function elephant(){
+  return `<ellipse cx="32" cy="72" rx="20" ry="13" fill="#8d8f96"/>
+  <rect x="17" y="78" width="6" height="19" rx="2" fill="#7e8087"/><rect x="26" y="80" width="6" height="17" rx="2" fill="#8d8f96"/><rect x="36" y="80" width="6" height="17" rx="2" fill="#7e8087"/><rect x="44" y="78" width="6" height="19" rx="2" fill="#8d8f96"/>
+  <path d="M22 60 L42 60 L44 80 L20 80 Z" fill="#a3172b"/><path d="M20 80 L44 80" stroke="${GOLD}" stroke-width="2"/><path d="M22 66 L42 66" stroke="${GOLD}" stroke-width="1"/>
+  <circle cx="14" cy="66" r="10" fill="#8d8f96"/><ellipse cx="19" cy="64" rx="5" ry="8" fill="#7e8087"/>
+  <path d="M8 70 Q4 84 9 92 Q12 94 12 90" stroke="#8d8f96" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M8 60 L14 56 L20 60 L14 68 Z" fill="${GOLD}"/><circle cx="11" cy="64" r="1.2" fill="#1b0f0a"/><path d="M10 73 L4 76" stroke="#f4efe6" stroke-width="2" stroke-linecap="round"/>`;
+}
+function cow(){
+  return `<ellipse cx="33" cy="74" rx="18" ry="10" fill="#f4efe6" stroke="#bdb3a3" stroke-width=".8"/>
+  <ellipse cx="38" cy="72" rx="5" ry="4" fill="#c9a77a" opacity=".7"/>
+  <rect x="19" y="80" width="4" height="17" fill="#ece5d8"/><rect x="26" y="81" width="4" height="16" fill="#e3dccd"/><rect x="38" y="81" width="4" height="16" fill="#e3dccd"/><rect x="45" y="80" width="4" height="17" fill="#ece5d8"/>
+  <path d="M51 70 Q56 76 54 86" stroke="#d8cfbf" stroke-width="1.6" fill="none"/>
+  <path d="M15 68 Q10 66 9 74 Q10 80 15 78 Z" fill="#f4efe6" stroke="#bdb3a3" stroke-width=".8"/><path d="M13 66 Q10 58 14 56 M18 66 Q20 58 17 56" stroke="#7a5a3a" stroke-width="1.6" fill="none"/>
+  <circle cx="12" cy="70" r=".9" fill="#1b0f0a"/><circle cx="14" cy="68" r="1" fill="#c0142b"/><path d="M14 76 Q20 80 24 74" stroke="${GOLD}" stroke-width="1.4" fill="none"/>
+  <ellipse cx="30" cy="90" rx="7" ry="4" fill="#d7b48a"/><rect x="25" y="92" width="2" height="5" fill="#c9a77a"/><rect x="33" y="92" width="2" height="5" fill="#c9a77a"/><circle cx="23.5" cy="88" r="2.6" fill="#d7b48a"/>`;
+}
+function kalasam(){
+  return `<path d="M17 97 L43 97 L40 92 L20 92 Z" fill="#b78a2a"/>
+  <path d="M30 92 Q12 90 13 74 Q14 62 24 59 L36 59 Q46 62 47 74 Q48 90 30 92 Z" fill="#d8a531" stroke="#9a6f0c" stroke-width="1"/>
+  <path d="M15 74 Q30 80 45 74" stroke="#a3172b" stroke-width="2" fill="none"/><path d="M17 69 Q30 64 43 69" stroke="#fff4d6" stroke-width="1" fill="none" stroke-dasharray="2 2"/>
+  <rect x="22" y="54" width="16" height="6" rx="2" fill="#c99a2c"/>
+  <path d="M24 54 Q12 50 8 40 Q18 42 26 52 Z" fill="#3f7a2e"/><path d="M36 54 Q48 50 52 40 Q42 42 34 52 Z" fill="#3f7a2e"/><path d="M27 52 Q20 42 20 32 Q28 40 30 50 Z" fill="#4e8f37"/><path d="M33 52 Q40 42 40 32 Q32 40 30 50 Z" fill="#4e8f37"/>
+  <ellipse cx="30" cy="44" rx="8" ry="10" fill="#8b5a2b"/><path d="M30 34 Q27 30 30 26 Q33 30 30 34" fill="#a2763f"/><circle cx="30" cy="45" r="2.2" fill="#c0142b"/><path d="M23 44 Q30 48 37 44" stroke="#e8b931" stroke-width="1.6" fill="none"/>`;
+}
+function vilakku(){
+  return `<path d="M20 97 L40 97 L37 91 L23 91 Z" fill="#c9a12e"/><rect x="28.5" y="52" width="3" height="40" fill="#d8b03a"/><circle cx="30" cy="70" r="3" fill="#d8b03a"/>
+  <path d="M16 52 Q30 60 44 52 L42 48 L18 48 Z" fill="#d8b03a" stroke="#9a6f0c" stroke-width=".8"/>
+  <path d="M26 48 L30 30 L34 48 Z" fill="#d8b03a"/><circle cx="30" cy="29" r="2.4" fill="#d8b03a"/>
+  <path d="M18 47 Q17 40 18.5 36 Q20 40 19 47Z" fill="#ffb627"/><path d="M42 47 Q43 40 41.5 36 Q40 40 41 47Z" fill="#ffb627"/>`;
+}
+
+function nandi(){
+  return `<path d="M8 97 L52 97 L50 92 L10 92 Z" fill="#c9a12e"/>
+  <ellipse cx="32" cy="81" rx="20" ry="11" fill="#f1ece2" stroke="#bdb3a3" stroke-width=".8"/><ellipse cx="22" cy="71" rx="7" ry="6" fill="#ebe4d6"/>
+  <path d="M26 72 Q36 68 46 72 L46 83 Q36 87 26 83 Z" fill="#a3172b"/><path d="M26 83 Q36 87 46 83" stroke="${GOLD}" stroke-width="1.6" fill="none"/>
+  <path d="M15 58 Q8 62 9 74 Q12 80 18 77 L21 63 Z" fill="#f1ece2" stroke="#bdb3a3" stroke-width=".8"/>
+  <path d="M12 59 Q9 51 12 47 M18 59 Q20 51 17 47" stroke="#7a5a3a" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <ellipse cx="7.5" cy="63" rx="3" ry="1.6" fill="#e3dccd"/><circle cx="12" cy="66" r=".9" fill="#1b0f0a"/><path d="M13.5 60.5 L13.5 63.5" stroke="#c0142b" stroke-width="1.2"/>
+  <path d="M12 77 Q16 83 20 77" stroke="${GOLD}" stroke-width="1.6" fill="none"/><circle cx="16" cy="83" r="2.4" fill="${GOLD}"/>
+  <ellipse cx="20" cy="90" rx="6" ry="2.6" fill="#e3dccd"/><ellipse cx="46" cy="90" rx="6" ry="2.6" fill="#e3dccd"/>`;
+}
+function peacock(){
+  let s="";
+  for(let i=0;i<9;i++){ const a=(200+i*17.5)*Math.PI/180, x=34+Math.cos(a)*32, y=72+Math.sin(a)*32;
+    s+=`<path d="M34 72 L${x.toFixed(1)} ${y.toFixed(1)}" stroke="#2f8a5b" stroke-width="1.6"/><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4.6" fill="#1f6f8b"/><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.6" fill="#1e3fa8"/><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="1" fill="#e8b931"/>`; }
+  return s+`<path d="M34 86 Q46 92 54 97 L40 97 Z" fill="#2f8a5b"/><path d="M28 88 Q22 76 30 66 Q37 74 35 88 Z" fill="#1e4fb0"/>
+  <path d="M30 68 Q26 57 30 51" stroke="#1e4fb0" stroke-width="4.5" fill="none" stroke-linecap="round"/><circle cx="30" cy="49.5" r="3.3" fill="#1e4fb0"/>
+  <path d="M27 49.5 L23.5 50.5 L27 51.5 Z" fill="#d8b03a"/><circle cx="29.2" cy="48.8" r=".8" fill="#fff"/>
+  <path d="M30 46 L28 40 M30 46 L30 39.5 M30 46 L32 40" stroke="#1e4fb0" stroke-width=".8"/><circle cx="28" cy="40" r="1" fill="#2f8a5b"/><circle cx="30" cy="39.5" r="1" fill="#2f8a5b"/><circle cx="32" cy="40" r="1" fill="#2f8a5b"/>
+  <path d="M30 88 L28 97 M33 88 L35 97" stroke="#b07a3a" stroke-width="1.4"/>`;
+}
+function annam(){
+  return `<path d="M8 97 Q30 84 52 97 Z" fill="#f18aa6"/><path d="M18 97 Q30 88 42 97" fill="#f6b3c4"/>
+  <path d="M12 84 Q14 70 30 70 Q48 70 52 81 Q44 92 26 92 Q14 92 12 84 Z" fill="#f6f1e6" stroke="#cbbfa8" stroke-width=".8"/>
+  <path d="M24 76 Q38 70 48 80 Q38 84 26 82 Z" fill="#e6dccb"/>
+  <path d="M18 78 Q8 60 16 46 Q21 40 25 45" stroke="#cbbfa8" stroke-width="6.4" fill="none" stroke-linecap="round"/>
+  <path d="M18 78 Q8 60 16 46 Q21 40 25 45" stroke="#f6f1e6" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <circle cx="24" cy="46" r="3.6" fill="#f6f1e6"/><path d="M27 45.5 L33 47.5 L27 49 Z" fill="#e0412b"/><circle cx="24.6" cy="45" r=".8" fill="#1b0f0a"/>
+  <path d="M21 43 L22 38 L24 41 L26 38 L27 43 Z" fill="${GOLD}"/>`;
+}
+function tulasi(){
+  let s=`<path d="M16 97 L44 97 L42 90 L18 90 Z" fill="#c95f3a"/><rect x="19" y="62" width="22" height="28" fill="#e0794f" stroke="#9c3b22" stroke-width=".8"/>
+  <path d="M30 67 L35.5 76 L30 85 L24.5 76 Z" fill="none" stroke="#fbf4e6" stroke-width="1.2"/><circle cx="30" cy="76" r="1.5" fill="#c0142b"/>
+  <path d="M15 62 L45 62 L42 56 L18 56 Z" fill="#c95f3a"/><path d="M30 56 L30 28 M30 46 L22 36 M30 42 L38 32" stroke="#4a6b2a" stroke-width="1.4"/>`;
+  [[30,26],[26,30],[34,30],[22,35],[19,38],[38,31],[41,34],[28,38],[33,40],[24,44],[36,46],[30,48]].forEach(([x,y],i)=>{ s+=`<ellipse cx="${x}" cy="${y}" rx="3.4" ry="2.2" fill="${i%2?"#3f7a2e":"#56913c"}" transform="rotate(${(i*37)%80-40} ${x} ${y})"/>`; });
+  return s+`<circle cx="30" cy="23" r="1.4" fill="#7a3f8a"/>`;
+}
+function coconutTree(){
+  let s=`<ellipse cx="28" cy="96" rx="14" ry="2.6" fill="#8a5a2b"/><path d="M27 96 Q23 70 33 38" stroke="#8a5a2b" stroke-width="4.6" fill="none"/>`;
+  for(const y of [88,80,72,64,56,48]) s+=`<path d="M${23+(96-y)*0.12} ${y} l6 -1" stroke="#6b4420" stroke-width=".8"/>`;
+  [[-150,22],[-120,26],[-80,24],[-40,26],[-10,22],[20,18],[160,18]].forEach(([d,l])=>{ const a=d*Math.PI/180, x=33+Math.cos(a)*l, y=37+Math.sin(a)*l*0.8+ (Math.abs(d)<60||Math.abs(d)>120?8:0);
+    s+=`<path d="M33 37 Q${(33+x)/2} ${Math.min(37,y)-8} ${x.toFixed(1)} ${y.toFixed(1)}" stroke="#3f7a2e" stroke-width="3" fill="none" stroke-linecap="round"/>`; });
+  return s+`<circle cx="30" cy="41" r="3" fill="#6b8f2a"/><circle cx="35" cy="42" r="3" fill="#7d5a2b"/><circle cx="32.5" cy="45" r="3" fill="#6b8f2a"/>`;
+}
+function fruits(){
+  return `<path d="M12 64 Q16 52 26 54 Q22 58 20 66 Z" fill="#f2c94c" stroke="#b8902a" stroke-width=".6"/><path d="M16 66 Q20 50 31 52 Q26 57 24 67 Z" fill="#f5d55e" stroke="#b8902a" stroke-width=".6"/>
+  <ellipse cx="36" cy="64" rx="7" ry="5.5" fill="#f39c12"/><path d="M36 58.5 Q38 56 41 57" stroke="#3f7a2e" stroke-width="1.4" fill="none"/>
+  <ellipse cx="45" cy="67" rx="5.5" ry="4.5" fill="#6aa84f"/><circle cx="27" cy="69" r="5" fill="#c0392b"/>
+  <path d="M10 70 L50 70 L45 97 L15 97 Z" fill="#b8863b" stroke="#7a5a2a" stroke-width=".8"/>
+  <path d="M11 77 L49 77 M12.5 84 L47.5 84 M14 91 L46 91" stroke="#8a6230" stroke-width=".9"/><path d="M20 70 L22 97 M30 70 L30 97 M40 70 L38 97" stroke="#8a6230" stroke-width=".7"/>`;
+}
+function dasavatharam(){
+  const cols=["#1e7fa8","#6b8f2a","#8a5a2b","#d35400","#e8b931","#c0392b","#3d6bb3","#2f8a5b","#7b2d8e","#f4efe6"];
+  let s=`<rect x="2" y="70" width="56" height="4" fill="#8a5a2b"/><rect x="2" y="92" width="56" height="5" fill="#8a5a2b"/>`;
+  cols.forEach((c,i)=>{ const row=i<5?0:1, x=8+(i%5)*11, b=row?92:70;
+    s+=`<path d="M${x-4.2} ${b} L${x-2.4} ${b-10} L${x+2.4} ${b-10} L${x+4.2} ${b} Z" fill="${c}" stroke="#7a4a1a" stroke-width=".4"/><circle cx="${x}" cy="${b-12.6}" r="2.8" fill="${i===2||i===3?"#8a6a4a":"#4573bf"}"/><path d="M${x-2.2} ${b-14.6} L${x} ${b-19.5} L${x+2.2} ${b-14.6} Z" fill="${GOLD}"/>`; });
+  return s;
+}
+function mridangam(){
+  let s=`<path d="M8 97 Q10 80 30 78 Q50 80 52 97 Z" fill="#f4efe6" stroke="#d9cdb6" stroke-width=".8"/><path d="M8.5 95 L51.5 95" stroke="${GOLD}" stroke-width="2"/>
+  <path d="M21 80 L23 56 Q30 52 37 56 L39 80 Z" fill="${SKIN}"/><path d="M23.5 56 L38 78" stroke="#e8b931" stroke-width="3"/>
+  <path d="M8 74 Q30 68 52 74 L52 86 Q30 92 8 86 Z" fill="#8a4a22"/>`;
+  for(let x=14;x<=46;x+=6) s+=`<path d="M${x} ${72.5-(x-30)*(x-30)*0.004} L${x} ${88+(30-Math.abs(x-30))*0.1}" stroke="#d9c7a0" stroke-width=".6"/>`;
+  return s+`<ellipse cx="8" cy="80" rx="3" ry="6.2" fill="#2a1a14"/><ellipse cx="52" cy="80" rx="3" ry="6.2" fill="#d9c7a0"/><circle cx="52" cy="80" r="2" fill="#2a1a14"/>
+  <path d="M23 58 Q14 66 10 75 M37 58 Q46 66 50 75" stroke="${SKIN}" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+  <circle cx="30" cy="36.5" r="2.4" fill="${HAIR}"/><circle cx="30" cy="45" r="8.6" fill="${HAIR}"/>${face(30,46.5,7.6,SKIN)}
+  <path d="M25 41.5 L35 41.5 M25 43 L35 43" stroke="#f4efe6" stroke-width=".8"/>`;
+}
+
+/* drawn on a 100-wide canvas (see w:100 below), so the pair stands at full doll height */
+function radhaKrishna(){
+  return `<path d="M50 3 Q4 4 4 40 L4 97 M50 3 Q96 4 96 40 L96 97" stroke="#3f7a2e" stroke-width="2.6" fill="none"/>
+  ${[.12,.32,.55,.8,1].flatMap(t=>{ const x=(1-t)*(1-t)*50+2*(1-t)*t*4+t*t*4, y=(1-t)*(1-t)*3+2*(1-t)*t*4+t*t*40; return [[x,y],[100-x,y]]; })
+    .concat([54,68,82].flatMap(y=>[[4,y],[96,y]]))
+    .map(([x,y],i)=>`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.2" fill="${i%4<2?"#f18aa6":"#f2c94c"}"/>`).join("")}
+  <path d="M8 98 Q50 86 92 98 Z" fill="#f18aa6"/><path d="M22 98 Q50 90 78 98" fill="#f6b3c4"/>
+  <g transform="translate(41 8) scale(.9)">${figure({garment:"#e0567a",top:"#f2c94c",accent:GOLD,hair:"bun",crown:"small",garland:true})}</g>
+  <g transform="translate(5 6) scale(.92)">${figure({skin:"#4573bf",garment:"#f0c548",top:"#f0c548",accent:"#a3172b",crown:"peacock",prop:"flute",veshti:true,garland:true})}</g>`;
+}
+
+const DOLLS = [
+  {id:"ganesha", name:"Ganesha", svg:()=>figure({elephant:true,skin:"#e9b48a",garment:"#d35400",top:"#d35400",accent:GOLD,crown:"kireedam",arms:4,halo:true,belly:true})},
+  {id:"durga", name:"Durga", svg:()=>figure({garment:"#c0142b",accent:GOLD,crown:"kireedam",arms:8,halo:true,prop:"trident"})},
+  {id:"lakshmi", name:"Lakshmi", svg:()=>figure({garment:"#e0567a",accent:GOLD,crown:"kireedam",arms:4,halo:true,prop:"lotus"})},
+  {id:"saraswathi", name:"Saraswathi", svg:()=>figure({garment:"#f4efe6",top:"#f4efe6",accent:"#c9a12e",crown:"kireedam",arms:4,halo:true,prop:"veena"})},
+  {id:"perumal", name:"Perumal", svg:()=>figure({skin:"#3d6bb3",garment:"#e8b931",top:"#e8b931",accent:"#a3172b",crown:"kireedam",arms:4,halo:true,prop:"chakra",veshti:true,garland:true})},
+  {id:"krishna", name:"Krishna", svg:()=>figure({skin:"#4573bf",garment:"#f0c548",top:"#f0c548",accent:"#a3172b",crown:"peacock",prop:"flute",veshti:true,garland:true})},
+  {id:"raja", name:"Marapachi Raja", svg:()=>marapachi(true)},
+  {id:"rani", name:"Marapachi Rani", svg:()=>marapachi(false)},
+  {id:"gopuram", name:"Temple gopuram", svg:gopuram},
+  {id:"groom", name:"Kalyanam groom", svg:()=>figure({garment:"#f4efe6",top:SKIN,accent:GOLD,crown:"turban",veshti:true,garland:true,hair:"none"})},
+  {id:"bride", name:"Kalyanam bride", svg:()=>figure({garment:"#8a1538",accent:GOLD,crown:"mangalyam",hair:"bun",garland:true})},
+  {id:"kalasam", name:"Kalasam", svg:kalasam},
+  {id:"chettiar", name:"Chettiar", svg:()=>figure({garment:"#f4efe6",top:"#f4efe6",accent:"#a3172b",crown:"turban",veshti:true,belly:true,hair:"none"})},
+  {id:"chettichi", name:"Chettichi", svg:()=>figure({garment:"#2f6b4f",accent:"#e8b931",hair:"bun"})},
+  {id:"vilakku", name:"Kuthuvilakku", svg:vilakku},
+  {id:"elephant", name:"Temple elephant", svg:elephant},
+  {id:"cow", name:"Cow and calf", svg:cow},
+  {id:"shiva", name:"Shiva", svg:()=>figure({skin:"#8fb0c8",garment:"#e08a2a",top:"#8fb0c8",accent:"#6b3f1d",crown:"jata",arms:4,halo:true,prop:"trident",veshti:true,tiger:true,garland:true})},
+  {id:"parvati", name:"Parvati", svg:()=>figure({garment:"#2e7d4f",accent:GOLD,crown:"kireedam",halo:true})},
+  {id:"murugan", name:"Murugan", svg:()=>figure({garment:"#e05a1a",top:"#e05a1a",accent:GOLD,crown:"kireedam",halo:true,prop:"vel",veshti:true,garland:true})},
+  {id:"dasavatharam", name:"Dasavatharam set", svg:dasavatharam},
+  {id:"rama", name:"Rama", svg:()=>figure({skin:"#3f7f86",garment:"#e8b931",top:"#e8b931",accent:"#a3172b",crown:"kireedam",prop:"bow",veshti:true,garland:true})},
+  {id:"sita", name:"Sita", svg:()=>figure({garment:"#d4572a",accent:GOLD,crown:"small"})},
+  {id:"hanuman", name:"Hanuman", svg:()=>figure({monkey:true,skin:"#c4733a",garment:"#e05a1a",top:"#e05a1a",accent:GOLD,crown:"small",prop:"gada",veshti:true,hair:"none"})},
+  {id:"andal", name:"Andal", svg:()=>figure({garment:"#2f8a5b",accent:"#e05a7a",hair:"andal",prop:"parrot",garland:true})},
+  {id:"dancer", name:"Bharatanatyam dancer", svg:()=>figure({garment:"#7b2d8e",accent:GOLD,hair:"bun",pose:"dance",fan:true})},
+  {id:"mridangam", name:"Mridangam vidwan", svg:mridangam},
+  {id:"vendor", name:"Vegetable seller", svg:()=>figure({garment:"#4a7bd1",accent:"#e8b931",prop:"basket"})},
+  {id:"nandi", name:"Nandi", svg:nandi},
+  {id:"peacock", name:"Peacock", svg:peacock},
+  {id:"annam", name:"Annam swan", svg:annam},
+  {id:"tulasi", name:"Tulasi madam", svg:tulasi},
+  {id:"coconut", name:"Coconut tree", svg:coconutTree},
+  {id:"fruits", name:"Fruit basket", svg:fruits},
+  {id:"radhakrishna", name:"Radha Krishna", svg:radhaKrishna, w:100},
+];
+const CATS = {
+  "Deities":["ganesha","durga","lakshmi","saraswathi","parvati","shiva","perumal","krishna","radhakrishna","murugan"],
+  "Epics and saints":["dasavatharam","rama","sita","hanuman","andal"],
+  "Marapachi and weddings":["raja","rani","groom","bride"],
+  "Townsfolk":["chettiar","chettichi","vendor","dancer","mridangam"],
+  "Animals and nature":["elephant","cow","nandi","peacock","annam","tulasi","coconut"],
+  "Temple and home":["gopuram","kalasam","vilakku","fruits"],
+};
+const DOLL = Object.fromEntries(DOLLS.map(d=>[d.id,d]));
+const svgCache = {};
+function dollSVG(id){ return svgCache[id] ||= `<svg viewBox="0 0 ${DOLL[id].w||60} 100" aria-hidden="true">${DOLL[id].svg()}</svg>`; }
+const widthScale = id => (DOLL[id].w||60)/60;
+
+const DEFAULTS = {
+  3:[["raja","ganesha","lakshmi","durga","saraswathi","rani"],["perumal","gopuram","krishna","groom","bride"],["chettiar","kalasam","chettichi","elephant","cow"]],
+  5:[["raja","lakshmi","durga","saraswathi","rani"],["ganesha","parvati","shiva","radhakrishna","perumal","murugan"],["hanuman","rama","sita","dasavatharam","gopuram","andal"],["groom","bride","kalasam","dancer","mridangam","chettiar","chettichi"],["elephant","nandi","peacock","tulasi","cow","coconut","annam"]],
+  7:[["raja","durga","rani"],["lakshmi","ganesha","saraswathi"],["perumal","gopuram","krishna"],["groom","kalasam","bride"],["vilakku","chettiar","chettichi","vilakku"],["kalasam","cow"],["elephant","cow","elephant"]],
+  9:[["raja","rani"],["durga"],["lakshmi","saraswathi"],["ganesha","perumal","krishna"],["gopuram","kalasam","gopuram"],["groom","bride"],["chettiar","vilakku","chettichi"],["cow","kalasam","cow"],["elephant","vilakku","elephant"]],
+};
+const clone = x => JSON.parse(JSON.stringify(x));
+
+/* ---------- state ---------- */
+let state = { n:5, tiers:clone(DEFAULTS[5]), host:"", note:"" };
+let picking = null;   // doll id from the box
+let sel = null;       // {t,i}
+let lampsLit = [false,false];
+let canSave = false, db = null, user = null, dirty = false;
+
+const $ = s => document.querySelector(s);
+const golu = $("#golu"), status = $("#status");
+function say(msg){ status.textContent = msg; }
+
+function render(){
+  golu.dataset.n = state.n;
+  golu.classList.toggle("placing", !!picking);
+  const n = state.n;
+  golu.innerHTML = "";
+  state.tiers.forEach((row,t)=>{
+    const step = document.createElement("div");
+    step.className="step";
+    const pct = n===1?100: 46 + (54*t/(n-1));
+    step.style.width = pct+"%";
+    step.dataset.t = t;
+    if(picking){ step.tabIndex=0; step.setAttribute("role","button"); step.setAttribute("aria-label",`Place ${DOLL[picking].name} on step ${t+1}`); }
+    const top = document.createElement("div"); top.className="top";
+    if(!row.length){ const e=document.createElement("span"); e.className="step-empty"; e.textContent= picking?"Place here":"Empty step"; top.append(e); }
+    row.forEach((id,i)=>{
+      const b=document.createElement("button"); b.type="button"; b.className="doll"; b.innerHTML=dollSVG(id);
+      if(widthScale(id)!==1) b.style.width=`calc(var(--doll) * ${widthScale(id).toFixed(3)})`;
+      b.setAttribute("aria-label",`${DOLL[id].name}, step ${t+1}`); b.title=DOLL[id].name;
+      if(sel && sel.t===t && sel.i===i) b.classList.add("sel");
+      b.addEventListener("click",ev=>{ ev.stopPropagation(); if(picking){ place(t); return; } sel = (sel&&sel.t===t&&sel.i===i)?null:{t,i}; render(); });
+      top.append(b);
+    });
+    const riser=document.createElement("div"); riser.className="riser";
+    const no=document.createElement("span"); no.className="tier-no"; no.textContent = `Padi ${t+1}`;
+    step.append(top,riser,no);
+    golu.append(step);
+  });
+  // toolbar
+  const tb=$("#toolbar");
+  if(sel && state.tiers[sel.t] && state.tiers[sel.t][sel.i]){
+    tb.hidden=false; $("#selName").textContent = DOLL[state.tiers[sel.t][sel.i]].name;
+    tb.querySelector('[data-act="left"]').disabled = sel.i===0;
+    tb.querySelector('[data-act="right"]').disabled = sel.i===state.tiers[sel.t].length-1;
+    tb.querySelector('[data-act="up"]').disabled = sel.t===0;
+    tb.querySelector('[data-act="down"]').disabled = sel.t===state.n-1;
+  } else { tb.hidden=true; sel=null; }
+  document.querySelectorAll("#stepSeg button").forEach(b=>b.setAttribute("aria-pressed", String(+b.dataset.n===state.n)));
+  document.querySelectorAll(".pick").forEach(p=>p.setAttribute("aria-pressed", String(p.dataset.id===picking)));
+  $("#hostTitle").innerHTML = "";
+  const h=$("#hostTitle"); h.append("Welcome to "); const sp=document.createElement("span"); sp.textContent = state.host? state.host+"’s Golu" : "our Golu"; h.append(sp);
+  $("#hostNote").textContent = state.note || "Come in, see the steps, light a lamp and sign the visitor book. Every guest goes home with thamboolam.";
+  $("#saveBtn").hidden = !canSave;
+  $("#saveBtn").disabled = !dirty;
+}
+function changed(msg){ dirty = true; try{ localStorage.setItem("golu-local", JSON.stringify(state)); }catch(e){} if(msg) say(msg); render(); }
+
+function place(t){
+  if(!picking) return;
+  state.tiers[t].push(picking);
+  const name = DOLL[picking].name;
+  picking = null;
+  changed(`${name} placed on step ${t+1}.`);
+}
+golu.addEventListener("click",ev=>{
+  const step = ev.target.closest(".step"); if(!step) return;
+  if(picking){ place(+step.dataset.t); ev.goluHandled=true; } else if(sel){ sel=null; render(); ev.goluHandled=true; }
+});
+golu.addEventListener("keydown",ev=>{
+  const step = ev.target.closest(".step");
+  if(picking && step && ev.target===step && (ev.key==="Enter"||ev.key===" ")){ ev.preventDefault(); place(+step.dataset.t); }
+});
+
+$("#toolbar").addEventListener("click",ev=>{
+  const act = ev.target.closest("button")?.dataset.act; if(!act||!sel) return;
+  const row = state.tiers[sel.t], id=row[sel.i];
+  if(act==="done"){ sel=null; render(); return; }
+  if(act==="left" && sel.i>0){ [row[sel.i-1],row[sel.i]]=[row[sel.i],row[sel.i-1]]; sel.i--; }
+  if(act==="right" && sel.i<row.length-1){ [row[sel.i+1],row[sel.i]]=[row[sel.i],row[sel.i+1]]; sel.i++; }
+  if(act==="up" && sel.t>0){ row.splice(sel.i,1); state.tiers[sel.t-1].push(id); sel={t:sel.t-1,i:state.tiers[sel.t-1].length-1}; }
+  if(act==="down" && sel.t<state.n-1){ row.splice(sel.i,1); state.tiers[sel.t+1].push(id); sel={t:sel.t+1,i:state.tiers[sel.t+1].length-1}; }
+  if(act==="remove"){ row.splice(sel.i,1); sel=null; changed(`${DOLL[id].name} is back in the box.`); return; }
+  changed();
+});
+
+$("#stepSeg").addEventListener("click",ev=>{
+  const n = +ev.target.closest("button")?.dataset.n; if(!n||n===state.n) return;
+  if(n>state.n){ while(state.tiers.length<n) state.tiers.push([]); }
+  else { const extra = state.tiers.splice(n).flat(); state.tiers[n-1].push(...extra); }
+  state.n=n; sel=null; landed=[]; requestAnimationFrame(()=>{ resizeFx(); }); changed(`Now ${n} steps. Odd numbers of padi are the custom.`);
+});
+$("#resetBtn").addEventListener("click",()=>{ state.tiers=clone(DEFAULTS[state.n]); sel=null; changed("Arranged in the traditional order."); });
+$("#clearBtn").addEventListener("click",()=>{ state.tiers=state.tiers.map(()=>[]); sel=null; changed("Steps cleared. Pick dolls from the box below."); });
+
+/* shelf */
+const shelf=$("#shelf");
+Object.entries(CATS).forEach(([cat,ids])=>{
+  const h=document.createElement("h3"); h.className="shelf-cat"; h.textContent=cat;
+  const grid=document.createElement("div"); grid.className="shelf-grid";
+  ids.forEach(id=>{
+    const d=DOLL[id];
+    const b=document.createElement("button"); b.type="button"; b.className="pick"; b.dataset.id=d.id;
+    b.innerHTML = dollSVG(d.id) + `<span></span>`; b.querySelector("span").textContent=d.name;
+    if(widthScale(d.id)!==1) b.querySelector("svg").style.width=`${Math.round(44*widthScale(d.id))}px`;
+    b.addEventListener("click",()=>{ picking = picking===d.id?null:d.id; sel=null; say(picking?`Tap a step to place ${d.name}.`:""); render(); if(picking) golu.scrollIntoView({behavior:"smooth",block:"center"}); });
+    grid.append(b);
+  });
+  shelf.append(h,grid);
+});
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&(picking||sel)){ picking=null; sel=null; say(""); render(); }});
+
+/* lamps */
+function lampSVG(){
+  return `<svg viewBox="0 0 60 150" aria-hidden="true">
+   <ellipse class="glow" cx="30" cy="22" rx="30" ry="30" fill="url(#g1)"/>
+   <defs><radialGradient id="g1"><stop offset="0" stop-color="#ffcc55"/><stop offset="1" stop-color="#ffcc55" stop-opacity="0"/></radialGradient></defs>
+   <path d="M14 148 L46 148 L42 138 L18 138 Z" fill="#c9a12e"/><ellipse cx="30" cy="136" rx="13" ry="4" fill="#d8b03a"/>
+   <rect x="27.5" y="58" width="5" height="78" fill="#d8b03a"/><circle cx="30" cy="80" r="4" fill="#c9a12e"/><circle cx="30" cy="110" r="4" fill="#c9a12e"/>
+   <path d="M6 56 Q30 68 54 56 L50 50 L10 50 Z" fill="#d8b03a" stroke="#9a6f0c" stroke-width=".8"/>
+   <path d="M24 50 L30 26 L36 50 Z" fill="#d8b03a"/><path d="M26 30 Q30 18 34 30 Z" fill="#c9a12e"/><circle cx="30" cy="16" r="3" fill="#d8b03a"/>
+   ${[8,19,41,52].map(x=>`<g class="flame"><path d="M${x} 50 Q${x-3.5} 42 ${x} 34 Q${x+3.5} 42 ${x} 50 Z" fill="#ffb627"/><path d="M${x} 49 Q${x-1.5} 44 ${x} 40 Q${x+1.5} 44 ${x} 49 Z" fill="#fff1b8"/></g>`).join("")}
+  </svg>`;
+}
+document.querySelectorAll(".lamp").forEach(l=>{
+  l.innerHTML = lampSVG();
+  l.addEventListener("click",()=>{ const i=+l.dataset.lamp; lampsLit[i]=!lampsLit[i]; syncLamps(); });
+});
+function syncLamps(){
+  document.querySelectorAll(".lamp").forEach((l,i)=>{ l.classList.toggle("lit",lampsLit[i]); l.setAttribute("aria-pressed",String(lampsLit[i])); });
+  const t = lampsLit.every(Boolean) ? "Put out the lamps" : "Light the lamps";
+  $("#lampBtn2").textContent = t;
+}
+const toggleLamps=()=>{ const on=!lampsLit.every(Boolean); lampsLit=[on,on]; syncLamps(); };
+$("#lampBtn2").addEventListener("click",toggleLamps);
+
+/* thoranam: mango leaves on a string */
+function drawThoranam(){
+  const c=$("#thoranam"), dpr=Math.min(2,window.devicePixelRatio||1), w=c.clientWidth, h=c.clientHeight;
+  c.width=w*dpr; c.height=h*dpr; const g=c.getContext("2d"); g.scale(dpr,dpr);
+  g.strokeStyle="#7a5a2a"; g.lineWidth=2; g.beginPath(); g.moveTo(0,8); g.lineTo(w,8); g.stroke();
+  const step=22;
+  for(let x=6,i=0;x<w;x+=step,i++){
+    if(i%4===2){ // marigold
+      for(let k=0;k<3;k++){ g.fillStyle=k%2?"#f39c12":"#e67e22"; g.beginPath(); g.arc(x,16+k*9,5.5,0,Math.PI*2); g.fill(); }
+      continue;
+    }
+    g.save(); g.translate(x,8); g.rotate((i%2?-1:1)*0.05);
+    g.fillStyle = i%2?"#3f7a2e":"#4e8f37";
+    g.beginPath(); g.moveTo(0,0); g.quadraticCurveTo(10,22,0,52); g.quadraticCurveTo(-10,22,0,0); g.fill();
+    g.strokeStyle="#2c5a1f"; g.lineWidth=1; g.beginPath(); g.moveTo(0,2); g.lineTo(0,50); g.stroke();
+    g.restore();
+  }
+}
+
+/* kolam: pulli grid with interlacing loops */
+let kolamSeed = 1;
+function rnd(){ kolamSeed = (kolamSeed*16807)%2147483647; return kolamSeed/2147483647; }
+function drawKolam(){
+  const c=$("#kolam"), g=c.getContext("2d"), W=c.width, H=c.height;
+  const floor = getComputedStyle(document.documentElement).getPropertyValue("--floor").trim()||"#9c3b22";
+  const chalk = getComputedStyle(document.documentElement).getPropertyValue("--chalk").trim()||"#fbf4e6";
+  g.fillStyle=floor; g.fillRect(0,0,W,H);
+  g.strokeStyle=chalk; g.fillStyle=chalk; g.lineCap="round"; g.lineJoin="round";
+  const motifs=[0,1,2];
+  const style = Math.floor(rnd()*3);
+  const cy=H/2;
+  const count = W/H>3 ? 5 : 3;
+  const gap = W/(count+0.5);
+  for(let m=0;m<count;m++){
+    const cx = gap*0.75 + m*gap;
+    const R = Math.min(gap*0.42, H*0.4);
+    // dots
+    const k=3, sp=R/(k+0.2);
+    for(let a=-k;a<=k;a++) for(let b=-k;b<=k;b++){ if(Math.abs(a)+Math.abs(b)>k) continue; g.beginPath(); g.arc(cx+a*sp,cy+b*sp,2.2,0,Math.PI*2); g.fill(); }
+    g.lineWidth=2.4;
+    const petals = style===0?8:style===1?12:6;
+    const rot = rnd()*Math.PI;
+    for(let p=0;p<petals;p++){
+      const ang = rot + p*Math.PI*2/petals;
+      g.beginPath();
+      const x1=cx+Math.cos(ang)*R, y1=cy+Math.sin(ang)*R;
+      const c1a=ang-0.55, c2a=ang+0.55;
+      g.moveTo(cx,cy);
+      g.bezierCurveTo(cx+Math.cos(c1a)*R*0.9, cy+Math.sin(c1a)*R*0.9, x1+Math.cos(ang+1.4)*R*0.25, y1+Math.sin(ang+1.4)*R*0.25, x1, y1);
+      g.bezierCurveTo(x1+Math.cos(ang-1.4)*R*0.25, y1+Math.sin(ang-1.4)*R*0.25, cx+Math.cos(c2a)*R*0.9, cy+Math.sin(c2a)*R*0.9, cx, cy);
+      g.stroke();
+    }
+    g.beginPath(); g.arc(cx,cy,R*0.18,0,Math.PI*2); g.stroke();
+    if(style!==2){ g.beginPath(); g.arc(cx,cy,R*1.02,0,Math.PI*2); g.setLineDash([2,7]); g.stroke(); g.setLineDash([]); }
+    // link loops between motifs
+    if(m<count-1){
+      const mx = cx+gap/2;
+      g.beginPath(); g.ellipse(mx,cy,gap*0.12,R*0.36,0,0,Math.PI*2); g.stroke();
+      g.beginPath(); g.arc(mx,cy,2.4,0,Math.PI*2); g.fill();
+    }
+  }
+  // border
+  g.lineWidth=1.6; g.setLineDash([1,9]); g.strokeRect(10,10,W-20,H-20); g.setLineDash([]);
+}
+$("#kolamBtn").addEventListener("click",()=>{ kolamSeed = (Date.now()%2147483646)+1; drawKolam(); });
+
+/* nine nights */
+const START = new Date(2026,9,11);
+const SUNDAL = ["Vellai kondakadalai (white chickpea)","Pachai payaru (green gram)","Karamani (black-eyed peas)","Verkadalai (peanut)","Mochai (field beans)","Kadalai paruppu (chana dal)","Kollu (horse gram)","Pattani (dried peas)","Sweet puttu & sundal"];
+const TRIOS = [
+  {h:"Durga", ta:"துர்கை", about:"Strength to cut away what holds us back."},
+  {h:"Lakshmi", ta:"லட்சுமி", about:"Prosperity, and the grace to share it."},
+  {h:"Saraswathi", ta:"சரஸ்வதி", about:"Learning and music. Books and instruments rest before her on the ninth night (Saraswathi and Ayudha Puja)."},
+];
+function dayIndex(){ const t=new Date(); const d=new Date(t.getFullYear(),t.getMonth(),t.getDate()); return Math.round((d-START)/86400000); }
+const fmt = d => d.toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"});
+function renderNights(){
+  const today=dayIndex(), grid=$("#nightGrid"); grid.innerHTML="";
+  TRIOS.forEach((tr,k)=>{
+    const col=document.createElement("div"); col.className="trio";
+    col.innerHTML=`<div><h3></h3><div class="ta" lang="ta"></div></div><p class="about"></p>`;
+    col.querySelector("h3").textContent=tr.h; col.querySelector(".ta").textContent=tr.ta; col.querySelector(".about").textContent=tr.about;
+    for(let j=0;j<3;j++){
+      const i=k*3+j, date=new Date(START); date.setDate(START.getDate()+i);
+      const el=document.createElement("div"); el.className="night"+(i===today?" today":"")+(i<today?" past":"");
+      el.innerHTML=`<span class="n">${i+1}</span><span class="d"></span><span class="s"></span>`;
+      el.querySelector(".d").textContent=fmt(date)+(i===today?" · tonight":"");
+      el.querySelector(".s").textContent="Sundal: "+SUNDAL[i];
+      col.append(el);
+    }
+    grid.append(col);
+  });
+  const chip=$("#tonightChip"), txt=$("#tonightText");
+  if(today>=0 && today<9){ chip.textContent=`Night ${today+1} of 9`; txt.textContent=`${TRIOS[Math.floor(today/3)].h} is honoured tonight. Today’s sundal: ${SUNDAL[today].split(" (")[0]}.`; }
+  else if(today===9){ chip.textContent="Vijayadashami"; txt.textContent="The tenth day. Lay one doll down on each step tonight."; }
+  else if(today<0){ chip.textContent="Navaratri 2026"; txt.textContent=`Begins Sunday 11 October, in ${-today} day${today===-1?"":"s"}.`; }
+  else { chip.textContent="Navaratri 2026"; txt.textContent="The festival has ended. Thank you for visiting."; }
+}
+
+/* ---------- shared store ---------- */
+let visitors = [];
+async function renderBook(){
+  const book=$("#book");
+  if(!visitors.length){ book.innerHTML=`<div class="empty">The visitor book is open. Be the first to sign it.</div>`; return; }
+  book.innerHTML="";
+  visitors.forEach(v=>{
+    const e=document.createElement("div"); e.className="entry";
+    const who=document.createElement("span"); who.className="who"; who.textContent=v.from||"A guest";
+    const when=document.createElement("span"); when.className="when";
+    const d=new Date(v.at||0); when.textContent = isNaN(d)?"":d.toLocaleString("en-GB",{weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit"});
+    e.append(who,when);
+    if(v.note){ const p=document.createElement("p"); p.className="msg"; p.textContent=v.note; e.append(p); }
+    book.append(e);
+  });
+}
+
+$("#vform").addEventListener("submit",async ev=>{
+  ev.preventDefault();
+  const from=$("#vname").value.trim(), note=$("#vmsg").value.trim(), vs=$("#vstatus");
+  if(!from){ vs.textContent="Add your name so the hosts know who came."; return; }
+  const entry={from:from.slice(0,60), note:note.slice(0,280), at:new Date().toISOString()};
+  $("#vsubmit").disabled=true;
+  let saved=false;
+  if(db){
+    try{ const uid = user ? await user.id() : null; await db.collection("visitors").add(uid?{...entry,by:uid}:entry); saved=true; }
+    catch(e){ vs.textContent = e && e.code==="quota_exceeded" ? "The visitor book is full. Ask the hosts to make room." : "Your entry could not be saved to the shared book. It is shown here for you only."; }
+  }
+  if(!saved){ visitors=[entry,...visitors]; renderBook(); if(!db) vs.textContent="Signed on this device. The shared book opens when the page is viewed on claude.ai."; }
+  else vs.textContent="Signed. The hosts will see your entry.";
+  $("#thamboolamText").textContent = `Thank you for coming, ${from}. Betel leaves, areca nut, turmeric, kumkum and a coconut, with a small gift.`;
+  $("#thamboolam").classList.add("show");
+  $("#vform").reset(); $("#vsubmit").disabled=false;
+});
+
+$("#saveBtn").addEventListener("click",async()=>{
+  if(!db) return;
+  $("#saveBtn").disabled=true;
+  try{ await db.doc("golu/layout").set({n:state.n, tiers:state.tiers, host:state.host, note:state.note, savedAt:new Date().toISOString()}); dirty=false; say("Saved. Visitors now see this arrangement."); }
+  catch(e){ say("Could not save the arrangement. Only the owner and editors can save it."); }
+  render();
+});
+$("#editHostBtn").addEventListener("click",()=>{ const f=$("#hostForm"); f.hidden=!f.hidden; $("#hostName").value=state.host; $("#hostMsg").value=state.note; });
+$("#hostForm").addEventListener("submit",ev=>{ ev.preventDefault(); state.host=$("#hostName").value.trim(); state.note=$("#hostMsg").value.trim(); $("#hostForm").hidden=true; changed("Welcome updated. Press “Save for visitors” to share it."); });
+
+function applyLayout(d){
+  if(!d || !Array.isArray(d.tiers)) return;
+  const n=[3,5,7,9].includes(d.n)?d.n:5;
+  const tiers=d.tiers.slice(0,n).map(r=>Array.isArray(r)?r.filter(id=>DOLL[id]):[]);
+  while(tiers.length<n) tiers.push([]);
+  state={n,tiers,host:String(d.host||"").slice(0,60),note:String(d.note||"").slice(0,160)};
+}
+
+async function connect(){
+  if(!window.claude?.use) return;
+  try{
+    [db,user] = await Promise.all([window.claude.use("db"), window.claude.use("user")]);
+  }catch(e){ db=null; }
+  if(user){ try{ canSave = await user.canEdit(); }catch(e){} }
+  if(canSave){ $("#hostEdit").hidden=false; }
+  if(!db){ render(); return; }
+  db.doc("golu/layout").onSnapshot(snap=>{
+    if(snap.exists && !dirty){ applyLayout(snap.data()); sel=null; render(); }
+  },()=>{});
+  db.collection("visitors").orderBy("at","desc").limit(200).onSnapshot(snap=>{
+    visitors = snap.docs.map(d=>d.data()); renderBook();
+  },()=>{});
+  render();
+}
+
+/* ---------- side setups: park and theatre ---------- */
+function kid(x,y,c,s=1,hair=HAIR){
+  return `<g transform="translate(${x} ${y}) scale(${s})"><path d="M-2 0 L-2 5 M2 0 L2 5" stroke="${SKIN_D}" stroke-width="1.6"/><path d="M-5 1 L5 1 L3 -11 L-3 -11 Z" fill="${c}"/><path d="M-3 -9 L-7 -3 M3 -9 L7 -3" stroke="${SKIN}" stroke-width="1.6" stroke-linecap="round"/><circle cy="-15" r="4" fill="${SKIN}"/><path d="M-4.2 -15.5 Q0 -21 4.2 -15.5 Q0 -18 -4.2 -15.5 Z" fill="${hair}"/></g>`;
+}
+function tree(x,y){
+  return `<rect x="${x-3}" y="${y}" width="6" height="24" fill="#7a4a22"/><circle cx="${x}" cy="${y-6}" r="14" fill="#2f6b2a"/><circle cx="${x-10}" cy="${y+1}" r="9" fill="#3f7a2e"/><circle cx="${x+10}" cy="${y}" r="10" fill="#357a2c"/><circle cx="${x+3}" cy="${y-15}" r="8" fill="#4e8f37"/><circle cx="${x-5}" cy="${y-8}" r="1.6" fill="#f18aa6"/><circle cx="${x+7}" cy="${y-3}" r="1.6" fill="#f2c94c"/>`;
+}
+function duck(x,y,d){
+  return `<g class="bob" style="animation-delay:-${d}s"><ellipse cx="${x}" cy="${y}" rx="6" ry="3.4" fill="#fff"/><circle cx="${x-5}" cy="${y-4}" r="2.6" fill="#fff"/><path d="M${x-7.4} ${y-4.4} l-2.6 .9 l2.6 .9 Z" fill="#f39c12"/><circle cx="${x-5.6}" cy="${y-4.6}" r=".6" fill="#1b0f0a"/></g>`;
+}
+function parkSVG(){
+  let s=`<svg viewBox="0 0 300 170" role="img" aria-label="Park setup: swings, see-saw, slide, a pond with ducks and a fountain">
+  <defs><radialGradient id="plg"><stop offset="0" stop-color="#ffe9a8"/><stop offset="1" stop-color="#ffe9a8" stop-opacity="0"/></radialGradient></defs>
+  <rect width="300" height="170" fill="#6aa84f"/>`;
+  for(let i=0;i<46;i++){ const x=(i*73)%290+5, y=(i*37)%140+36; s+=`<path d="M${x} ${y} l2 -5 l2 5" stroke="#4e8f37" stroke-width="1" fill="none"/>`; }
+  s+=`<path d="M0 140 Q80 120 150 134 T300 124 L300 148 Q220 138 150 152 T0 162 Z" fill="#d9b77a"/>`;
+  s+=`<path d="M6 24 L294 24 M6 32 L294 32" stroke="#f4efe6" stroke-width="1.6"/>`;
+  for(let x=8;x<=292;x+=14) s+=`<path d="M${x} 18 L${x} 36" stroke="#f4efe6" stroke-width="2"/>`;
+  s+=tree(26,58)+tree(278,60);
+  // swing
+  s+=`<path d="M60 112 L72 48 M110 112 L98 48 M68 48 L102 48" stroke="#b03a2e" stroke-width="3" stroke-linecap="round"/>
+  <g class="swing"><path d="M80 48 L80 92 M90 48 L90 92" stroke="#555" stroke-width="1"/><rect x="76" y="91" width="18" height="3" rx="1" fill="#7a4a22"/>${kid(85,87,"#e05a7a",.85)}</g>`;
+  // slide
+  s+=`<path d="M128 48 L128 110 M140 48 L140 110" stroke="#8a8f96" stroke-width="2"/>`;
+  for(let y=58;y<110;y+=10) s+=`<path d="M128 ${y} L140 ${y}" stroke="#8a8f96" stroke-width="1.4"/>`;
+  s+=`<rect x="126" y="45" width="16" height="4" fill="#e8b931"/><path d="M141 48 L176 104 L184 108" stroke="#e8b931" stroke-width="5" fill="none" stroke-linecap="round"/>${kid(134,40,"#1e7fa8",.8)}`;
+  // pond, fountain, ducks
+  s+=`<ellipse cx="232" cy="94" rx="50" ry="22" fill="#3b7f9c"/><ellipse cx="232" cy="92" rx="47" ry="19" fill="#5bb0d3"/>
+  <ellipse cx="206" cy="98" rx="6" ry="2.6" fill="#3f8c3a"/><circle cx="206" cy="96" r="2.4" fill="#f18aa6"/><ellipse cx="262" cy="86" rx="6" ry="2.6" fill="#3f8c3a"/>
+  <g class="spray"><path d="M232 92 Q225 72 216 86 M232 92 Q239 72 248 86 M232 92 L232 66" stroke="#e6f7ff" stroke-width="1.6" fill="none"/><circle cx="232" cy="65" r="1.6" fill="#e6f7ff"/></g>
+  ${duck(214,100,0.3)}${duck(256,98,1.1)}${duck(244,84,.7)}`;
+  // see-saw
+  s+=`<path d="M104 131 L116 131 L110 120 Z" fill="#7a4a22"/><g class="seesaw"><rect x="78" y="117" width="64" height="3.5" rx="1.5" fill="#b03a2e"/>${kid(84,112,"#e8b931",.75)}${kid(136,112,"#2f8a5b",.75)}</g>`;
+  // bench with grandparents, family on the path
+  s+=`<rect x="196" y="128" width="36" height="2.4" fill="#7a4a22"/><rect x="196" y="134" width="36" height="3" fill="#7a4a22"/><path d="M199 137 L199 144 M229 137 L229 144" stroke="#5a3a1a" stroke-width="2"/>
+  ${kid(206,131,"#8a1538",.9,"#d9d4cc")}${kid(221,131,"#f4efe6",.9,"#c9c4bc")}${kid(40,146,"#c0392b",1.1)}${kid(53,148,"#3d6bb3",.8)}${kid(150,150,"#7b2d8e",.9)}`;
+  // lamp posts
+  s+=`<path d="M176 146 L176 110 M280 140 L280 104" stroke="#333" stroke-width="2"/>`;
+  // dusk, then lights on top
+  s+=`<rect class="dusk" width="300" height="170" fill="#14204a"/>`;
+  s+=`<circle class="pglow" cx="176" cy="108" r="22" fill="url(#plg)"/><circle class="pglow" cx="280" cy="102" r="22" fill="url(#plg)"/>
+  <circle cx="176" cy="108" r="3.4" fill="#fff3c4"/><circle cx="280" cy="102" r="3.4" fill="#fff3c4"/>
+  <path d="M6 16 Q75 26 150 16 T294 16" stroke="#3a2a1a" stroke-width=".6" fill="none"/>`;
+  const fc=["#ff6b6b","#ffd93d","#6bcbff","#7cfc9a"];
+  for(let i=0;i<21;i++){ const x=8+i*14, y=16+5*Math.sin((x-6)/144*Math.PI); s+=`<circle class="fairy" cx="${x}" cy="${y.toFixed(1)}" r="1.9" fill="${fc[i%4]}" style="animation-delay:-${(i%5)*.3}s"/>`; }
+  return s+`</svg>`;
+}
+function seated(o){
+  let s=`<path d="M8 97 Q10 80 30 78 Q50 80 52 97 Z" fill="${o.g}"/><path d="M8.5 95 L51.5 95" stroke="${GOLD}" stroke-width="2"/>`;
+  if(o.prop==="tambura") s+=`<path d="M45 94 L45 24" stroke="#7a3f1d" stroke-width="3"/><circle cx="45" cy="86" r="9" fill="#8a4a22"/><circle cx="45" cy="22" r="2" fill="#7a3f1d"/>`;
+  s+=`<path d="M21 80 L23 56 Q30 52 37 56 L39 80 Z" fill="${o.top||SKIN}"/>`;
+  if(o.prop==="violin") s+=`<ellipse cx="22" cy="58" rx="7" ry="4" fill="#9a4a1d" transform="rotate(-25 22 58)"/><path d="M27 55 L44 48" stroke="#5a2a10" stroke-width="1.4"/><path d="M12 70 L42 52" stroke="#d9c7a0" stroke-width=".9"/>`;
+  if(o.prop==="tambura") s+=`<path d="M23 58 Q16 66 22 72 M37 58 Q44 58 45 48" stroke="${SKIN}" stroke-width="3.2" fill="none" stroke-linecap="round"/>`;
+  else if(o.prop==="violin") s+=`<path d="M23 58 Q18 60 18 56 M37 58 Q30 66 22 66" stroke="${SKIN}" stroke-width="3.2" fill="none" stroke-linecap="round"/>`;
+  else s+=`<path d="M23 58 Q16 66 22 72 M37 58 Q46 56 48 46" stroke="${SKIN}" stroke-width="3.2" fill="none" stroke-linecap="round"/>`;
+  if(o.bun) s+=`<circle cx="30" cy="37" r="4.4" fill="${HAIR}"/>`;
+  s+=`<circle cx="30" cy="45" r="8.6" fill="${HAIR}"/>${face(30,46.5,7.6,SKIN)}`;
+  if(o.bun) s+=`<path d="M22.5 44 Q30 40 37.5 44" stroke="#f2f0ea" stroke-width="1.2" fill="none"/>`;
+  return s;
+}
+const SHOWS = {
+  dance: () => `<g transform="translate(36 77) scale(.45)">${mridangam()}</g>
+    <g transform="translate(237 77) scale(.45)">${seated({g:"#2f6b4f",bun:true,prop:"tambura"})}</g>
+    <g class="sway"><g transform="translate(123 34) scale(.9)">${figure({garment:"#7b2d8e",accent:GOLD,hair:"bun",pose:"dance",fan:true})}</g></g>`,
+  puppets: () => {
+    let s=`<rect x="44" y="36" width="212" height="4" rx="2" fill="#5a3a1a"/>`;
+    [[78,{garment:"#a3172b",top:"#a3172b",accent:GOLD,crown:"kireedam",veshti:true,garland:true},0],
+     [150,{garment:"#e0567a",accent:GOLD,crown:"small"},.4],
+     [222,{monkey:true,skin:"#c4733a",garment:"#e05a1a",top:"#e05a1a",accent:GOLD,crown:"small",prop:"gada",veshti:true,hair:"none"},.8]].forEach(([x,o,d])=>{
+      s+=`<g class="bob2" style="animation-delay:-${d}s"><path d="M${x-9} 40 L${x-9} 80 M${x} 40 L${x} 58 M${x+9} 40 L${x+9} 80" stroke="#e9e1d0" stroke-width=".5"/><g transform="translate(${x-18} 56) scale(.6)">${figure(o)}</g></g>`;
+    });
+    return s;
+  },
+  kutcheri: () => `<rect x="50" y="108" width="200" height="14" fill="#a3172b" opacity=".9"/>
+    <g transform="translate(52 52) scale(.6)">${seated({g:"#f4efe6",top:SKIN,prop:"violin"})}</g>
+    <g class="sway" style="animation-duration:3.2s"><g transform="translate(118 44) scale(.68)">${seated({g:"#c0142b",bun:true})}</g></g>
+    <g transform="translate(196 52) scale(.6)">${mridangam()}</g>`,
+};
+function theatreSVG(){
+  let s=`<svg viewBox="0 0 300 170" role="img" aria-label="Theatre setup with curtains, a stage and an audience">
+  <defs><linearGradient id="spg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff6d0" stop-opacity=".55"/><stop offset="1" stop-color="#fff6d0" stop-opacity=".06"/></linearGradient></defs>
+  <rect width="300" height="170" fill="#2a1414"/>
+  <rect x="30" y="30" width="240" height="94" fill="#1f3b5c"/>
+  <circle cx="232" cy="54" r="10" fill="#f6e7b0"/><circle cx="236" cy="51" r="9" fill="#1f3b5c"/>`;
+  for(const [x,y] of [[60,46],[90,40],[180,44],[204,62],[120,52],[262,72]]) s+=`<circle cx="${x}" cy="${y}" r="1" fill="#f6e7b0"/>`;
+  s+=`<path d="M40 122 L44 92 L52 92 L54 80 L62 80 L64 70 L72 70 L74 80 L82 80 L84 92 L92 92 L96 122 Z" fill="#16304a"/>
+  <path d="M206 122 Q220 96 236 122 Z M228 122 Q246 88 266 122 Z" fill="#16304a"/>
+  <path d="M30 122 L270 122 L286 142 L14 142 Z" fill="#8a5a2b"/>`;
+  for(let x=40;x<270;x+=20) s+=`<path d="M${x} 122 L${x+(x-150)*.12} 142" stroke="#6b4420" stroke-width=".8"/>`;
+  s+=`<path class="spot" d="M150 0 L94 130 L206 130 Z" fill="url(#spg)"/>
+  <g id="showLayer"></g>`;
+  const curtain=(x,cls)=>{ let c=`<g class="curtain ${cls}"><rect x="${x}" y="30" width="120" height="94" fill="#8f1424"/>`;
+    for(let i=1;i<10;i++) c+=`<path d="M${x+i*12} 30 L${x+i*12} 124" stroke="#6a0d1a" stroke-width="2.2"/><path d="M${x+i*12+3} 30 L${x+i*12+3} 124" stroke="#b02436" stroke-width="1"/>`;
+    return c+`<path d="M${x} 121 L${x+120} 121" stroke="${GOLD}" stroke-width="3" stroke-dasharray="3 2"/></g>`; };
+  s+=curtain(30,"cl")+curtain(150,"cr");
+  s+=`<path d="M14 12 L286 12 L286 30 Q150 44 14 30 Z" fill="#a3172b"/><path d="M14 30 Q150 44 286 30" stroke="${GOLD}" stroke-width="2" fill="none"/>
+  <rect x="14" y="12" width="16" height="130" fill="#c9a12e"/><rect x="270" y="12" width="16" height="130" fill="#c9a12e"/>
+  <path d="M18 20 L26 20 M18 132 L26 132 M274 20 L282 20 M274 132 L282 132" stroke="#8a6a1a" stroke-width="2"/>
+  <text x="150" y="27" text-anchor="middle" font-family="Noto Serif Tamil, serif" font-size="10" fill="#f6e7b0">கலை அரங்கம்</text>`;
+  for(let i=0;i<14;i++){ const x=14+i*21+(i%2)*4, y=158+(i%3)*3; s+=`<path d="M${x-10} 172 Q${x} ${y-2} ${x+10} 172 Z" fill="#120808"/><circle cx="${x}" cy="${y-6}" r="6" fill="#120808"/>`; }
+  return s+`</svg>`;
+}
+$("#park").insertAdjacentHTML("afterbegin", parkSVG());
+$("#theatre").insertAdjacentHTML("afterbegin", theatreSVG());
+let currentShow="dance";
+function setShow(k){
+  currentShow=k; $("#showLayer").innerHTML = SHOWS[k]();
+  document.querySelectorAll("[data-show]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.show===k)));
+}
+setShow("dance");
+$("#eveningBtn").addEventListener("click",ev=>{
+  const on=!$("#park").classList.contains("evening");
+  $("#park").classList.toggle("evening",on); ev.currentTarget.setAttribute("aria-pressed",String(on));
+});
+
+/* a short raga phrase (Mayamalavagowla) when the curtain opens */
+const SCALE=[1,16/15,5/4,4/3,3/2,8/5,15/8,2];
+const PHRASES={
+  dance:[0,1,2,3,4,5,6,7,7,6,5,4,3,2,1,0],
+  puppets:[0,2,4,7,4,2,0,2,4,2,0],
+  kutcheri:[0,4,3,2,1,2,3,4,5,4,3,2,1,0],
+};
+function pluck(f,t,dur,amp){
+  const o=actx.createOscillator(), g=actx.createGain();
+  o.type="triangle"; o.frequency.value=f;
+  g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(amp,t+0.01); g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+  o.connect(g); g.connect(actx.destination); o.start(t); o.stop(t+dur+0.05);
+}
+function playPhrase(k){
+  if(!$("#soundChk").checked) return;
+  try{
+    actx ||= new (window.AudioContext||window.webkitAudioContext)();
+    if(actx.state==="suspended") actx.resume();
+    const sa=261.63, step=k==="kutcheri"?0.42:k==="puppets"?0.22:0.26;
+    let t=actx.currentTime+0.6;
+    pluck(sa/2,t,PHRASES[k].length*step+1,0.05);
+    PHRASES[k].forEach((n,i)=>{ pluck(sa*SCALE[n],t+i*step,step*2.4,0.12); });
+  }catch(e){}
+}
+$("#curtainBtn").addEventListener("click",ev=>{
+  const th=$("#theatre"), on=!th.classList.contains("open");
+  th.classList.toggle("open",on); ev.currentTarget.setAttribute("aria-pressed",String(on));
+  ev.currentTarget.textContent = on ? "Close curtain" : "Open curtain";
+  if(on) playPhrase(currentShow);
+});
+document.querySelectorAll("[data-show]").forEach(b=>b.addEventListener("click",()=>{
+  setShow(b.dataset.show);
+  if($("#theatre").classList.contains("open")) playPhrase(b.dataset.show);
+}));
+
+/* ---------- flowers and aarti ---------- */
+const altar=$("#altar"), fx=$("#fx"), fxg=fx.getContext("2d"), plate=$("#aarti"), aartiMsg=$("#aartiMsg");
+const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+let petals=[], landed=[], raf=0, fxW=1, fxH=1;
+const KINDS=["marigold","marigold","jasmine","rose","jasmine","sevanthi"];
+function resizeFx(){
+  const r=altar.getBoundingClientRect(), dpr=Math.min(2,window.devicePixelRatio||1);
+  fxW=Math.max(1,r.width); fxH=Math.max(1,r.height);
+  fx.width=Math.round(fxW*dpr); fx.height=Math.round(fxH*dpr); fxg.setTransform(dpr,0,0,dpr,0,0);
+  drawFx();
+}
+function drawPetal(x,y,r,s,k){
+  const g=fxg; g.save(); g.translate(x,y); g.rotate(r);
+  if(k==="marigold"||k==="sevanthi"){
+    g.fillStyle = k==="marigold"?"#f39c12":"#f2c94c";
+    g.beginPath(); for(let i=0;i<9;i++){ const a=i*Math.PI*2/9; g.moveTo(Math.cos(a)*s*.45+s*.36,Math.sin(a)*s*.45); g.arc(Math.cos(a)*s*.45,Math.sin(a)*s*.45,s*.36,0,Math.PI*2); } g.fill();
+    g.fillStyle = k==="marigold"?"#c0601a":"#b8862a"; g.beginPath(); g.arc(0,0,s*.28,0,Math.PI*2); g.fill();
+  } else if(k==="jasmine"){
+    g.fillStyle="#fffdf5"; g.strokeStyle="rgba(120,100,70,.35)"; g.lineWidth=.6;
+    for(let i=0;i<5;i++){ g.rotate(Math.PI*2/5); g.beginPath(); g.ellipse(0,-s*.42,s*.2,s*.4,0,0,Math.PI*2); g.fill(); g.stroke(); }
+    g.fillStyle="#f2d16b"; g.beginPath(); g.arc(0,0,s*.13,0,Math.PI*2); g.fill();
+  } else {
+    g.fillStyle="#c8102e"; g.beginPath(); g.ellipse(0,0,s*.36,s*.52,0,0,Math.PI*2); g.fill();
+    g.fillStyle="rgba(255,255,255,.2)"; g.beginPath(); g.ellipse(-s*.1,-s*.1,s*.1,s*.28,0,0,Math.PI*2); g.fill();
+  }
+  g.restore();
+}
+function drawFx(){
+  fxg.clearRect(0,0,fxW,fxH);
+  if(!plate.hidden){
+    const gr=fxg.createRadialGradient(aarti.x,aarti.y,4,aarti.x,aarti.y,Math.min(220,fxW*.35));
+    gr.addColorStop(0,"rgba(255,196,90,.42)"); gr.addColorStop(1,"rgba(255,196,90,0)");
+    fxg.fillStyle=gr; fxg.fillRect(0,0,fxW,fxH);
+  }
+  landed.forEach(p=>drawPetal(p.fx*fxW,p.fy*fxH,p.r,p.s,p.k));
+  petals.forEach(p=>drawPetal(p.x,p.y,p.r,p.s,p.k));
+}
+function surfaces(){
+  const a=altar.getBoundingClientRect(), out=[];
+  golu.querySelectorAll(".riser").forEach(r=>{ const b=r.getBoundingClientRect(); out.push({x0:b.left-a.left+4,x1:b.right-a.left-4,y:b.top-a.top+1}); });
+  const f=$(".floor").getBoundingClientRect(); out.push({x0:f.left-a.left+10,x1:f.right-a.left-10,y:f.top-a.top+10,y2:f.bottom-a.top-12,floor:true});
+  return out;
+}
+function landingFor(x,minY,surf){
+  const opts=surf.filter(s=>x>=s.x0&&x<=s.x1&&(s.floor?s.y2:s.y)>=minY);
+  if(!opts.length) return fxH-14;
+  const s=opts[Math.floor(Math.random()*opts.length)];
+  return s.floor ? Math.max(minY,s.y)+Math.random()*(s.y2-Math.max(minY,s.y)) : s.y-Math.random()*3;
+}
+function addPetal(x,y,vx,vy,surf){
+  const k=KINDS[Math.floor(Math.random()*KINDS.length)], s=7+Math.random()*6, r=Math.random()*6.28;
+  const land=landingFor(Math.min(fxW-6,Math.max(6,x+vx*18)), y+4, surf);
+  if(reduceMotion){ landed.push({fx:Math.min(fxW-6,Math.max(6,x+vx*18))/fxW,fy:land/fxH,r,s,k}); return; }
+  petals.push({x,y,vx,vy,r,vr:(Math.random()-.5)*.12,s,k,land,t:Math.random()*6,max:1.4+Math.random()*1.3});
+}
+function tick(now){
+  petals.forEach(p=>{
+    p.vy=Math.min(p.vy+0.07,p.max); p.vx*=0.985; p.t+=0.05;
+    p.x+=p.vx+Math.sin(p.t)*0.5; p.y+=p.vy; p.r+=p.vr;
+    if(p.vy>0 && p.y>=p.land){ p.done=true; landed.push({fx:p.x/fxW,fy:p.land/fxH,r:p.r,s:p.s,k:p.k}); }
+  });
+  petals=petals.filter(p=>!p.done && p.y<fxH+40);
+  if(landed.length>600) landed.splice(0,landed.length-600);
+  if(aarti.auto) stepAuto(now);
+  drawFx();
+  raf = (petals.length||aarti.auto) ? requestAnimationFrame(tick) : 0;
+}
+function kick(){ if(!raf) raf=requestAnimationFrame(tick); }
+function shower(){
+  resizeFx(); const surf=surfaces();
+  for(let i=0;i<150;i++) addPetal(Math.random()*fxW, -Math.random()*fxH*0.5, (Math.random()-.5)*1.2, 0.6+Math.random()*1.2, surf);
+  drawFx(); kick();
+}
+function throwAt(x,y){
+  const surf=surfaces();
+  for(let i=0;i<16;i++) addPetal(x+(Math.random()-.5)*16, y, (Math.random()-.5)*4.5, -(1.5+Math.random()*2.8), surf);
+  drawFx(); kick();
+}
+altar.addEventListener("click",ev=>{
+  if(ev.goluHandled || ev.target.closest(".doll, .lamp, .aarti, button")) return;
+  if(picking) return;
+  const a=altar.getBoundingClientRect(); if(fxW!==a.width||fxH!==a.height) resizeFx();
+  throwAt(ev.clientX-a.left, ev.clientY-a.top);
+});
+$("#flowerBtn").addEventListener("click",shower);
+$("#sweepBtn").addEventListener("click",()=>{ landed=[]; petals=[]; drawFx(); say("Petals swept up."); });
+
+/* temple bell, synthesized */
+let actx=null;
+function ring(){
+  if(!$("#soundChk").checked) return;
+  try{
+    actx ||= new (window.AudioContext||window.webkitAudioContext)();
+    if(actx.state==="suspended") actx.resume();
+    const t=actx.currentTime, out=actx.createGain(); out.gain.value=0.16; out.connect(actx.destination);
+    [[1,1,2.6],[2.76,.5,1.6],[5.4,.28,1],[8.93,.14,.6],[1.01,.6,2.4]].forEach(([m,amp,dec])=>{
+      const o=actx.createOscillator(), g=actx.createGain();
+      o.type="sine"; o.frequency.value=620*m;
+      g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(amp,t+0.005); g.gain.exponentialRampToValueAtTime(0.0001,t+dec);
+      o.connect(g); g.connect(out); o.start(t); o.stop(t+dec+0.05);
+    });
+  }catch(e){}
+}
+$("#bellBtn").addEventListener("click",ring);
+
+const aarti={x:0,y:0,auto:null,drag:false,acc:0,lastA:null,rounds:0};
+function goluCenter(){
+  const a=altar.getBoundingClientRect(), b=golu.getBoundingClientRect();
+  return {cx:b.left-a.left+b.width/2, cy:b.top-a.top+b.height*0.52, rx:Math.max(50,b.width*0.34), ry:Math.max(40,b.height*0.34)};
+}
+function placePlate(x,y){ aarti.x=x; aarti.y=y; plate.style.left=x+"px"; plate.style.top=y+"px"; }
+function parkPlate(){
+  const f=$(".floor").getBoundingClientRect(), a=altar.getBoundingClientRect();
+  placePlate(f.left-a.left+f.width/2, f.top-a.top+f.height*0.55);
+}
+function stepAuto(now){
+  const A=aarti.auto, p=Math.min(1,(now-A.t0)/A.dur), c=A.c;
+  const ang=Math.PI/2 + p*3*Math.PI*2;   // starts at the feet, three clockwise rounds
+  placePlate(c.cx+Math.cos(ang)*c.rx, c.cy+Math.sin(ang)*c.ry);
+  const round=Math.floor(p*3);
+  if(now-A.lastRing>650){ ring(); A.lastRing=now; }
+  if(round>A.round){ A.round=round; }
+  if(p>=1){ aarti.auto=null; parkPlate(); offer(); }
+}
+function offer(){
+  aartiMsg.textContent="Take the aarti: hold your palms over the flame, then touch them to your eyes.";
+  $("#aartiBtn").textContent="Put the aarti away";
+}
+function startAarti(){
+  resizeFx(); plate.hidden=false; aarti.rounds=0; aarti.acc=0; aarti.lastA=null;
+  aartiMsg.textContent="Mangala aarti…";
+  $("#aartiBtn").textContent="Put the aarti away";
+  if(!lampsLit.every(Boolean)){ lampsLit=[true,true]; syncLamps(); }
+  if(reduceMotion){ parkPlate(); ring(); offer(); drawFx(); return; }
+  aarti.auto={t0:performance.now(),dur:7200,c:goluCenter(),lastRing:-1e9,round:0};
+  kick();
+}
+function stopAarti(){ aarti.auto=null; plate.hidden=true; aartiMsg.textContent=""; $("#aartiBtn").textContent="Wave the aarti"; drawFx(); }
+$("#aartiBtn").addEventListener("click",()=>{ plate.hidden ? startAarti() : stopAarti(); });
+
+plate.addEventListener("pointerdown",ev=>{
+  aarti.auto=null; aarti.drag=true; aarti.lastA=null; plate.setPointerCapture(ev.pointerId); ev.preventDefault();
+  aartiMsg.textContent="Circle the golu clockwise. The bell rings after each round.";
+});
+plate.addEventListener("pointermove",ev=>{
+  if(!aarti.drag) return;
+  const a=altar.getBoundingClientRect();
+  const x=Math.max(0,Math.min(a.width,ev.clientX-a.left)), y=Math.max(0,Math.min(a.height,ev.clientY-a.top));
+  placePlate(x,y);
+  const c=goluCenter(), ang=Math.atan2(y-c.cy,x-c.cx);
+  if(aarti.lastA!==null){
+    let d=ang-aarti.lastA; if(d>Math.PI) d-=2*Math.PI; if(d<-Math.PI) d+=2*Math.PI;
+    aarti.acc+=d;
+    if(aarti.acc>=2*Math.PI){ aarti.acc-=2*Math.PI; aarti.rounds++; ring(); aartiMsg.textContent=`Round ${aarti.rounds}. ${aarti.rounds>=3?"Now offer it to the guests.":"Keep going clockwise."}`; }
+    if(aarti.acc<=-2*Math.PI){ aarti.acc=0; aartiMsg.textContent="Aarti goes clockwise. Try the other way round."; }
+  }
+  aarti.lastA=ang; drawFx();
+});
+const endDrag=()=>{ if(aarti.drag){ aarti.drag=false; if(aarti.rounds>=3) offer(); } };
+plate.addEventListener("pointerup",endDrag); plate.addEventListener("pointercancel",endDrag);
+plate.addEventListener("keydown",ev=>{ if(ev.key==="Enter"||ev.key===" "){ ev.preventDefault(); startAarti(); }});
+
+/* boot */
+try{ const saved=JSON.parse(localStorage.getItem("golu-local")||"null"); if(saved) applyLayout(saved); }catch(e){}
+render(); renderNights(); drawKolam(); syncLamps(); drawThoranam();
+window.addEventListener("resize",()=>{ clearTimeout(window.__t); window.__t=setTimeout(()=>{ drawThoranam(); resizeFx(); if(!plate.hidden && !aarti.auto && !aarti.drag) parkPlate(); },120); });
+requestAnimationFrame(resizeFx);
+const mq=window.matchMedia?.("(prefers-color-scheme: dark)"); mq?.addEventListener?.("change",drawKolam);
+new MutationObserver(drawKolam).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+connect();
+})();
+</script>
+
+</body></html>
