@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Swathi and Mukundan’s virtual Navaratri golu. Shower flowers, wave the aarti and sign the visitor book.">
+<meta name="description" content="Swathi and Mukundan’s virtual Navaratri golu. Shower flowers, wave the aarti and take thamboolam.">
 <meta property="og:title" content="Swathi and Mukundan’s Golu">
 <meta property="og:description" content="Visit our virtual Navaratri golu 2026. Shower flowers, wave the aarti and take thamboolam.">
 <meta property="og:type" content="website">
@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Mukta:wght@400;500;700&family=Noto+Serif+Tamil:wght@500;700&display=swap">
 <style>
-/* Layout: a single room — thoranam across the top, the golu steps as the centrepiece flanked by lamps, kolam on the floor, then the nine nights and the visitor book below. */
+/* Layout: a single room — thoranam across the top, the golu steps as the centrepiece flanked by lamps, kolam on the floor, then the nine nights and thamboolam below. */
 :root{
   --wall:#f3e3c4;          /* lime-washed wall, warm */
   --wall-2:#ead3a8;
@@ -176,22 +176,19 @@ section.block{margin-top:56px}
 .vijaya h3{font-size:22px}
 .vijaya p{margin:0;color:var(--ink-soft);font-size:15px;flex:1 1 300px;min-width:0}
 
-/* visitors */
-.visit{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:24px}
-.vform{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:10px;align-content:start}
-.vform label{font-size:14px;font-weight:500}
-.vform input,.vform textarea{font:inherit;width:100%;padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;background:var(--wall);color:var(--ink)}
-.vform textarea{min-height:76px;resize:vertical}
-.thamboolam{display:none;gap:12px;align-items:center;border-top:1px solid var(--line);padding-top:12px}
-.thamboolam.show{display:flex}
-.thamboolam svg{width:72px;flex:none}
-.thamboolam p{margin:0;font-size:15px}
-.book{display:grid;gap:0;align-content:start}
-.entry{padding:10px 0;border-bottom:1px solid var(--line);display:grid;gap:2px}
-.entry .who{font-weight:700}
-.entry .when{font-size:13px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
-.entry .msg{margin:0;overflow-wrap:anywhere}
-.empty{color:var(--ink-soft);font-size:15px;padding:12px 0}
+/* thamboolam */
+.tham{display:grid;grid-template-columns:auto minmax(0,1fr);gap:20px 28px;align-items:center;background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:20px}
+.tham-bag{width:clamp(110px,18vw,160px);transition:transform .5s cubic-bezier(.3,1.6,.5,1)}
+.tham-bag svg{width:100%;height:auto;display:block}
+.tham.given .tham-bag{transform:scale(1.08) rotate(-4deg)}
+.tham-body{display:grid;gap:12px;justify-items:start;min-width:0}
+.tham-body p{margin:0;max-width:56ch}
+.tham-items{display:none;margin:0;padding:0;list-style:none;flex-wrap:wrap;gap:6px}
+.tham.given .tham-items{display:flex}
+.tham-items li{background:var(--wall-2);border-radius:999px;padding:2px 12px;font-size:14px}
+.tham-thanks{display:none;font-family:var(--f-display);font-size:22px;color:var(--kumkum)}
+.tham.given .tham-thanks{display:block}
+@media (max-width:560px){ .tham{grid-template-columns:1fr;justify-items:center;text-align:center} .tham-body{justify-items:center} .tham-items{justify-content:center} }
 footer{margin-top:56px;text-align:center;font-size:14px;color:var(--ink-soft)}
 
 /* puja */
@@ -279,7 +276,7 @@ footer{margin-top:56px;text-align:center;font-size:14px;color:var(--ink-soft)}
   <header class="hero">
     <div class="ta" lang="ta">நவராத்திரி கொலு</div>
     <h1 id="hostTitle">Welcome to <span>Swathi and Mukundan’s Golu</span></h1>
-    <p id="hostNote">Come in, see the steps, light a lamp and sign the visitor book. Every guest goes home with thamboolam.</p>
+    <p id="hostNote">Come in, see the steps, shower flowers, wave the aarti, and take thamboolam before you leave.</p>
     <div class="tonight"><span class="chip" id="tonightChip">Navaratri 2026</span><span id="tonightText"></span></div>
     <div id="hostEdit" hidden>
       <button class="edit-host" id="editHostBtn" type="button">Edit the welcome</button>
@@ -399,32 +396,29 @@ footer{margin-top:56px;text-align:center;font-size:14px;color:var(--ink-soft)}
     </div>
   </section>
 
-  <section class="block" id="visitors">
+  <section class="block" id="thamboolam">
     <div class="block-head">
-      <h2>Visitor book</h2>
-      <p>Signing in is how you receive thamboolam: betel leaves, areca nut, turmeric, kumkum, a coconut and a small gift.</p>
+      <h2>Thamboolam</h2>
+      <p>No guest leaves a golu empty-handed. Before you go, please take thamboolam from us.</p>
     </div>
-    <div class="visit">
-      <form class="vform" id="vform">
-        <label for="vname">Your name or family</label>
-        <input id="vname" maxlength="60" required placeholder="The Krishnan family">
-        <label for="vmsg">A wish or the song you sang</label>
-        <textarea id="vmsg" maxlength="280" placeholder="Sang a Dikshitar kriti. The kalyanam set is beautiful!"></textarea>
-        <button class="btn solid" type="submit" id="vsubmit">Sign and take thamboolam</button>
-        <div class="status" id="vstatus" role="status"></div>
-        <div class="thamboolam" id="thamboolam">
-          <svg viewBox="0 0 80 80" aria-hidden="true">
-            <path d="M10 34 Q40 22 70 34 L64 72 Q40 78 16 72 Z" fill="#e8b931" stroke="#a3172b" stroke-width="2"/>
-            <path d="M14 46 Q40 54 66 46" fill="none" stroke="#a3172b" stroke-width="3"/>
-            <path d="M24 30 Q30 8 44 14 Q36 22 34 32 Z" fill="#3f7a2e"/>
-            <path d="M40 30 Q52 6 62 18 Q52 22 48 32 Z" fill="#4e8f37"/>
-            <circle cx="40" cy="28" r="7" fill="#8b5a2b"/>
-            <circle cx="28" cy="62" r="3" fill="#a3172b"/><circle cx="52" cy="62" r="3" fill="#d4a017"/>
-          </svg>
-          <p><strong>Thamboolam for you.</strong> <span id="thamboolamText">Thank you for coming.</span></p>
-        </div>
-      </form>
-      <div class="book" id="book" aria-live="polite"><div class="empty">The visitor book is open. Be the first to sign it.</div></div>
+    <div class="tham" id="tham">
+      <div class="tham-bag" aria-hidden="true">
+        <svg viewBox="0 0 80 80">
+          <path d="M10 34 Q40 22 70 34 L64 72 Q40 78 16 72 Z" fill="#e8b931" stroke="#a3172b" stroke-width="2"/>
+          <path d="M14 46 Q40 54 66 46" fill="none" stroke="#a3172b" stroke-width="3"/>
+          <path d="M14 52 Q40 60 66 52" fill="none" stroke="#a3172b" stroke-width="1" stroke-dasharray="2 2"/>
+          <path d="M24 30 Q30 8 44 14 Q36 22 34 32 Z" fill="#3f7a2e"/>
+          <path d="M40 30 Q52 6 62 18 Q52 22 48 32 Z" fill="#4e8f37"/>
+          <circle cx="40" cy="28" r="7" fill="#8b5a2b"/>
+          <circle cx="28" cy="64" r="3" fill="#a3172b"/><circle cx="40" cy="66" r="3" fill="#f2c94c"/><circle cx="52" cy="64" r="3" fill="#d4a017"/>
+        </svg>
+      </div>
+      <div class="tham-body">
+        <p id="thamText">Betel leaves, areca nut, turmeric and kumkum, a coconut, and the sundal of the day, with all our love.</p>
+        <button class="btn solid" type="button" id="thamBtn">Take thamboolam</button>
+        <ul class="tham-items" id="thamItems" aria-label="In your thamboolam"></ul>
+        <div class="tham-thanks" id="thamThanks" role="status"></div>
+      </div>
     </div>
   </section>
 
@@ -755,7 +749,7 @@ function render(){
   document.querySelectorAll(".pick").forEach(p=>p.setAttribute("aria-pressed", String(p.dataset.id===picking)));
   $("#hostTitle").innerHTML = "";
   const h=$("#hostTitle"); h.append("Welcome to "); const sp=document.createElement("span"); sp.textContent = state.host? state.host+"’s Golu" : "Swathi and Mukundan’s Golu"; h.append(sp);
-  $("#hostNote").textContent = state.note || "Come in, see the steps, light a lamp and sign the visitor book. Every guest goes home with thamboolam.";
+  $("#hostNote").textContent = state.note || "Come in, see the steps, shower flowers, wave the aarti, and take thamboolam before you leave.";
   $("#saveBtn").hidden = !canSave;
   $("#saveBtn").disabled = !dirty;
 }
@@ -938,43 +932,19 @@ function renderNights(){
   else { chip.textContent="Navaratri 2026"; txt.textContent="The festival has ended. Thank you for visiting."; }
 }
 
-/* ---------- shared store ---------- */
-let visitors = [];
-async function renderBook(){
-  const book=$("#book");
-  if(!visitors.length){ book.innerHTML=`<div class="empty">The visitor book is open. Be the first to sign it.</div>`; return; }
-  book.innerHTML="";
-  visitors.forEach(v=>{
-    const e=document.createElement("div"); e.className="entry";
-    const who=document.createElement("span"); who.className="who"; who.textContent=v.from||"A guest";
-    const when=document.createElement("span"); when.className="when";
-    const d=new Date(v.at||0); when.textContent = isNaN(d)?"":d.toLocaleString("en-GB",{weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit"});
-    e.append(who,when);
-    if(v.note){ const p=document.createElement("p"); p.className="msg"; p.textContent=v.note; e.append(p); }
-    book.append(e);
-  });
-}
-
-$("#vform").addEventListener("submit",async ev=>{
-  ev.preventDefault();
-  const from=$("#vname").value.trim(), note=$("#vmsg").value.trim(), vs=$("#vstatus");
-  if(!from){ vs.textContent="Add your name so the hosts know who came."; return; }
-  const entry={from:from.slice(0,60), note:note.slice(0,280), at:new Date().toISOString()};
-  $("#vsubmit").disabled=true;
-  let saved=false;
-  if(db){
-    try{ const uid = user ? await user.id() : null; await db.collection("visitors").add(uid?{...entry,by:uid}:entry); saved=true; }
-    catch(e){ vs.textContent = e && e.code==="quota_exceeded" ? "The visitor book is full. Ask the hosts to make room." : "Your entry could not be saved to the shared book. It is shown here for you only."; }
-  }
-  if(!saved){
-    visitors=[entry,...visitors]; renderBook();
-    if(!db){ try{ localStorage.setItem("golu-visits", JSON.stringify(visitors.slice(0,50))); }catch(e){} vs.textContent="Thank you for visiting! Your wishes are saved."; }
-  }
-  else vs.textContent="Signed. The hosts will see your entry.";
-  $("#thamboolamText").textContent = `Thank you for coming, ${from}. Betel leaves, areca nut, turmeric, kumkum and a coconut, with a small gift.`;
-  $("#thamboolam").classList.add("show");
-  $("#vform").reset(); $("#vsubmit").disabled=false;
+/* ---------- thamboolam ---------- */
+$("#thamBtn").addEventListener("click",()=>{
+  const di=dayIndex(), sundal = di>=0 && di<9 ? SUNDAL[di].split(" (")[0]+" sundal" : "Sundal";
+  const items=["Vettalai (betel leaves)","Paaku (areca nut)","Manjal (turmeric)","Kumkumam","Coconut","A banana",sundal,"A small gift"];
+  const ul=$("#thamItems"); ul.innerHTML="";
+  items.forEach(t=>{ const li=document.createElement("li"); li.textContent=t; ul.append(li); });
+  $("#thamThanks").textContent = `Thank you for visiting! With love, ${state.host||"Swathi and Mukundan"}`;
+  $("#tham").classList.add("given");
+  $("#thamBtn").hidden=true;
+  ring();
 });
+
+/* ---------- shared store ---------- */
 
 $("#saveBtn").addEventListener("click",async()=>{
   if(!db) return;
@@ -1004,9 +974,6 @@ async function connect(){
   if(!db){ render(); return; }
   db.doc("golu/layout").onSnapshot(snap=>{
     if(snap.exists && !dirty){ applyLayout(snap.data()); sel=null; render(); }
-  },()=>{});
-  db.collection("visitors").orderBy("at","desc").limit(200).onSnapshot(snap=>{
-    visitors = snap.docs.map(d=>d.data()); renderBook();
   },()=>{});
   render();
 }
@@ -1324,9 +1291,7 @@ plate.addEventListener("pointerup",endDrag); plate.addEventListener("pointercanc
 plate.addEventListener("keydown",ev=>{ if(ev.key==="Enter"||ev.key===" "){ ev.preventDefault(); startAarti(); }});
 
 /* boot */
-try{ const saved=JSON.parse(localStorage.getItem("golu-local")||"null"); if(saved) applyLayout(saved); }catch(e){}
-try{ const v=JSON.parse(localStorage.getItem("golu-visits")||"[]"); if(Array.isArray(v)){ visitors=v.filter(x=>x&&typeof x.from==="string"); renderBook(); } }catch(e){}
-render(); renderNights(); drawKolam(); syncLamps(); drawThoranam();
+try{ const saved=JSON.parse(localStorage.getItem("golu-local")||"null"); if(saved) applyLayout(saved); }catch(e){}render(); renderNights(); drawKolam(); syncLamps(); drawThoranam();
 window.addEventListener("resize",()=>{ clearTimeout(window.__t); window.__t=setTimeout(()=>{ drawThoranam(); resizeFx(); if(!plate.hidden && !aarti.auto && !aarti.drag) parkPlate(); },120); });
 requestAnimationFrame(resizeFx);
 const mq=window.matchMedia?.("(prefers-color-scheme: dark)"); mq?.addEventListener?.("change",drawKolam);
