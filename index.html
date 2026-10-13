@@ -210,10 +210,11 @@ footer{margin-top:56px;text-align:center;font-size:14px;color:var(--ink-soft)}
 .floor{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:8px;padding:8px;align-items:center;margin-inline:0}
 .kolam-wrap{position:relative;border-radius:10px;overflow:hidden;min-width:0}
 .floor canvas{max-height:190px;object-fit:cover}
-.setup{position:relative;min-width:0;border-radius:10px;overflow:hidden;box-shadow:0 2px 0 color-mix(in srgb,#000 25%,transparent)}
+.setup{position:relative;min-width:0;border-radius:10px;overflow:hidden;background:#24120c;box-shadow:0 2px 0 color-mix(in srgb,#000 25%,transparent)}
 .setup svg{width:100%;height:auto;display:block}
-.setup-ctl{position:absolute;left:6px;top:6px;right:6px;display:flex;flex-wrap:wrap;gap:4px;align-items:center;z-index:2}
-.setup-ctl.bottom{top:auto;bottom:6px}
+/* controls sit in a strip under the scene, never on top of it */
+.setup-ctl{display:flex;flex-wrap:wrap;gap:4px 6px;align-items:center;padding:6px 8px}
+.setup-ctl.bottom{padding-top:0}
 .setup-name{font-family:var(--f-display);font-size:13px;color:#fff8ea;background:rgba(40,16,8,.6);border-radius:999px;padding:1px 10px}
 .sbtn{font-size:12px;line-height:1.3;padding:3px 10px;border-radius:999px;border:1px solid rgba(255,248,234,.75);background:rgba(30,12,6,.55);color:#fff8ea}
 .sbtn:hover{background:rgba(30,12,6,.8)}
@@ -251,7 +252,10 @@ footer{margin-top:56px;text-align:center;font-size:14px;color:var(--ink-soft)}
 @media (max-width:760px){
   .floor{grid-template-columns:1fr 1fr}
   .kolam-wrap{grid-column:1/-1;order:-1}
-  .setup-ctl.bottom .sbtn{font-size:11px;padding:2px 7px}
+}
+@media (max-width:560px){
+  .floor{grid-template-columns:1fr}
+  .sbtn{font-size:13px;padding:5px 12px}
 }
 @media (max-width:560px){
   .puja{gap:6px}
@@ -1109,8 +1113,7 @@ function pluck(f,t,dur,amp){
 function playPhrase(k){
   if(!$("#soundChk").checked) return;
   try{
-    actx ||= new (window.AudioContext||window.webkitAudioContext)();
-    if(actx.state==="suspended") actx.resume();
+    if(!audio()) return;
     const sa=261.63, step=k==="kutcheri"?0.42:k==="puppets"?0.22:0.26;
     let t=actx.currentTime+0.6;
     pluck(sa/2,t,PHRASES[k].length*step+1,0.05);
@@ -1216,13 +1219,42 @@ $("#flowerBtn").addEventListener("click",shower);
 $("#sweepBtn").addEventListener("click",()=>{ landed=[]; petals=[]; drawFx(); say("Petals swept up."); });
 
 /* temple bell, synthesized */
-let actx=null;
+/* Mobile audio: browsers only allow sound that starts inside a tap, and iPhones
+   silence Web Audio when the ringer switch is off. So on the first tap anywhere we
+   create/resume the audio context, play a silent buffer, and start a looping silent
+   <audio> element, which moves the page onto the media channel. */
+let actx=null, audioUnlocked=false, silentEl=null;
+function audio(){
+  if(!actx){ const C=window.AudioContext||window.webkitAudioContext; if(!C) return null; actx=new C(); }
+  if(actx.state!=="running"){ try{ actx.resume(); }catch(e){} }
+  return actx;
+}
+function silentWavURL(){
+  const n=4410, buf=new ArrayBuffer(44+n*2), v=new DataView(buf), w=(o,s)=>{ for(let i=0;i<s.length;i++) v.setUint8(o+i,s.charCodeAt(i)); };
+  w(0,"RIFF"); v.setUint32(4,36+n*2,true); w(8,"WAVE"); w(12,"fmt "); v.setUint32(16,16,true); v.setUint16(20,1,true); v.setUint16(22,1,true);
+  v.setUint32(24,44100,true); v.setUint32(28,88200,true); v.setUint16(32,2,true); v.setUint16(34,16,true); w(36,"data"); v.setUint32(40,n*2,true);
+  return URL.createObjectURL(new Blob([buf],{type:"audio/wav"}));
+}
+function unlockAudio(){
+  try{ if(navigator.audioSession) navigator.audioSession.type="playback"; }catch(e){}
+  const a=audio(); if(!a) return;
+  if(audioUnlocked) return;
+  try{ const b=a.createBuffer(1,1,22050), s=a.createBufferSource(); s.buffer=b; s.connect(a.destination); s.start(0); }catch(e){}
+  try{ silentEl=new Audio(silentWavURL()); silentEl.loop=true; silentEl.setAttribute("playsinline",""); const p=silentEl.play(); if(p&&p.catch) p.catch(()=>{}); }catch(e){}
+  audioUnlocked=true;
+}
+["pointerdown","touchend","click","keydown"].forEach(t=>document.addEventListener(t,unlockAudio,{capture:true,passive:true}));
+document.addEventListener("visibilitychange",()=>{
+  if(document.hidden){ try{ silentEl && silentEl.pause(); }catch(e){} return; }
+  try{ if(silentEl){ const p=silentEl.play(); if(p&&p.catch) p.catch(()=>{}); } }catch(e){}
+  if(actx && actx.state!=="running"){ try{ actx.resume(); }catch(e){} }
+});
+
 function ring(){
   if(!$("#soundChk").checked) return;
   try{
-    actx ||= new (window.AudioContext||window.webkitAudioContext)();
-    if(actx.state==="suspended") actx.resume();
-    const t=actx.currentTime, out=actx.createGain(); out.gain.value=0.16; out.connect(actx.destination);
+    const a=audio(); if(!a) return;
+    const t=a.currentTime+0.02, out=a.createGain(); out.gain.value=0.16; out.connect(actx.destination);
     [[1,1,2.6],[2.76,.5,1.6],[5.4,.28,1],[8.93,.14,.6],[1.01,.6,2.4]].forEach(([m,amp,dec])=>{
       const o=actx.createOscillator(), g=actx.createGain();
       o.type="sine"; o.frequency.value=620*m;
@@ -1261,8 +1293,9 @@ function startAarti(){
   aartiMsg.textContent="Mangala aarti…";
   $("#aartiBtn").textContent="Put the aarti away";
   if(!lampsLit.every(Boolean)){ lampsLit=[true,true]; syncLamps(); }
+  ring();   // first bell inside the tap, so phones allow the rest
   if(reduceMotion){ parkPlate(); ring(); offer(); drawFx(); return; }
-  aarti.auto={t0:performance.now(),dur:7200,c:goluCenter(),lastRing:-1e9,round:0};
+  aarti.auto={t0:performance.now(),dur:7200,c:goluCenter(),lastRing:performance.now(),round:0};
   kick();
 }
 function stopAarti(){ aarti.auto=null; plate.hidden=true; aartiMsg.textContent=""; $("#aartiBtn").textContent="Wave the aarti"; drawFx(); }
